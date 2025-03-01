@@ -1,6 +1,8 @@
 var cnt = 0;
 var nodes;
 var lines;
+var nodeStack = [];
+var selectedLineId;
 
 $.fn.extend({
     cssAsInt: function(_cssProp){
@@ -14,8 +16,8 @@ $(document).ready(function(){
         // fires when a widget gets clicked
          if ( $(this).attr('id') === "widgetAddNode") {
             // add Node
-            var nodeCount = nodes.length;
-            nodes.push({"top":"100px","left":"100px","id":"div" + nodeCount+1});
+            var nodeId = nodes.length + 1;
+            nodes.push({"top":"100px","left":"100px","id":"div" + nodeId});
             drawNodes(nodes);
          }
          if ( $(this).attr('id') === "widgetClearSVG") {
@@ -26,21 +28,64 @@ $(document).ready(function(){
          }
          if ( $(this).attr('id') === "widgetDrawNodes") {
             drawNodes();
-         }
+         }        
+         if ( $(this).attr('id') === "widgetClearLine") {
+            clearSelectedLine();
+         }        
+         if ( $(this).attr('id') === "widgetSaveInfo") {
+            saveInfo();
+         }        
+         if ( $(this).attr('id') === "widgetLoadInfo") {
+            loadInfo();
+         }        
 
-
+         if ( $(this).attr('id') === "widgetAddLine") {
+            console.log('add line');
+            var lineId = lines.length + 1;
+            lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId})            
+            saveInfo();
+            drawLines();
+        }        
+        
     })
+
+    function clearSelectedLine() {
+        console.log(selectedLineId);
+        const index = lines.findIndex(obj => obj.id === selectedLineId);
+        if (index > -1) {
+            lines.splice(index, 1);
+        }
+        drawLines();
+    }
+
     $(document).on('click',".node", function(){
         // fires when a widget gets clicked
-        console.log('node click...');
+        // console.log('node click...');
+        // console.log($(this).attr('id'));
+        nodeStack.push( $(this).attr('id') );
+        nodeStack = nodeStack.slice(-2);
+        console.log(nodeStack);
+
+
         $(".node").removeClass('selectedBorder')
         $(this).addClass('selectedBorder');
     })
+
     $(document).on('click',"svg,path,circle", function(){
         $(".node").removeClass('selectedBorder')
     })
 
 })
+
+function saveInfo() {
+    localStorage.setItem('lines',JSON.stringify(lines))
+    localStorage.setItem('nodes',JSON.stringify(nodes));
+    console.log(nodes);
+}
+function loadInfo() {
+    lines = JSON.parse(localStorage.getItem('lines'));
+    nodes = JSON.parse(localStorage.getItem('nodes'));
+}
 
 function createNode() {
     return $(`<div class="node"><div>Drag Me!</div><div>Content</div></div>`);
@@ -62,6 +107,21 @@ function drawNodes() {
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
         stop: function(event, ui) {
+            var nodeList = $('.node');
+            console.log(nodeList.length);
+            nodes = [];
+            for (var i=0; i<nodeList.length; i++) {
+                nodes.push({
+                    "top":$(nodeList[i]).css('top'),
+                    "left":$(nodeList[i]).css('left'),
+                    "id":$(nodeList[i]).attr('id')
+                })
+            }
+            // nodeList.forEach(function(item){
+            //     console.log(item);
+            // })
+            console.log(nodes);
+            saveInfo();
             drawLines();
         }
     })
@@ -98,12 +158,16 @@ function addWidgets() {
             <div class="widget" id="widgetClearSVG">Clear SVG</div>
             <div class="widget" id="widgetClearNodes">Clear Nodes</div>
             <div class="widget" id="widgetDrawNodes">Draw Nodes</div>
+            <div class="widget" id="widgetSaveInfo">Save Info</div>
+            <div class="widget" id="widgetLoadInfo">Load Info</div>
         </div>`))
 }
 
 function addSVGListeners() {
     $('svg').on('click', function(){
         console.log('svg click');
+        nodeStack = [];
+        selectedLineId = "";
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke-width", 1).css("stroke","#aaa")
         event.stopPropagation();
@@ -112,6 +176,7 @@ function addSVGListeners() {
     $('svg > path').on('click', function(){
         console.log('path click');
         console.log($(this).attr('id'));
+        selectedLineId = $(this).attr('id');
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke-width", 1).css("stroke","#aaa")
         $(this).css("stroke-width", 1).css("stroke","black")

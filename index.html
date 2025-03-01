@@ -14,9 +14,14 @@
             ]
 
             lines = [
-                {"fromDiv":"#div1","toDiv":"#div2","id":"div1-2"},
-                {"fromDiv":"#div1","toDiv":"#div3","id":"div1-3"}
+                {"fromDiv":"#div1","toDiv":"#div2","id":"line1"},
+                {"fromDiv":"#div1","toDiv":"#div3","id":"line2"}
             ]
+
+            if (localStorage.getItem('nodes')) {
+                loadInfo();
+            }
+
             addRedrawButton();
             addControls();
             addWidgets();
