@@ -12,6 +12,7 @@ $.fn.extend({
 
 $(document).ready(function(){
     console.log('doc ready in default.js')
+    
     $(document).on('click',".widget", function(){
         // fires when a widget gets clicked
          if ( $(this).attr('id') === "widgetAddNode") {
@@ -38,11 +39,14 @@ $(document).ready(function(){
          if ( $(this).attr('id') === "widgetLoadInfo") {
             loadInfo();
          }        
+         if ( $(this).attr('id') === "widgetToggleLine") {
+            toggleLine();
+         }        
 
          if ( $(this).attr('id') === "widgetAddLine") {
             console.log('add line');
             var lineId = lines.length + 1;
-            lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId})            
+            lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":""})            
             saveInfo();
             drawLines();
         }        
@@ -55,8 +59,20 @@ $(document).ready(function(){
         if (index > -1) {
             lines.splice(index, 1);
         }
+        saveInfo();
         drawLines();
     }
+
+    function toggleLine() {
+        console.log(selectedLineId);
+        const index = lines.findIndex(obj => obj.id === selectedLineId);
+        if (index > -1) {
+            lines[index].mode = (lines[index].mode == "") ? "vert" : ""; 
+        }
+        saveInfo();
+        drawLines();
+    }
+
 
     $(document).on('click',".node", function(){
         // fires when a widget gets clicked
@@ -92,10 +108,7 @@ function createNode() {
 }
 
 function drawNodes() {
-    //$('#main').empty();
-    // clear out nodes to avoid dupes - 
-    // TODO: Make this smarter by checking to see if node exists and not
-    // adding it in that case
+
     $(".node").remove();
 
     nodes.forEach(function(item){
@@ -117,10 +130,6 @@ function drawNodes() {
                     "id":$(nodeList[i]).attr('id')
                 })
             }
-            // nodeList.forEach(function(item){
-            //     console.log(item);
-            // })
-            console.log(nodes);
             saveInfo();
             drawLines();
         }
@@ -132,7 +141,7 @@ function drawLines() {
     console.log('here in drawLines');
     $("svg").empty();
     lines.forEach(function(item){
-        drawLine(item.fromDiv,item.toDiv,'',item.id)
+        drawLine(item.fromDiv,item.toDiv,item.mode,item.id)
     })
     addSVGListeners();
 }
@@ -155,6 +164,7 @@ function addWidgets() {
             <div class="widget" id="widgetAddNode">Add Node</div>
             <div class="widget" id="widgetAddLine">Add Line</div>
             <div class="widget" id="widgetClearLine">Clear Line</div>
+            <div class="widget" id="widgetToggleLine">Toggle Line</div>
             <div class="widget" id="widgetClearSVG">Clear SVG</div>
             <div class="widget" id="widgetClearNodes">Clear Nodes</div>
             <div class="widget" id="widgetDrawNodes">Draw Nodes</div>
@@ -175,7 +185,6 @@ function addSVGListeners() {
 
     $('svg > path').on('click', function(){
         console.log('path click');
-        console.log($(this).attr('id'));
         selectedLineId = $(this).attr('id');
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke-width", 1).css("stroke","#aaa")
@@ -186,8 +195,6 @@ function addSVGListeners() {
     $('svg > circle').on('click', function(){
         console.log('circle click');
         $(".node").removeClass('selectedBorder')
-        // $('path').css("stroke-width", 1).css("stroke","#aaa")
-        // $(this).css("stroke-width", 1).css("stroke","black")
         event.stopPropagation();
     })
 }
@@ -207,8 +214,6 @@ function createSVGPath(pathData, strokeColor, fillColor) {
     newpath.setAttribute("stroke", `#aaa`);
     newpath.setAttribute("stroke-width", 1);  
     newpath.setAttribute("fill", `transparent`);  
-    // newpath.setAttribute("id", cnt);
-    // cnt += 1;  
     return newpath;
 }
 
