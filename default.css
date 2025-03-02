@@ -1,10 +1,6 @@
 body {
     padding:0px;
     margin:0px;
-    /* background-size: 20px 20px;
-    background-image:
-        linear-gradient(to right, #eee 1px, transparent 1px),
-        linear-gradient(to bottom, #eee 1px, transparent 1px); */
     background-image: url('back1.png?rnd=1');
 }
 #svgParent {
@@ -23,6 +19,8 @@ div {
     height:60px;
     border:1px solid orange;
     background-color: white;
+    border-radius: 10px;
+    padding:4px;
 }
 .node > div {
     width:100%;
@@ -42,14 +40,14 @@ div.line {
     top: 10px;
     left: 10px;
     float: left;
-    border:1px solid red;
+    border:1px solid #ccc;
 }
 .controls {
     position: absolute;
     float: left;
     /* left: 10px; */
     /* top: 200px; */
-    border: 1px solid red;
+    border: 1px solid #ccc;
     width: 100px;
     right: 10px;
     top: 10px;
@@ -64,9 +62,10 @@ div.widgets {
     top: 100px;
     left:10px;
     width:125px;
-    height:200px;
-    background-color: white;
+    height:250px;
+    background-color: #eee;
     overflow: auto;
+    border:1px solid #888;
 }
 div.widgets > div {
     float:left;
@@ -76,6 +75,7 @@ div.widgets > div {
     border:1px solid #aaa;
     min-height: 30px;
     padding:5px;
+    background-color: white;
 }
 
 .selectedBorder {
