@@ -1,32 +1,39 @@
-<html><head><script defer data-domain="div-lines.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script><script defer data-domain="div-lines.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
+<html>
     <title>Div-Lines</title>
     <link rel="stylesheet" href="default.css">
     <script src="jquery.js"></script>
     <script src="jquery-ui.js"></script>
-    <script src="default.js"></script>
+    <!-- <script src="default.js"></script> -->
 
-    <script>
+    <script type="module">
+        import * as divLines from "./div-lines.js";
+
         $(document).ready(function(){
-            nodes = [
+
+            var nodes = [
                 {"top":"140px","left":"200px","id":"div1"},
                 {"top":"300px","left":"500px","id":"div2"},
                 {"top":"400px","left":"500px","id":"div3"}
             ]
 
-            lines = [
+            var lines = [
                 {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":""},
                 {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":""}
             ]
 
             if (localStorage.getItem('nodes')) {
-                loadInfo();
+                divLines.loadInfo();
+            } else {
+                divLines.setNodes(nodes);
+                divLines.setLines(lines);
             }
 
-            addRedrawButton();
-            addControls();
-            addWidgets();
-            drawNodes();
-            drawLines();
+
+            divLines.addRedrawButton();
+            divLines.addControls();
+            divLines.addWidgets();
+            divLines.drawNodes();
+            divLines.drawLines();
 
         })
     </script>

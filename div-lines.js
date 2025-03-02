@@ -217,6 +217,14 @@ function createSVGPath(pathData, strokeColor, fillColor) {
     return newpath;
 }
 
+function setNodes(_nodes) {
+    nodes = _nodes;
+}
+
+function setLines(_lines) {
+    lines = _lines;
+}
+
 function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
     
     if (mode === "") {
@@ -270,3 +278,14 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     document.getElementById('svgcontainer').appendChild(newcircle);
 }
 
+export { 
+    addRedrawButton, 
+    addControls, 
+    addWidgets, 
+    drawNodes, 
+    drawLines,
+    loadInfo,
+    saveInfo,
+    setNodes,
+    setLines
+}
