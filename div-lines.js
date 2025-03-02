@@ -4,6 +4,7 @@ var lines;
 var nodeStack = [];
 var selectedLineId;
 
+
 $.fn.extend({
     cssAsInt: function(_cssProp){
         return parseInt(this.css(_cssProp))
@@ -42,6 +43,10 @@ $(document).ready(function(){
          if ( $(this).attr('id') === "widgetToggleLine") {
             toggleLine();
          }        
+         if ( $(this).attr('id') === "widgetDeleteNode") {
+            deleteNode();
+         }        
+
 
          if ( $(this).attr('id') === "widgetAddLine") {
             console.log('add line');
@@ -52,6 +57,17 @@ $(document).ready(function(){
         }        
         
     })
+
+    function deleteNode() {
+        var nodeId  = nodeStack[0];
+        const index = nodes.findIndex(obj => obj.id === nodeId);
+        if (index > -1) {
+            nodes.splice(index, 1);
+        }
+        saveInfo();
+        drawNodes();
+        drawLines();
+    }
 
     function clearSelectedLine() {
         console.log(selectedLineId);
@@ -81,8 +97,6 @@ $(document).ready(function(){
         nodeStack.push( $(this).attr('id') );
         nodeStack = nodeStack.slice(-2);
         console.log(nodeStack);
-
-
         $(".node").removeClass('selectedBorder')
         $(this).addClass('selectedBorder');
     })
@@ -162,6 +176,7 @@ function addWidgets() {
     $('#main').append($(`
         <div class="widgets">
             <div title="Hover text" class="widget" id="widgetAddNode">Add Node</div>
+            <div class="widget" id="widgetDeleteNode">Delete Node</div>
             <div class="widget" id="widgetAddLine">Add Line</div>
             <div class="widget" id="widgetClearLine">Clear Line</div>
             <div class="widget" id="widgetToggleLine">Toggle Line</div>
@@ -250,17 +265,6 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
     // pull properties out of object for brevity later in code
     var { left, top, width, height } = points;
-    if (mode === "") {
-        var pathData = `M ${left} ${top} C ${left+(width/2)} ${top}, ${left+(width/2)} ${top+height}, ${left+width} ${top+height}`
-    }
-    if (mode === "vert") {
-        var pathData = `M ${left} ${top} C ${left} ${top+(height/2)}, ${left+width} ${top+(height/2)}, ${left+width} ${top+height}`
-    }
-
-    var newPath = createSVGPath(pathData, "#aaa","transparent")
-    newPath.setAttribute("id", lineId);
-
-    document.getElementById('svgcontainer').appendChild(newPath);
 
     if (mode === "vert") {
         top += 12;
@@ -270,6 +274,18 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
         left += 12;
         width -= 14;
     }
+
+    if (mode === "") {
+        var pathData = `M ${left} ${top} C ${left+(width/2)} ${top}, ${left+(width/2)} ${top+height}, ${left+width} ${top+height}`
+    }
+    if (mode === "vert") {
+        var pathData = `M ${left} ${top} C ${left} ${top+(height/2)}, ${left+width} ${top+(height/2)}, ${left+width} ${top+height}`
+    }
+
+    var newPath = createSVGPath(pathData, "#aaa","transparent")
+    newPath.setAttribute("id", lineId);
+    document.getElementById('svgcontainer').appendChild(newPath);
+
     // draw a connector on each "node" and draw a smooth bezier between those 'control points'
     var newcircle = createSVGCircle(left, top, 4, "#aaa")
     document.getElementById('svgcontainer').appendChild(newcircle);
