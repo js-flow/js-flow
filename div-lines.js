@@ -173,7 +173,7 @@ function addControls() {
         </div>`));
 }
 function addWidgets() {
-    $('#main').append($(`
+    $('#controlLayer').append($(`
         <div class="widgets">
             <div title="Hover text" class="widget" id="widgetAddNode">Add Node</div>
             <div class="widget" id="widgetDeleteNode">Delete Node</div>

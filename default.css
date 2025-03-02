@@ -13,6 +13,8 @@
 }
 #main {
     /* z-index: 90; */
+    z-index: 100;
+    position: absolute;
     float:left;
     width:2000px;
     height:100%;
@@ -20,6 +22,14 @@
     left:0px;
     background-image: url('back1.png?rnd=1');
 
+}
+#controlLayer {
+    z-index: 110;
+    position: absolute;
+    float:left;
+    top:0px;
+    left:0px;
+    border:1px solid orange;
 }
 
 #svgParent {
@@ -75,8 +85,8 @@ div.widgets {
     position: absolute;
     float: left;
     border:1px solid #ccc;
-    top: 100px;
-    left:10px;
+    top: 30px;
+    left: 30px;
     width:125px;
     height:250px;
     background-color: #eee;
