@@ -12,7 +12,6 @@
     overflow: auto;
 }
 #main {
-    /* z-index: 90; */
     z-index: 100;
     position: absolute;
     float:left;
@@ -33,7 +32,7 @@
 }
 
 #svgParent {
-    /* z-index: 110; */
+    /* z-index: 101; */
     position: absolute;
     width:2000px;
     height:100%;
@@ -46,16 +45,91 @@ div {
     position: absolute;
     width:140px;
     height:60px;
-    border:1.5px solid orange;
+    border:1px solid orange;
     background-color: white;
     border-radius: 10px;
     padding:4px;
+    margin:2px;
 }
-.node > div {
+.handles {
+    border:1px solid purple;
+    top:20px;
+    left:20px;
+    background-color: rgba(0,0,0,0);
+}
+.handles > .handle {
+    float:left;
+    width:10px;
+    height:10px;
+    border-radius: 5px;
+    background-color: purple;
+    border-bottom: none;
+    position: absolute;
+}
+.handles .topHandle {
+    top:-5px;
+    left: 45%;
+}
+.handles .bottomHandle {
+    top:calc(100% - 5px);
+    left:45%;
+}
+.handles .leftHandle {
+    left:-5px;
+    top:45%;
+}
+.handles .rightHandle {
+    left:calc(100% - 5px);
+    top: 45%;
+}
+
+.selectedBorder {
+    border-width: 3px;
+    margin:0px;
+}
+.node > div.content {
     width:100%;
     float: left;
     border-bottom:1px solid #888;
 }
+
+.node > div.nodeHandles > div {
+    float:left;
+    width:10px;
+    height:10px;
+    border:1px solid purple;
+    position: absolute;
+    border-radius: 5px;
+    /* background-color: white; */
+    display: none;
+}
+.node.selectedBorder > div.nodeHandles > div {
+    display:inline-block;
+}
+
+div.nodeHandles > div:nth-last-child(1) {
+    /* top */
+    top:-7px;
+    left:calc(50% - 10px)
+}
+div.nodeHandles > div:nth-last-child(2) {
+    /* bottom */
+    bottom: -7px;
+    left:calc(50% - 10px)
+}
+div.nodeHandles > div:nth-last-child(3) {
+    /* left */
+    top:calc(50% - 10px);
+    left:-7px;
+}
+div.nodeHandles > div:nth-last-child(4) {
+    /* right */
+    top:calc(50% - 10px);
+    right:-7px;
+}
+
+
+
 div.line {
     float:left;
     position:absolute;
@@ -104,6 +178,8 @@ div.widgets > div {
     background-color: white;
 }
 
-.selectedBorder {
-    border-width: 3px;
+
+
+.scroller {
+    scrollbar-width: none;
 }

@@ -1,9 +1,11 @@
-<html>
-    <title>Div-Lines</title>
-    <link rel="stylesheet" href="default.css">
-    <script src="jquery.js"></script>
-    <script src="jquery-ui.js"></script>
-    <!-- <script src="default.js"></script> -->
+<html >
+    <head>
+        <!-- <link rel="manifest" href="cache.manifest"> -->
+        <title>Div-Lines</title>
+        <link rel="stylesheet" href="default.css">
+        <script src="jquery.js"></script>
+        <script src="jquery-ui.js"></script>
+    <script defer data-domain="div-lines.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
 
     <script type="module">
         import * as divLines from "./div-lines.js";
@@ -11,14 +13,15 @@
         $(document).ready(function(){
 
             var nodes = [
-                {"top":"140px","left":"200px","id":"div1"},
-                {"top":"300px","left":"500px","id":"div2"},
-                {"top":"400px","left":"500px","id":"div3"}
+                {"top":"140px","left":"200px","id":"div1","title":"Node1","content":"content 1"},
+                {"top":"300px","left":"500px","id":"div2","title":"Node2","content":"content 2"},
+                {"top":"400px","left":"500px","id":"div3","title":"Node3","content":"content 3"}
             ]
 
+            // drawType - curve, straight, squared
             var lines = [
-                {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":""},
-                {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":""}
+                {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":"","lineShape":"angled"},
+                {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":"","lineShape":"angled"}
             ]
 
             if (localStorage.getItem('nodes')) {
@@ -28,9 +31,6 @@
                 divLines.setLines(lines);
             }
 
-
-            // divLines.addRedrawButton();
-            // divLines.addControls();
             divLines.addWidgets();
             divLines.drawNodes();
             divLines.drawLines();
@@ -46,5 +46,6 @@
         </div>
     </div>
     <div id="controlLayer"></div>
+
 
 </html>
