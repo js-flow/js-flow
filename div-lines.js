@@ -54,6 +54,18 @@ $(document).ready(function(){
                 saveInfo();
                 drawLines();
             break;
+            case "widgetToggleLineDash":
+                console.log(selectedLineId);
+                const index = lines.findIndex(obj => obj.id === selectedLineId);
+                var dashArray = lines[index].dashArray;
+                if (dashArray === "") {
+                    lines[index].dashArray = "4,4";
+                }  else {
+                    lines[index].dashArray = "";
+                }
+                saveInfo();
+                drawLines();
+            break;
         }
     })
 
@@ -203,7 +215,7 @@ function drawNodes() {
         .attr('id',item.id))
     })
 
-    $('#main').append(createHandlesNode());
+    //$('#main').append(createHandlesNode());
 
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
@@ -246,6 +258,7 @@ function addWidgets() {
             <div class="widget" id="widgetClearLine">Clear Line</div>
             <div class="widget" id="widgetToggleLine">Line Orientation</div>
             <div class="widget" id="widgetToggleLineShape">Line Shape</div>
+            <div class="widget" id="widgetToggleLineDash">Line Dash</div>
             <div class="widget" id="widgetClearSVG">Clear SVG</div>
             <div class="widget" id="widgetClearNodes">Clear Nodes</div>
             <div class="widget" id="widgetDrawNodes">Draw Nodes</div>
@@ -291,14 +304,30 @@ function createSVGCircle(x, y, radius, fillColor) {
     return circle;
 }
 
-function createSVGPath(pathData, strokeColor, fillColor) {
+function createSVGPath(pathData, strokeColor, fillColor, lineId) {
+
+    const index = lines.findIndex(obj => obj.id === lineId);
+    var dashArray = lines[index].dashArray;
+
     var newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");  
     newpath.setAttribute("d", pathData);  
     newpath.setAttribute("stroke", `#aaa`);
     newpath.setAttribute("stroke-width", 2);  
-    //newpath.setAttribute("stroke-dasharray", "10,5");  
-    newpath.setAttribute("fill", `transparent`);  
+    newpath.setAttribute("stroke-dasharray", dashArray);  
+    newpath.setAttribute("fill", "transparent");  
+    newpath.setAttribute("id", lineId);  
+
+    if (dashArray > "") {
+        const animate = document.createElementNS('http://www.w3.org/2000/svg', "animate");
+        animate.setAttribute("attributeName", "stroke-dashoffset");
+        animate.setAttribute("values", "100;0");
+        animate.setAttribute("calcMode", "linear");
+        animate.setAttribute("dur", "4s");
+        animate.setAttribute("repeatCount", "indefinite");
+        newpath.appendChild(animate);
+    }
     return newpath;
+
 }
 
 function setNodes(_nodes) {
@@ -375,8 +404,8 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
 
 
-    var newPath = createSVGPath(pathData, "#aaa","transparent")
-    newPath.setAttribute("id", lineId);
+    var newPath = createSVGPath(pathData, "#aaa","transparent", lineId)
+    //newPath.setAttribute("id", lineId);
     document.getElementById('svgcontainer').appendChild(newPath);
 
     // draw a connector on each "node" and draw a smooth bezier between those 'control points'

@@ -7,6 +7,20 @@
         <script src="jquery-ui.js"></script>
     <script defer data-domain="div-lines.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
 
+    <style>
+        div.content.title-text {
+            /* background-color: #ddd; */
+            border-radius: 5px;
+            border-bottom:1px solid #888;
+            margin-bottom:2px;
+        }
+        .node {
+            /* border:1px solid #aaa; */
+            height:70px;
+            color:#222;
+        }
+    </style>
+
     <script type="module">
         import * as divLines from "./div-lines.js";
 
@@ -18,10 +32,9 @@
                 {"top":"400px","left":"500px","id":"div3","title":"Node3","content":"content 3"}
             ]
 
-            // drawType - curve, straight, squared
             var lines = [
-                {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":"","lineShape":"angled"},
-                {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":"","lineShape":"angled"}
+                {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":"","lineShape":"angled","dashArray":""},
+                {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":"","lineShape":"angled","dashArray":"2,2"}
             ]
 
             if (localStorage.getItem('nodes')) {
