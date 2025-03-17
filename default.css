@@ -98,9 +98,9 @@ div {
     border-bottom:1px solid #ddd;
 }
 .node > div.content-text {
-    color: #aaa;
+    color: #222;
     margin-left:4px;
-    width:98%;
+    width:94%;
     font-size: 9.5pt;
     border-bottom: none;
     height:calc(100% - 17pt);
@@ -108,6 +108,7 @@ div {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top:1px;
 
 }
 .node > div.nodeHandles > div {
