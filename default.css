@@ -103,6 +103,12 @@ div {
     width:98%;
     font-size: 9.5pt;
     border-bottom: none;
+    height:calc(100% - 17pt);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
 }
 .node > div.nodeHandles > div {
     float:left;

@@ -276,6 +276,9 @@ function addSVGListeners() {
         selectedLineId = "";
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke-width", 2).css("stroke","#aaa")
+        
+        console.log($('path'));
+        
         event.stopPropagation();
     })
 
@@ -312,7 +315,7 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
     var newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");  
     newpath.setAttribute("d", pathData);  
     newpath.setAttribute("stroke", `#aaa`);
-    newpath.setAttribute("stroke-width", 2);  
+    newpath.setAttribute("stroke-width", 2);
     newpath.setAttribute("stroke-dasharray", dashArray);  
     newpath.setAttribute("fill", "transparent");  
     newpath.setAttribute("id", lineId);  
