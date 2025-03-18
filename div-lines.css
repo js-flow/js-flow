@@ -1,0 +1,239 @@
+
+body {
+    margin:0px;
+    padding: 0px;
+}
+
+.parentDiv {
+    padding:0px;
+    margin:0px;
+    position: absolute;
+    float: left;
+    top:10px;
+    left:10px;
+    right: 10px;
+    bottom: 10px;
+    border:1px solid blue;
+    overflow: auto;
+}
+#main {
+    z-index: 100;
+    position: absolute;
+    float:left;
+    width:2000px;
+    height:2000px;
+    top:0px;
+    left:0px;
+    background-image: url('back1.png?rnd=1');
+
+}
+#controlLayer {
+    z-index: 110;
+    position: absolute;
+    float:left;
+    top:0px;
+    left:0px;
+    border:1px solid orange;
+}
+
+#svgcontainer > defs > marker#arrow > path {
+    fill: #aaa;
+}
+
+
+#svgParent {
+    /* z-index: 101; */
+    position: absolute;
+    width:2000px;
+    height:2000px;
+}
+div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+}
+.node {
+    position: absolute;
+    width:140px;
+    height:60px;
+    border:1px solid orange;
+    background-color: white;
+    border-radius: 10px;
+    padding:4px;
+    margin:2px;
+}
+.handles {
+    border:1px solid purple;
+    top:20px;
+    left:20px;
+    background-color: rgba(0,0,0,0);
+}
+.handles > .handle {
+    float:left;
+    width:10px;
+    height:10px;
+    border-radius: 5px;
+    background-color: purple;
+    border-bottom: none;
+    position: absolute;
+}
+.handles .topHandle {
+    top:-5px;
+    left: 45%;
+}
+.handles .bottomHandle {
+    top:calc(100% - 5px);
+    left:45%;
+}
+.handles .leftHandle {
+    left:-5px;
+    top:45%;
+}
+.handles .rightHandle {
+    left:calc(100% - 5px);
+    top: 45%;
+}
+
+.selectedBorder {
+    border-width: 3px;
+    margin:0px;
+}
+.node > div.content {
+    width:100%;
+    float: left;
+    border-bottom:1px solid #ddd;
+}
+.node > div.content-text {
+    color: #222;
+    margin-left:4px;
+    width:94%;
+    font-size: 9.5pt;
+    border-bottom: none;
+    height:calc(100% - 17pt);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top:1px;
+
+}
+.node > div.nodeHandles > div {
+    float:left;
+    width:10px;
+    height:10px;
+    border:1px solid purple;
+    position: absolute;
+    border-radius: 5px;
+    /* background-color: white; */
+    display: none;
+}
+.node.selectedBorder > div.nodeHandles > div {
+    display:inline-block;
+}
+
+div.nodeHandles > div:nth-last-child(1) {
+    /* top */
+    top:-7px;
+    left:calc(50% - 10px)
+}
+div.nodeHandles > div:nth-last-child(2) {
+    /* bottom */
+    bottom: -7px;
+    left:calc(50% - 10px)
+}
+div.nodeHandles > div:nth-last-child(3) {
+    /* left */
+    top:calc(50% - 10px);
+    left:-7px;
+}
+div.nodeHandles > div:nth-last-child(4) {
+    /* right */
+    top:calc(50% - 10px);
+    right:-7px;
+}
+
+
+
+div.line {
+    float:left;
+    position:absolute;
+    /* border:1px solid #bbb; */
+}
+.redraw {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    float: left;
+    border:1px solid #ccc;
+}
+.controls {
+    position: absolute;
+    float: left;
+    /* left: 10px; */
+    /* top: 200px; */
+    border: 1px solid #ccc;
+    width: 100px;
+    right: 10px;
+    top: 10px;
+}
+.controls > button {
+    margin-bottom: 5px;
+}
+div.widgets {
+    position: absolute;
+    float: left;
+    border:1px solid #ccc;
+    top: 30px;
+    left: 30px;
+    width:125px;
+    height:250px;
+    background-color: #eee;
+    overflow: auto;
+    border:1px solid #888;
+}
+div.widgets > div {
+    float:left;
+    margin-left:5px;
+    margin-top: 5px;
+    width:82%;
+    border:1px solid #aaa;
+    min-height: 30px;
+    padding:5px;
+    background-color: white;
+}
+
+div.inspector {
+    position: absolute;
+    float: left;
+    border:1px solid #ccc;
+    top: 300px;
+    left: 30px;
+    width:150px;
+    height:250px;
+    background-color: #eee;
+    overflow: auto;
+    border:1px solid #888;
+}
+
+div.inspector > div.prop-row {
+    font-size: 9pt;
+    width:100%;
+    border-bottom:1px solid #aaa;
+    float: left;
+    padding:2px;
+}
+
+div.inspector > div.prop-row > span {
+    float:left;
+    width:48%;
+    background-color: white;
+    /* border:1px solid purple; */
+}
+
+div.inspector button {
+    width:100%;
+    margin-top:15px;
+}
+
+.scroller {
+    scrollbar-width: none;
+}

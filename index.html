@@ -2,12 +2,14 @@
     <head>
         <!-- <link rel="manifest" href="cache.manifest"> -->
         <title>Div-Lines</title>
-        <link rel="stylesheet" href="default.css">
+        <link rel="stylesheet" href="div-lines.css">
         <script src="jquery.js"></script>
         <script src="jquery-ui.js"></script>
-    <script defer data-domain="div-lines.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
+    </head>
 
     <style>
+        /* some css overrides*/
+
         div.content.title-text {
             /* background-color: #ddd; */
             border-radius: 5px;
@@ -33,8 +35,8 @@
             ]
 
             var lines = [
-                {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":"","lineShape":"angled","dashArray":""},
-                {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":"","lineShape":"angled","dashArray":"2,2"}
+                {"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":"","lineShape":"curved","dashArray":"","lineBegin":"circle","lineEnd":"circle"},
+                {"fromDiv":"#div1","toDiv":"#div3","id":"line2","mode":"","lineShape":"curved","dashArray":"","lineBegin":"arrow","lineEnd":"arrow"}
             ]
 
             if (localStorage.getItem('nodes')) {
@@ -45,6 +47,10 @@
             }
 
             divLines.addWidgets();
+            // divLines.addInspector();
+            //     divLines.addInspectorRow('prop','value');
+            //     divLines.addInspectorRow('prop','value');
+            // divLines.addInspectorSaveButton()
             divLines.drawNodes();
             divLines.drawLines();
 
@@ -54,7 +60,8 @@
     <div class="parentDiv">
         <div id="main">
             <div id="svgParent">
-                <svg id="svgcontainer" width="100%" height="100%"  xmlns="http://www.w3.org/2000/svg"></svg>
+                <svg id="svgcontainer" width="100%" height="100%"  xmlns="http://www.w3.org/2000/svg">
+                </svg>
             </div>
         </div>
     </div>

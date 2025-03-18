@@ -3,7 +3,15 @@ var nodes;
 var lines;
 var nodeStack = [];
 var selectedLineId;
+var selectedId;
 
+var inspectorElements = {
+    "path":{
+        "stroke":"x",
+        "stroke-width":"x",
+        "stroke-dasharray":"x"
+    }
+}
 
 $.fn.extend({
     cssAsInt: function(_cssProp){
@@ -48,9 +56,20 @@ $(document).ready(function(){
             case "widgetToggleLineShape":
                 toggleLineShape();
             break;
+            case "widgetRefreshSVG":
+                const svg = document.getElementById('svgcontainer');
+                svg.innerHTML = svg.innerHTML;
+                console.log('done with refresh')
+            break;
             case "widgetAddLine":
                 var lineId = lines.length + 1;
                 lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"", "lineShape":"straight"})            
+                saveInfo();
+                drawLines();
+            break;
+            case "widgetAddLineVert":
+                var lineId = lines.length + 1;
+                lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"vert", "lineShape":"straight"})            
                 saveInfo();
                 drawLines();
             break;
@@ -160,7 +179,6 @@ function loadInfo() {
     lines = JSON.parse(localStorage.getItem('lines'));
     nodes = JSON.parse(localStorage.getItem('nodes'));
 }
-
 function createNode(_item) {
     console.log(_item);
     return $(`
@@ -176,7 +194,6 @@ function createNode(_item) {
         </div>
         `);
 }
-
 function createHandlesNode() {
     return $(`
         <div class="node handles" id="handlesContainer">
@@ -186,8 +203,6 @@ function createHandlesNode() {
             <div class="handle rightHandle"></div>
         </div>`);
 }
-
-
 function updateNodeInfo() {
     var nodeList = $('.node');
     console.log(nodeList.length);
@@ -204,7 +219,6 @@ function updateNodeInfo() {
         }
     }
 }
-
 function drawNodes() {
 
     $(".node").remove();
@@ -227,17 +241,35 @@ function drawNodes() {
     })
 
 }
-
+function getSVGMarkers() {
+    return `
+        <defs>
+            <!-- A marker to be used as an arrowheaddd -->
+            <marker
+                id="arrow"
+                viewBox="0 0 10 10"
+                refX="5"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto-start-reverse"
+                stroke="content-stroke">
+                <path d="M 0 0 L 10 5 L 0 10 z"  />
+            </marker>
+            </defs>
+    `;
+}
 function drawLines() {
-    console.log('here in drawLines');
+
     $("svg").empty();
+    $("svg").append(getSVGMarkers())
     lines.forEach(function(item){
         drawLine(item.fromDiv,item.toDiv,item.mode,item.id)
     })
+    $("svg").html($("svg").html());
     addSVGListeners();
+
 }
-
-
 function addRedrawButton() {
     $('#controlLayer').append( $(`<div class="redraw"><button class="btnRedraw">Re-Draw</button></div>`) );
     $(".btnRedraw").on('click', drawLines)
@@ -254,37 +286,54 @@ function addWidgets() {
         <div class="widgets scroller">
             <div title="Hover text" class="widget" id="widgetAddNode">Add Node</div>
             <div class="widget" id="widgetDeleteNode">Delete Node</div>
-            <div class="widget" id="widgetAddLine">Add Line</div>
+            <div class="widget" id="widgetAddLine">Add Line Horiz</div>
+            <div class="widget" id="widgetAddLineVert">Add Line Vert</div>
             <div class="widget" id="widgetClearLine">Clear Line</div>
             <div class="widget" id="widgetToggleLine">Line Orientation</div>
             <div class="widget" id="widgetToggleLineShape">Line Shape</div>
             <div class="widget" id="widgetToggleLineDash">Line Dash</div>
-            <div class="widget" id="widgetClearSVG">Clear SVG</div>
-            <div class="widget" id="widgetClearNodes">Clear Nodes</div>
-            <div class="widget" id="widgetDrawNodes">Draw Nodes</div>
-            <div class="widget" id="widgetSaveInfo">Save Info</div>
-            <div class="widget" id="widgetLoadInfo">Load Info</div>
+            <div class="widget" id="widgetToggleLineBegin">Line Begin</div>
+            <div class="widget" id="widgetToggleLineStop">Line End</div>
+            <div class="widget" id="widgetRefreshSVG">Refresh SVG</div>
+
         </div>`))
 }
-
-
-
+function addInspector() {
+    $('#controlLayer').append($(`
+        <div id="inspector" class="inspector scroller">
+        </div>
+    `))
+}
+function addInspectorRow(_prop, _value) {
+    $('#inspector').append($(`
+        <div class="prop-row">
+            <span>${_prop}</span>
+            <span contenteditable="true">${_value}</span>
+        </div>
+    `))
+}
+function addInspectorSaveButton() {
+    $('#inspector').append($(`
+        <button>Save</button>    
+    `))
+}
 function addSVGListeners() {
     $('svg').on('click', function(){
+        $('#inspector').empty();
         console.log('svg click');
         nodeStack = [];
         selectedLineId = "";
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke-width", 2).css("stroke","#aaa")
-        
         console.log($('path'));
-        
         event.stopPropagation();
     })
 
-    $('svg > path').on('click', function(){
+    $('svg > path').on('click', function(event){
         console.log('path click');
         selectedLineId = $(this).attr('id');
+        selectedId = selectedLineId;
+        iterateAttributes(event);
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke-width", 2).css("stroke","#aaa")
         $(this).css("stroke-width", 2).css("stroke","black")
@@ -292,12 +341,12 @@ function addSVGListeners() {
     })
     
     $('svg > circle').on('click', function(){
+        $('#inspector').empty();
         console.log('circle click');
         $(".node").removeClass('selectedBorder')
         event.stopPropagation();
     })
 }
-
 function createSVGCircle(x, y, radius, fillColor) {
     var circle = document.createElementNS('http://www.w3.org/2000/svg',"circle");  
     circle.setAttribute("cx", x)
@@ -307,6 +356,28 @@ function createSVGCircle(x, y, radius, fillColor) {
     return circle;
 }
 
+function createSVGArrow(x, y, radius, fillColor, direction) {
+    var arrow = document.createElementNS('http://www.w3.org/2000/svg',"path");  
+    newpath.setAttribute("d", pathData);  
+    newpath.setAttribute("stroke", `#aaa`);
+    newpath.setAttribute("stroke-width", 2);
+    newpath.setAttribute("stroke-dasharray", dashArray);  
+    newpath.setAttribute("fill", "transparent");  
+    newpath.setAttribute("id", lineId);  
+
+}
+
+function iterateAttributes(_event) {
+    var nodeName = _event.target.nodeName;
+    $('#inspector').empty();
+    var attributes = _event.target.attributes;
+    for (var i = 0; i < attributes.length; i++) {
+        var attribute = attributes[i];
+        if ( inspectorElements[nodeName][attribute.name] ) {
+            addInspectorRow(attribute.name, attribute.value)
+        }
+    }
+}
 function createSVGPath(pathData, strokeColor, fillColor, lineId) {
 
     const index = lines.findIndex(obj => obj.id === lineId);
@@ -317,7 +388,11 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
     newpath.setAttribute("stroke", `#aaa`);
     newpath.setAttribute("stroke-width", 2);
     newpath.setAttribute("stroke-dasharray", dashArray);  
-    newpath.setAttribute("fill", "transparent");  
+    newpath.setAttribute("fill", "transparent");
+
+    newpath.setAttribute("marker-start", "url(#arrow)");
+    newpath.setAttribute("marker-end", "url(#arrow)");
+ 
     newpath.setAttribute("id", lineId);  
 
     if (dashArray > "") {
@@ -333,14 +408,16 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
 
 }
 
+function getDefs() {
+    
+}
+
 function setNodes(_nodes) {
     nodes = _nodes;
 }
-
 function setLines(_lines) {
     lines = _lines;
 }
-
 function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
     
     if (mode === "") {
@@ -360,7 +437,6 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
     
     return {"top":top,"left":left,"width":width,"height":height}
 }
-
 function drawLine(beginDiv, endDiv, mode, lineId) {
     var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode);
 
@@ -404,25 +480,25 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
         }
     }
 
-
-
-
     var newPath = createSVGPath(pathData, "#aaa","transparent", lineId)
     //newPath.setAttribute("id", lineId);
     document.getElementById('svgcontainer').appendChild(newPath);
 
+
     // draw a connector on each "node" and draw a smooth bezier between those 'control points'
-    var newcircle = createSVGCircle(left, top, 6, "#aaa")
-    document.getElementById('svgcontainer').appendChild(newcircle);
+    // var newcircle = createSVGCircle(left, top, 6, "#aaa")
+    // document.getElementById('svgcontainer').appendChild(newcircle);
 
-    var newcircle = createSVGCircle(left+width, top+height, 6, "#aaa")
-    document.getElementById('svgcontainer').appendChild(newcircle);
+    // var newcircle = createSVGCircle(left+width, top+height, 6, "#aaa")
+    // document.getElementById('svgcontainer').appendChild(newcircle);
 }
-
 export { 
     addRedrawButton, 
     addControls, 
-    addWidgets, 
+    addWidgets,
+    addInspector,
+    addInspectorRow,
+    addInspectorSaveButton,
     drawNodes, 
     drawLines,
     loadInfo,
