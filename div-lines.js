@@ -4,14 +4,24 @@ var lines;
 var nodeStack = [];
 var selectedLineId;
 var selectedId;
-
+var zoomScale = 1;
 var inspectorElements = {
     "path":{
         "stroke":"x",
         "stroke-width":"x",
-        "stroke-dasharray":"x"
+        "stroke-dasharray":"x",
+        "marker-start":"x",
+        "marker-end":"x",
+        "id":"x",
+        "labelText":"x"
     }
 }
+var showPathLabels = true;
+
+var __dx;
+var __dy;
+var __scale=1.0;
+var __recoupLeft, __recoupTop;
 
 $.fn.extend({
     cssAsInt: function(_cssProp){
@@ -23,6 +33,7 @@ $(document).ready(function(){
     console.log('doc ready in default.js')
     
     $(document).on('click',".widget", function(){
+        var index;
         switch ( $(this).attr('id') ) {
             case "widgetAddNode":
                 var nodeId = nodes.length + 1;
@@ -56,10 +67,27 @@ $(document).ready(function(){
             case "widgetToggleLineShape":
                 toggleLineShape();
             break;
-            case "widgetRefreshSVG":
-                const svg = document.getElementById('svgcontainer');
-                svg.innerHTML = svg.innerHTML;
-                console.log('done with refresh')
+            case "widgetPathSave":
+                console.log('path save...')
+                var propRows = $(".prop-row");
+
+                index = lines.findIndex(obj => obj.id === selectedLineId);
+                
+                propRows.each(function(_index, item){
+                    var propname = $(item).find('.prop-name').html();
+                    var propvalue = $(item).find('.prop-value').html();
+                    console.log('saving... ' + propname)
+                    lines[index][propname] = propvalue;
+                })
+
+                saveInfo();
+                drawNodes();
+                drawLines();
+
+            break;
+            case "widgetTogglePathLabel":
+                $('.pathLabel').toggle();
+                showPathLabels = !showPathLabels;
             break;
             case "widgetAddLine":
                 var lineId = lines.length + 1;
@@ -75,15 +103,35 @@ $(document).ready(function(){
             break;
             case "widgetToggleLineDash":
                 console.log(selectedLineId);
-                const index = lines.findIndex(obj => obj.id === selectedLineId);
-                var dashArray = lines[index].dashArray;
+                index = lines.findIndex(obj => obj.id === selectedLineId);
+                var dashArray = lines[index]["stroke-dasharray"]
                 if (dashArray === "") {
-                    lines[index].dashArray = "4,4";
+                    lines[index]["stroke-dasharray"] = "4,4";
                 }  else {
-                    lines[index].dashArray = "";
+                    lines[index]["stroke-dasharray"] = "";
                 }
                 saveInfo();
                 drawLines();
+            break;
+            case "widgetToggleLineBegin":
+                setLineBegin();
+            break;
+            case "widgetToggleLineEnd":
+                setLineEnd();
+            break;
+            case "widgetZoomIn":
+                zoomScale += .1;
+                if (zoomScale > 1.0)  zoomScale=1;
+                console.log(zoomScale)
+                document.getElementById("main").style.transform = "scale("+zoomScale+")";
+                __scale = zoomScale;
+            break;
+            case "widgetZoomOut":
+                zoomScale -= .1;
+                console.log(zoomScale);
+                if (zoomScale < 0.5)  zoomScale=0.5;
+                document.getElementById("main").style.transform = "scale("+zoomScale+")";
+                __scale = zoomScale;
             break;
         }
     })
@@ -233,10 +281,42 @@ function drawNodes() {
 
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
+        drag: function (event, ui) {
+            //resize bug fix ui drag `enter code here`
+            __dx = ui.position.left - ui.originalPosition.left;
+            __dy = ui.position.top - ui.originalPosition.top;
+            //ui.position.left = ui.originalPosition.left + ( __dx/__scale);
+            //ui.position.top = ui.originalPosition.top + ( __dy/__scale );
+            ui.position.left = ui.originalPosition.left + (__dx);
+            ui.position.top = ui.originalPosition.top + (__dy);
+            //
+            ui.position.left += __recoupLeft;
+            ui.position.top += __recoupTop;
+        },
+        start: function (event, ui) {
+            $(this).css('cursor', 'pointer');
+            //resize bug fix ui drag
+            var left = parseInt($(this).css('left'), 10);
+            left = isNaN(left) ? 0 : left;
+            var top = parseInt($(this).css('top'), 10);
+            top = isNaN(top) ? 0 : top;
+            __recoupLeft = left - ui.position.left;
+            __recoupTop = top - ui.position.top;
+        },
+        create: function (event, ui) {
+            $(this).attr('oriLeft', $(this).css('left'));
+            $(this).attr('oriTop', $(this).css('top'));
+        },
         stop: function(event, ui) {
             updateNodeInfo();
             saveInfo();
             drawLines();
+            $(this).css('cursor', 'default');
+            //alternate to revert (don't use revert)
+            // $(this).animate({
+            //     left: $(this).attr('oriLeft'),
+            //     top: $(this).attr('oriTop')
+            // }, 1000)
         }
     })
 
@@ -244,28 +324,55 @@ function drawNodes() {
 function getSVGMarkers() {
     return `
         <defs>
-            <!-- A marker to be used as an arrowheaddd -->
+            <!-- various markers used on line begin/end -->
             <marker
                 id="arrow"
                 viewBox="0 0 10 10"
                 refX="5"
                 refY="5"
-                markerWidth="6"
-                markerHeight="6"
+                markerWidth="5"
+                markerHeight="5"
                 orient="auto-start-reverse"
                 stroke="content-stroke">
                 <path d="M 0 0 L 10 5 L 0 10 z"  />
             </marker>
-            </defs>
+            <marker
+                id="line"
+                viewBox="0 0 10 10"
+                refX="5"
+                refY="5"
+                markerWidth="5"
+                markerHeight="5"
+                orient="auto-start-reverse"
+                stroke="content-stroke">
+                <path d="M 0 4 L 10 4 L 10 6 L 0 6 z"  />
+            </marker>
+            <marker
+                id="circle"
+                viewBox="0 0 10 10"
+                refX="5"
+                refY="5"
+                markerWidth="4"
+                markerHeight="4"
+                orient="auto-start-reverse"
+                stroke="content-stroke">
+                <circle r="5" cx="5" cy="5" />
+            </marker>
+        </defs>
     `;
 }
 function drawLines() {
 
     $("svg").empty();
+    $(".pathLabel").remove();
+
     $("svg").append(getSVGMarkers())
     lines.forEach(function(item){
         drawLine(item.fromDiv,item.toDiv,item.mode,item.id)
     })
+    if (!showPathLabels) {
+        $(".pathLabel").toggle();
+    }
     $("svg").html($("svg").html());
     addSVGListeners();
 
@@ -293,9 +400,10 @@ function addWidgets() {
             <div class="widget" id="widgetToggleLineShape">Line Shape</div>
             <div class="widget" id="widgetToggleLineDash">Line Dash</div>
             <div class="widget" id="widgetToggleLineBegin">Line Begin</div>
-            <div class="widget" id="widgetToggleLineStop">Line End</div>
-            <div class="widget" id="widgetRefreshSVG">Refresh SVG</div>
-
+            <div class="widget" id="widgetToggleLineEnd">Line End</div>
+            <div class="widget" id="widgetTogglePathLabel">Path Label</div>
+            <div class="widget" id="widgetZoomIn">Zoom In</div>
+            <div class="widget" id="widgetZoomOut">Zoom Out</div>
         </div>`))
 }
 function addInspector() {
@@ -307,14 +415,14 @@ function addInspector() {
 function addInspectorRow(_prop, _value) {
     $('#inspector').append($(`
         <div class="prop-row">
-            <span>${_prop}</span>
-            <span contenteditable="true">${_value}</span>
+            <span class="prop-name">${_prop}</span>
+            <span class="prop-value" contenteditable="true">${_value}</span>
         </div>
     `))
 }
 function addInspectorSaveButton() {
     $('#inspector').append($(`
-        <button>Save</button>    
+        <button class="widget" id="widgetPathSave">Save</button>    
     `))
 }
 function addSVGListeners() {
@@ -356,14 +464,54 @@ function createSVGCircle(x, y, radius, fillColor) {
     return circle;
 }
 
-function createSVGArrow(x, y, radius, fillColor, direction) {
-    var arrow = document.createElementNS('http://www.w3.org/2000/svg',"path");  
-    newpath.setAttribute("d", pathData);  
-    newpath.setAttribute("stroke", `#aaa`);
-    newpath.setAttribute("stroke-width", 2);
-    newpath.setAttribute("stroke-dasharray", dashArray);  
-    newpath.setAttribute("fill", "transparent");  
-    newpath.setAttribute("id", lineId);  
+
+function setLineBegin() {
+    const index = lines.findIndex(obj => obj.id === selectedLineId);
+    if (index > -1) {
+         switch( lines[index]["marker-start"] ) {
+            case "line":
+                lines[index]["marker-start"] = "arrow"
+                break;
+            case "arrow":
+                lines[index]["marker-start"] = "circle"
+                break;
+            case "circle":
+                lines[index]["marker-start"] = ""
+                break;
+            case "":
+                lines[index]["marker-start"] = "line"
+                break;
+            default:
+                lines[index]["marker-start"] = ""
+         }
+         saveInfo();
+         drawLines();
+    }
+}
+
+function setLineEnd() {
+    console.log('set line end')
+    const index = lines.findIndex(obj => obj.id === selectedLineId);
+    if (index > -1) {
+         switch( lines[index]["marker-end"] ) {
+            case "line":
+                lines[index]["marker-end"] = "arrow"
+                break;
+            case "arrow":
+                lines[index]["marker-end"] = "circle"
+                break;
+            case "circle":
+                lines[index]["marker-end"] = ""
+                break;
+            case "":
+                lines[index]["marker-end"] = "line"
+                break;
+            default:
+                lines[index]["marker-end"] = ""
+         }
+         saveInfo();
+         drawLines();
+    }
 
 }
 
@@ -371,27 +519,37 @@ function iterateAttributes(_event) {
     var nodeName = _event.target.nodeName;
     $('#inspector').empty();
     var attributes = _event.target.attributes;
-    for (var i = 0; i < attributes.length; i++) {
-        var attribute = attributes[i];
-        if ( inspectorElements[nodeName][attribute.name] ) {
-            addInspectorRow(attribute.name, attribute.value)
-        }
+    var _id = "";
+
+    for (const attr of attributes) {
+        if (attr.name === "id") {_id = attr.value}
     }
+
+    selectedLineId = _id;
+    const index = lines.findIndex(obj => obj.id === selectedLineId);
+    const lineInfo = lines[index];
+
+    for (const key in inspectorElements[nodeName]) {
+       addInspectorRow(key, lineInfo[key]);
+    }
+    
+    addInspectorSaveButton();
 }
+
 function createSVGPath(pathData, strokeColor, fillColor, lineId) {
 
     const index = lines.findIndex(obj => obj.id === lineId);
-    var dashArray = lines[index].dashArray;
+    var dashArray = lines[index]["stroke-dasharray"]
 
     var newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");  
     newpath.setAttribute("d", pathData);  
     newpath.setAttribute("stroke", `#aaa`);
     newpath.setAttribute("stroke-width", 2);
-    newpath.setAttribute("stroke-dasharray", dashArray);  
+    newpath.setAttribute("stroke-dasharray", lines[index]["stroke-dasharray"]);  
     newpath.setAttribute("fill", "transparent");
 
-    newpath.setAttribute("marker-start", "url(#arrow)");
-    newpath.setAttribute("marker-end", "url(#arrow)");
+    newpath.setAttribute("marker-start", `url(#${lines[index]["marker-start"]})`);
+    newpath.setAttribute("marker-end", `url(#${lines[index]["marker-end"]})`);
  
     newpath.setAttribute("id", lineId);  
 
@@ -448,14 +606,14 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     var { left, top, width, height } = points;
 
     if (mode === "vert") {
-        top += 12;
-        height -= 10;
+        top += 16;
+        height -= 18;
         left += 3;
     }
     if (mode === "") {
         top += 3;
-        left += 10;
-        width -= 6;
+        left += 16;
+        width -= 18;
     }
 
     if (lineShape === "curved") {
@@ -481,17 +639,23 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     }
 
     var newPath = createSVGPath(pathData, "#aaa","transparent", lineId)
-    //newPath.setAttribute("id", lineId);
     document.getElementById('svgcontainer').appendChild(newPath);
+    var svgLength = newPath.getTotalLength();
 
+    if (lines[index].labelText) {
+        // ADD A LABEL ALONG PATH IF NEEDED
+        //   get point coords from svg path for a point based on total length of path
+        var svgPoint = newPath.getPointAtLength(svgLength/2);
+        //   add a label along the path
+        var newDiv = $(`<div class="pathLabel"><span>${lines[index].labelText}</span></div>`)
+        newDiv.attr('id','path-label-' + lineId)
+        $('#main').append(newDiv)
+        newDiv.css({"top":svgPoint.y - (newDiv.height()/2),"left":svgPoint.x - (newDiv.width()/2)})
+        // END OF PATH LABEL CHANGES
+    }
 
-    // draw a connector on each "node" and draw a smooth bezier between those 'control points'
-    // var newcircle = createSVGCircle(left, top, 6, "#aaa")
-    // document.getElementById('svgcontainer').appendChild(newcircle);
-
-    // var newcircle = createSVGCircle(left+width, top+height, 6, "#aaa")
-    // document.getElementById('svgcontainer').appendChild(newcircle);
 }
+
 export { 
     addRedrawButton, 
     addControls, 

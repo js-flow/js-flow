@@ -1,4 +1,25 @@
 
+div#main {
+    /* transform: scale(.75); */
+    transform-origin: left top;
+}
+
+.pathLabel {
+    float:left;
+    position: absolute;
+}
+.pathLabel > span {
+    float: left;
+    border:1px solid #ccc;
+    color: #666;
+    background-color: white;
+    padding:4px;
+    border-radius: 5px;
+    max-width: 75px;
+    text-align: center;
+    width: auto;
+}
+
 body {
     margin:0px;
     padding: 0px;
@@ -13,7 +34,7 @@ body {
     left:10px;
     right: 10px;
     bottom: 10px;
-    border:1px solid blue;
+    border:1px solid #aaa;
     overflow: auto;
 }
 #main {
@@ -36,10 +57,15 @@ body {
     border:1px solid orange;
 }
 
-#svgcontainer > defs > marker#arrow > path {
+#svgcontainer > defs > marker#arrow > path, 
+#svgcontainer > defs > marker#circle > circle, 
+#svgcontainer > defs > marker#line > path {
     fill: #aaa;
 }
 
+div.prop-row > span:nth-child(1) {
+    color: #666;
+}
 
 #svgParent {
     /* z-index: 101; */
