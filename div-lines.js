@@ -3,8 +3,11 @@ var nodes;
 var lines;
 var nodeStack = [];
 var selectedLineId;
+var selectedNodeId;
 var selectedId;
 var zoomScale = 1;
+var storageId = "";
+
 var inspectorElements = {
     "path":{
         "stroke":"x",
@@ -22,6 +25,9 @@ var __dx;
 var __dy;
 var __scale=1.0;
 var __recoupLeft, __recoupTop;
+
+/* minified code to set attributes on SVG element in one shot */
+var setAttrs = (e,a)=>Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));
 
 $.fn.extend({
     cssAsInt: function(_cssProp){
@@ -45,6 +51,19 @@ $(document).ready(function(){
             break;
             case "widgetClearNodes":
                 $(".node").remove();
+            break;
+            case "widgetNodeShape":
+                console.log( selectedNodeId );
+                var node = $(`#${selectedNodeId}`);
+                console.log(node);
+                if ( node.hasClass('node-circle')) {
+                    console.log('removing...')
+                    node.removeClass('node-circle')
+                } else {
+                    console.log('adding...')
+                    node.addClass('node-circle')
+                }
+                drawLines();
             break;
             case "widgetDrawNodes":
                 drawNodes();
@@ -75,7 +94,7 @@ $(document).ready(function(){
                 
                 propRows.each(function(_index, item){
                     var propname = $(item).find('.prop-name').html();
-                    var propvalue = $(item).find('.prop-value').html();
+                    var propvalue = $(item).find('.prop-value').html().replace("<br>","");
                     console.log('saving... ' + propname)
                     lines[index][propname] = propvalue;
                 })
@@ -91,13 +110,13 @@ $(document).ready(function(){
             break;
             case "widgetAddLine":
                 var lineId = lines.length + 1;
-                lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"", "lineShape":"straight"})            
+                lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"", "lineShape":"straight","stroke-width":"3"})            
                 saveInfo();
                 drawLines();
             break;
             case "widgetAddLineVert":
                 var lineId = lines.length + 1;
-                lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"vert", "lineShape":"straight"})            
+                lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"vert", "lineShape":"straight","stroke-width":"3"})            
                 saveInfo();
                 drawLines();
             break;
@@ -206,6 +225,7 @@ $(document).ready(function(){
         // console.log($(this).attr('id'));
         if (! $(this).hasClass('handles')) {
             nodeStack.push( $(this).attr('id') );
+            selectedNodeId = $(this).attr('id');
             nodeStack = nodeStack.slice(-2);
             console.log(nodeStack);
             $(".node").removeClass('selectedBorder')
@@ -219,13 +239,23 @@ $(document).ready(function(){
 
 })
 
+function setStorageId(_storageId) {
+    storageId = _storageId
+}
 function saveInfo() {
-    localStorage.setItem('lines',JSON.stringify(lines))
-    localStorage.setItem('nodes',JSON.stringify(nodes));
+    localStorage.getItem(storageId + '-jsFlow');
+    var dataToSave = {"nodes":nodes,"lines":lines}
+    localStorage.setItem(storageId + '-jsFlow',JSON.stringify(dataToSave))
+    // localStorage.setItem(storageId + '-lines',JSON.stringify(lines))
+    // localStorage.setItem(storageId + '-nodes',JSON.stringify(nodes));
 }
 function loadInfo() {
-    lines = JSON.parse(localStorage.getItem('lines'));
-    nodes = JSON.parse(localStorage.getItem('nodes'));
+    // lines = JSON.parse(localStorage.getItem(storageId + '-lines'));
+    // nodes = JSON.parse(localStorage.getItem(storageId + '-nodes'));
+    var dataToLoad = JSON.parse(localStorage.getItem(storageId + '-jsFlow'));
+    console.log(dataToLoad);
+    lines = dataToLoad.lines;
+    nodes = dataToLoad.nodes;
 }
 function createNode(_item) {
     console.log(_item);
@@ -238,7 +268,7 @@ function createNode(_item) {
                 <div></div>
             </div>
             <div contenteditable="true" class="content title-text">${_item.title}</div>
-            <div contenteditable="true" class="content content-text">${_item.content}</div>
+            <div contenteditable="true" class="content content-text">${_item.content}</span>
         </div>
         `);
 }
@@ -252,17 +282,29 @@ function createHandlesNode() {
         </div>`);
 }
 function updateNodeInfo() {
+    var classesToCheck = ["node-circle"];
+    var classesToAdd;
     var nodeList = $('.node');
-    console.log(nodeList.length);
     nodes = [];
+    console.log('building nodes')
     for (var i=0; i<nodeList.length; i++) {
         if ($(nodeList[i]).attr('id') != "handlesContainer") {
+            
+            var nodeClasses = $(nodeList[i]).attr('class')
+            classesToAdd = "";
+            classesToCheck.forEach(function(item){
+                if ( nodeClasses.indexOf(item) > -1 ) {
+                    classesToAdd += item + " "
+                }
+            })
+            
             nodes.push({
                 "top":$(nodeList[i]).css('top'),
                 "left":$(nodeList[i]).css('left'),
                 "id":$(nodeList[i]).attr('id'),
-                "title":$(nodeList[i]).find('div.content.title-text').html(),
-                "content":$(nodeList[i]).find('div.content.content-text').html()
+                "title":$(nodeList[i]).find('div.content.title-text').html().replace("<br>",""),
+                "content":$(nodeList[i]).find('div.content.content-text').html().replace("<br>",""),
+                "classesToAdd":classesToAdd
             })
         }
     }
@@ -270,11 +312,14 @@ function updateNodeInfo() {
 function drawNodes() {
 
     $(".node").remove();
-
     nodes.forEach(function(item){
         $('#main').append(createNode(item)
         .css({'top':item.top,'left':item.left})
         .attr('id',item.id))
+        if (item.classesToAdd > "") {
+            console.log('adding class...')
+            $("#" + item.id).addClass(item.classesToAdd)
+        }
     })
 
     //$('#main').append(createHandlesNode());
@@ -312,15 +357,13 @@ function drawNodes() {
             saveInfo();
             drawLines();
             $(this).css('cursor', 'default');
-            //alternate to revert (don't use revert)
-            // $(this).animate({
-            //     left: $(this).attr('oriLeft'),
-            //     top: $(this).attr('oriTop')
-            // }, 1000)
         }
     })
 
 }
+/*
+*   SVG definition for end of line markers
+*/
 function getSVGMarkers() {
     return `
         <defs>
@@ -393,6 +436,7 @@ function addWidgets() {
         <div class="widgets scroller">
             <div title="Hover text" class="widget" id="widgetAddNode">Add Node</div>
             <div class="widget" id="widgetDeleteNode">Delete Node</div>
+            <div class="widget" id="widgetNodeShape">Node Shape</div>
             <div class="widget" id="widgetAddLine">Add Line Horiz</div>
             <div class="widget" id="widgetAddLineVert">Add Line Vert</div>
             <div class="widget" id="widgetClearLine">Clear Line</div>
@@ -432,8 +476,7 @@ function addSVGListeners() {
         nodeStack = [];
         selectedLineId = "";
         $(".node").removeClass('selectedBorder')
-        $('path').css("stroke-width", 2).css("stroke","#aaa")
-        console.log($('path'));
+        $('path').css("stroke","#aaa")
         event.stopPropagation();
     })
 
@@ -443,8 +486,8 @@ function addSVGListeners() {
         selectedId = selectedLineId;
         iterateAttributes(event);
         $(".node").removeClass('selectedBorder')
-        $('path').css("stroke-width", 2).css("stroke","#aaa")
-        $(this).css("stroke-width", 2).css("stroke","black")
+        $('path').css("stroke","#aaa")
+        $(this).css("stroke","black")
         event.stopPropagation();
     })
     
@@ -540,18 +583,15 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
 
     const index = lines.findIndex(obj => obj.id === lineId);
     var dashArray = lines[index]["stroke-dasharray"]
-
     var newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");  
     newpath.setAttribute("d", pathData);  
     newpath.setAttribute("stroke", `#aaa`);
-    newpath.setAttribute("stroke-width", 2);
-    newpath.setAttribute("stroke-dasharray", lines[index]["stroke-dasharray"]);  
     newpath.setAttribute("fill", "transparent");
-
+    newpath.setAttribute("id", lineId);  
+    newpath.setAttribute("stroke-width", lines[index]['stroke-width']);
+    newpath.setAttribute("stroke-dasharray", lines[index]["stroke-dasharray"]);  
     newpath.setAttribute("marker-start", `url(#${lines[index]["marker-start"]})`);
     newpath.setAttribute("marker-end", `url(#${lines[index]["marker-end"]})`);
- 
-    newpath.setAttribute("id", lineId);  
 
     if (dashArray > "") {
         const animate = document.createElementNS('http://www.w3.org/2000/svg', "animate");
@@ -566,25 +606,28 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
 
 }
 
-function getDefs() {
-    
-}
-
+/*
+* Setter to allow adding node information to module
+*/
 function setNodes(_nodes) {
     nodes = _nodes;
 }
+/*
+* Setter to allow adding line information to module
+*/
 function setLines(_lines) {
     lines = _lines;
 }
+/*
+* Get dimensions for bounding box between 2 existing divs to draw line/curve within
+*/
 function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
-    
     if (mode === "") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height") / 2
         var left = $(beginDiv).cssAsInt("left") + $(beginDiv).cssAsInt("width")
         var width = $(endDiv).cssAsInt("left") - left;
         var height = $(endDiv).cssAsInt('top') - top + ($(endDiv).cssAsInt('height') / 2);
     }
-    
     if (mode === "vert") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height");
         var left = $(beginDiv).cssAsInt("left") + ( $(beginDiv).cssAsInt("width") / 2 );
@@ -592,9 +635,11 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
         var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left');
         var height = $(endDiv).cssAsInt('top') - top;
     }
-    
     return {"top":top,"left":left,"width":width,"height":height}
 }
+/*
+* Draw line/curve between 2 divs of a certain type
+*/
 function drawLine(beginDiv, endDiv, mode, lineId) {
     var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode);
 
@@ -605,15 +650,16 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     // pull properties out of object for brevity later in code
     var { left, top, width, height } = points;
 
+    // tweak some of the values for connecting to the node points
     if (mode === "vert") {
-        top += 16;
-        height -= 18;
-        left += 3;
+        top += 8;
+        height -= 14;
+        left += 2;
     }
     if (mode === "") {
         top += 3;
-        left += 16;
-        width -= 18;
+        left += 10;
+        width -= 16;
     }
 
     if (lineShape === "curved") {
@@ -668,5 +714,6 @@ export {
     loadInfo,
     saveInfo,
     setNodes,
-    setLines
+    setLines,
+    setStorageId
 }

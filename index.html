@@ -9,18 +9,15 @@
 
     <style>
         /* some css overrides*/
-
-        div.content.title-text {
-            /* background-color: #ddd; */
+        /* div.content.title-text {
             border-radius: 5px;
             border-bottom:1px solid #888;
             margin-bottom:2px;
         }
         .node {
-            /* border:1px solid #aaa; */
             height:70px;
             color:#222;
-        }
+        } */
     </style>
 
     <script type="module">
@@ -43,7 +40,8 @@
                     "stroke-dasharray":"",
                     "marker-start":"line",
                     "marker-end":"arrow",
-                    "labelText":""
+                    "labelText":"",
+                    "stroke-width":"3"
                 },
                 {   "fromDiv":"#div1",
                     "toDiv":"#div3",
@@ -53,22 +51,31 @@
                     "stroke-dasharray":"",
                     "marker-start":"line",
                     "marker-end":"circle",
-                    "labelText":"line222"
+                    "labelText":"line222",
+                    "stroke-width":"3"
                 }
             ]
 
-            if (localStorage.getItem('nodes')) {
+            
+            var flowId = 'powergrid';
+            divLines.setStorageId(flowId);
+
+            console.log("local storage")
+            console.log(localStorage.getItem(flowId+'-jsFlow'))
+
+            // check to see if any info stored on browser already
+            if (localStorage.getItem(flowId + '-jsFlow')) {
+                console.log('loading storage data...')
                 divLines.loadInfo();
             } else {
+                console.log('loadng default data...')
                 divLines.setNodes(nodes);
                 divLines.setLines(lines);
             }
 
             divLines.addWidgets();
             divLines.addInspector();
-            //     divLines.addInspectorRow('prop','value');
-            //     divLines.addInspectorRow('prop','value');
-            // divLines.addInspectorSaveButton()
+            // draw nodes and lines based on current information
             divLines.drawNodes();
             divLines.drawLines();
 

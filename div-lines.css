@@ -63,9 +63,6 @@ body {
     fill: #aaa;
 }
 
-div.prop-row > span:nth-child(1) {
-    color: #666;
-}
 
 #svgParent {
     /* z-index: 101; */
@@ -77,16 +74,9 @@ div {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10pt;
 }
-.node {
-    position: absolute;
-    width:140px;
-    height:60px;
-    border:1px solid orange;
-    background-color: white;
-    border-radius: 10px;
-    padding:4px;
-    margin:2px;
-}
+
+
+
 .handles {
     border:1px solid purple;
     top:20px;
@@ -123,25 +113,7 @@ div {
     border-width: 3px;
     margin:0px;
 }
-.node > div.content {
-    width:100%;
-    float: left;
-    border-bottom:1px solid #ddd;
-}
-.node > div.content-text {
-    color: #222;
-    margin-left:4px;
-    width:94%;
-    font-size: 9.5pt;
-    border-bottom: none;
-    height:calc(100% - 17pt);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top:1px;
 
-}
 .node > div.nodeHandles > div {
     float:left;
     width:10px;
@@ -155,29 +127,26 @@ div {
 .node.selectedBorder > div.nodeHandles > div {
     display:inline-block;
 }
-
 div.nodeHandles > div:nth-last-child(1) {
     /* top */
     top:-7px;
-    left:calc(50% - 10px)
+    left:calc(50% - 5px)
 }
 div.nodeHandles > div:nth-last-child(2) {
     /* bottom */
     bottom: -7px;
-    left:calc(50% - 10px)
+    left:calc(50% - 5px)
 }
 div.nodeHandles > div:nth-last-child(3) {
     /* left */
-    top:calc(50% - 10px);
+    top:calc(50% - 5px);
     left:-7px;
 }
 div.nodeHandles > div:nth-last-child(4) {
     /* right */
-    top:calc(50% - 10px);
+    top:calc(50% - 5px);
     right:-7px;
 }
-
-
 
 div.line {
     float:left;
@@ -239,7 +208,6 @@ div.inspector {
     overflow: auto;
     border:1px solid #888;
 }
-
 div.inspector > div.prop-row {
     font-size: 9pt;
     width:100%;
@@ -247,19 +215,93 @@ div.inspector > div.prop-row {
     float: left;
     padding:2px;
 }
-
 div.inspector > div.prop-row > span {
     float:left;
     width:48%;
     background-color: white;
     /* border:1px solid purple; */
 }
-
 div.inspector button {
     width:100%;
     margin-top:15px;
 }
-
+div.prop-row > span:nth-child(1) {
+    color: #666;
+}
+div.prop-value {
+    display: inline-block;
+}
 .scroller {
     scrollbar-width: none;
 }
+
+
+
+
+
+
+/* base node square object with title-text and content-text */
+div.node {
+    position: absolute;
+    width:140px;
+    height:60px;
+    border:1px solid orange;
+    background-color: white;
+    border-radius: 10px;
+}
+div.node > div.title-text {
+    border-bottom: none;
+    text-align: center;
+    display: none;
+}
+div.node > div.content {
+    width:100%;
+    float: left;
+    border-bottom:1px solid #ddd;
+}
+div.node > div.content-text {
+    color: #222;
+    width:100%;
+    font-size: 9.5pt;
+    height: 100%;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top:1px;
+}
+/* end of node rect object */
+
+/* css to allow for multiple shapes as nodes; */
+div.node.node-circle {
+    border:1px solid orange;
+    border-radius: 40px;
+    height:80px;
+    width:80px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+div.node.node-circle > div.title-text {
+    border-bottom: none;
+    display:none;
+}
+div.node.node-circle > div.content {
+    width:100%;
+    float: left;
+    border-bottom:0px solid transparent;
+    text-align: center;
+}
+div.node.node-circle > div.content-text {
+    color: #222;
+    margin-left:0px;
+    width:100%;
+    font-size: 9.5pt;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top:0px;
+}
+/* end of node-circle */
