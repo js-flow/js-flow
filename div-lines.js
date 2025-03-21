@@ -408,6 +408,7 @@ function drawLines() {
 
     $("svg").empty();
     $(".pathLabel").remove();
+    $('.jma').remove();
 
     $("svg").append(getSVGMarkers())
     lines.forEach(function(item){
@@ -622,6 +623,7 @@ function setLines(_lines) {
 * Get dimensions for bounding box between 2 existing divs to draw line/curve within
 */
 function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
+
     if (mode === "") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height") / 2
         var left = $(beginDiv).cssAsInt("left") + $(beginDiv).cssAsInt("width")
@@ -631,11 +633,17 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
     if (mode === "vert") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height");
         var left = $(beginDiv).cssAsInt("left") + ( $(beginDiv).cssAsInt("width") / 2 );
-        console.log(left);
-        var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left');
+
+        //var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left');
+        
+        var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left')
+        // then adjust the bounding box width based on the begin/end width of the nodes
+        width += ( $(endDiv).cssAsInt('width')/2 - $(beginDiv).cssAsInt('width')/2 )
+
         var height = $(endDiv).cssAsInt('top') - top;
     }
     return {"top":top,"left":left,"width":width,"height":height}
+    
 }
 /*
 * Draw line/curve between 2 divs of a certain type
@@ -644,6 +652,8 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode);
 
     console.log(lineId);
+    console.log(points);
+
     const index = lines.findIndex(obj => obj.id === lineId);
     const lineShape = lines[index].lineShape;
 
@@ -683,6 +693,15 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
             var pathData = `M ${left} ${top} L ${left} ${top+(height/2)} L ${left+width} ${top+(height/2)} L ${left+width} ${top+height}`
         }
     }
+
+
+    // debugging code to show bounding box to help with paths
+    // var boundingBox = $("<div class='jma'></div>");
+    // boundingBox.css({"top":top,"left":left,"width":width + "px","height":height + "px"})
+    // boundingBox.css({"position":"absolute","float":"left","border":"1px solid red"})
+    // $('#main').append(boundingBox);
+    // end debugging code for bounding box
+
 
     var newPath = createSVGPath(pathData, "#aaa","transparent", lineId)
     document.getElementById('svgcontainer').appendChild(newPath);

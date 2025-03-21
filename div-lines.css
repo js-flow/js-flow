@@ -4,6 +4,11 @@ div#main {
     transform-origin: left top;
 }
 
+.jma {
+    pointer-events: none;
+}
+
+
 .pathLabel {
     float:left;
     position: absolute;
@@ -243,8 +248,8 @@ div.prop-value {
 /* base node square object with title-text and content-text */
 div.node {
     position: absolute;
-    width:140px;
-    height:60px;
+    width:120px;
+    height:80px;
     border:1px solid orange;
     background-color: white;
     border-radius: 10px;
