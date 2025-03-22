@@ -8,6 +8,37 @@ var selectedId;
 var zoomScale = 1;
 var storageId = "";
 var customClasses =  ['node-circle','node-short'];
+var sampleNodes = [
+    {"top":"140px","left":"200px","id":"div1","title":"Node1","content":"content 1"},
+    {"top":"300px","left":"500px","id":"div2","title":"Node2","content":"content 2"},
+    {"top":"400px","left":"500px","id":"div3","title":"Node3","content":"content 3"}
+];
+
+var sampleLines = [
+                {   "fromDiv":"#div1",
+                    "toDiv":"#div2",
+                    "id":"line1",
+                    "mode":"",
+                    "lineShape":"curved",
+                    "stroke-dasharray":"",
+                    "marker-start":"line",
+                    "marker-end":"arrow",
+                    "labelText":"",
+                    "stroke-width":"3"
+                },
+                {   "fromDiv":"#div1",
+                    "toDiv":"#div3",
+                    "id":"line2",
+                    "mode":"",
+                    "lineShape":"curved",
+                    "stroke-dasharray":"",
+                    "marker-start":"line",
+                    "marker-end":"circle",
+                    "labelText":"line222",
+                    "stroke-width":"3"
+                }
+];
+
 
 var inspectorElements = {
     "path":{
@@ -38,7 +69,6 @@ $.fn.extend({
 })    
 
 $(document).ready(function(){
-    console.log('doc ready in default.js')
     
     $(document).on('click',".widget", function(){
         var index;
@@ -101,7 +131,6 @@ $(document).ready(function(){
                 toggleLineShape();
             break;
             case "widgetPathSave":
-                console.log('path save...')
                 var propRows = $(".prop-row");
 
                 index = lines.findIndex(obj => obj.id === selectedLineId);
@@ -109,7 +138,6 @@ $(document).ready(function(){
                 propRows.each(function(_index, item){
                     var propname = $(item).find('.prop-name').html();
                     var propvalue = $(item).find('.prop-value').html().replace("<br>","");
-                    console.log('saving... ' + propname)
                     lines[index][propname] = propvalue;
                 })
 
@@ -135,7 +163,6 @@ $(document).ready(function(){
                 drawLines();
             break;
             case "widgetToggleLineDash":
-                console.log(selectedLineId);
                 index = lines.findIndex(obj => obj.id === selectedLineId);
                 var dashArray = lines[index]["stroke-dasharray"]
                 if (dashArray === "") {
@@ -155,13 +182,11 @@ $(document).ready(function(){
             case "widgetZoomIn":
                 zoomScale += .1;
                 if (zoomScale > 1.0)  zoomScale=1;
-                console.log(zoomScale)
                 document.getElementById("main").style.transform = "scale("+zoomScale+")";
                 __scale = zoomScale;
             break;
             case "widgetZoomOut":
                 zoomScale -= .1;
-                console.log(zoomScale);
                 if (zoomScale < 0.5)  zoomScale=0.5;
                 document.getElementById("main").style.transform = "scale("+zoomScale+")";
                 __scale = zoomScale;
@@ -181,7 +206,6 @@ $(document).ready(function(){
     }
 
     function clearSelectedLine() {
-        console.log(selectedLineId);
         const index = lines.findIndex(obj => obj.id === selectedLineId);
         if (index > -1) {
             lines.splice(index, 1);
@@ -191,7 +215,6 @@ $(document).ready(function(){
     }
 
     function toggleLine() {
-        console.log(selectedLineId);
         const index = lines.findIndex(obj => obj.id === selectedLineId);
         if (index > -1) {
             lines[index].mode = (lines[index].mode == "") ? "vert" : ""; 
@@ -201,8 +224,6 @@ $(document).ready(function(){
     }
 
     function toggleLineShape() {
-        console.log("toggle line shape");
-        console.log(selectedLineId);
         const index = lines.findIndex(obj => obj.id === selectedLineId);
         if (index > -1) {
              switch( lines[index].lineShape ) {
@@ -219,12 +240,9 @@ $(document).ready(function(){
              saveInfo();
              drawLines();
         }
-        console.log(lines);
     }
 
     $(document).on('input','.content', function(){
-        // console.log($(this).html());    
-        // console.log($(this).closest(".node").attr('id'));
         updateNodeInfo();
         saveInfo();
     })
@@ -235,13 +253,10 @@ $(document).ready(function(){
 
     $(document).on('click',".node", function(){
         // fires when a widget gets clicked
-        // console.log('node click...');
-        // console.log($(this).attr('id'));
         if (! $(this).hasClass('handles')) {
             nodeStack.push( $(this).attr('id') );
             selectedNodeId = $(this).attr('id');
             nodeStack = nodeStack.slice(-2);
-            console.log(nodeStack);
             $(".node").removeClass('selectedBorder')
             $(this).addClass('selectedBorder');
         }
@@ -267,12 +282,16 @@ function loadInfo() {
     // lines = JSON.parse(localStorage.getItem(storageId + '-lines'));
     // nodes = JSON.parse(localStorage.getItem(storageId + '-nodes'));
     var dataToLoad = JSON.parse(localStorage.getItem(storageId + '-jsFlow'));
-    console.log(dataToLoad);
-    lines = dataToLoad.lines;
-    nodes = dataToLoad.nodes;
+    if (dataToLoad) {
+        lines = dataToLoad.lines;
+        nodes = dataToLoad.nodes;
+    } else {
+        setNodes(sampleNodes);
+        setLines(sampleLines);
+    }
+    saveInfo();
 }
 function createNode(_item) {
-    console.log(_item);
     return $(`
         <div class="node">
             <div class="nodeHandles">
@@ -300,7 +319,6 @@ function updateNodeInfo() {
     var classesToAdd;
     var nodeList = $('.node');
     nodes = [];
-    console.log('building nodes')
     for (var i=0; i<nodeList.length; i++) {
         if ($(nodeList[i]).attr('id') != "handlesContainer") {
             
@@ -331,7 +349,6 @@ function drawNodes() {
         .css({'top':item.top,'left':item.left})
         .attr('id',item.id))
         if (item.classesToAdd > "") {
-            console.log('adding class...')
             $("#" + item.id).addClass(item.classesToAdd)
         }
     })
@@ -487,7 +504,6 @@ function addInspectorSaveButton() {
 function addSVGListeners() {
     $('svg').on('click', function(){
         $('#inspector').empty();
-        console.log('svg click');
         nodeStack = [];
         selectedLineId = "";
         $(".node").removeClass('selectedBorder')
@@ -496,7 +512,6 @@ function addSVGListeners() {
     })
 
     $('svg > path').on('click', function(event){
-        console.log('path click');
         selectedLineId = $(this).attr('id');
         selectedId = selectedLineId;
         iterateAttributes(event);
@@ -508,7 +523,6 @@ function addSVGListeners() {
     
     $('svg > circle').on('click', function(){
         $('#inspector').empty();
-        console.log('circle click');
         $(".node").removeClass('selectedBorder')
         event.stopPropagation();
     })
@@ -548,7 +562,6 @@ function setLineBegin() {
 }
 
 function setLineEnd() {
-    console.log('set line end')
     const index = lines.findIndex(obj => obj.id === selectedLineId);
     if (index > -1) {
          switch( lines[index]["marker-end"] ) {
@@ -665,9 +678,6 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
 function drawLine(beginDiv, endDiv, mode, lineId) {
     var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode);
 
-    console.log(lineId);
-    console.log(points);
-
     const index = lines.findIndex(obj => obj.id === lineId);
     const lineShape = lines[index].lineShape;
 
@@ -748,5 +758,7 @@ export {
     saveInfo,
     setNodes,
     setLines,
-    setStorageId
+    setStorageId,
+    sampleLines,
+    sampleNodes
 }

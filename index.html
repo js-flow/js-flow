@@ -8,73 +8,27 @@
     </head>
 
     <style>
-        /* some css overrides*/
+        /* some css overrides if necessary */
     </style>
 
     <script type="module">
-        import * as divLines from "./js-flow.js";
-
+        import * as jsFlow from "./js-flow.js";
         $(document).ready(function(){
 
-            var nodes = [
-                {"top":"140px","left":"200px","id":"div1","title":"Node1","content":"content 1"},
-                {"top":"300px","left":"500px","id":"div2","title":"Node2","content":"content 2"},
-                {"top":"400px","left":"500px","id":"div3","title":"Node3","content":"content 3"}
-            ]
-
-            var lines = [
-                {   "fromDiv":"#div1",
-                    "toDiv":"#div2",
-                    "id":"line1",
-                    "mode":"",
-                    "lineShape":"curved",
-                    "stroke-dasharray":"",
-                    "marker-start":"line",
-                    "marker-end":"arrow",
-                    "labelText":"",
-                    "stroke-width":"3"
-                },
-                {   "fromDiv":"#div1",
-                    "toDiv":"#div3",
-                    "id":"line2",
-                    "mode":"",
-                    "lineShape":"curved",
-                    "stroke-dasharray":"",
-                    "marker-start":"line",
-                    "marker-end":"circle",
-                    "labelText":"line222",
-                    "stroke-width":"3"
-                }
-            ]
-
-            
             //var flowId = 'powergrid';
             //var flowId = 'sandbox1';
             // var flowId = 'crossed-lines';
             // var flowId = 'gumloop';
-            var flowId = 'brackets';
+            //var flowId = 'brackets';
+            var flowId = 'sandbox3';
+            jsFlow.setStorageId(flowId);
 
-            divLines.setStorageId(flowId);
-
-            console.log("local storage")
-            console.log(localStorage.getItem(flowId+'-jsFlow'))
-
-            // check to see if any info stored on browser already
-            if (localStorage.getItem(flowId + '-jsFlow')) {
-                console.log('loading storage data...')
-                divLines.loadInfo();
-            } else {
-                console.log('loadng default data...')
-                divLines.setNodes(nodes);
-                divLines.setLines(lines);
-            }
-
-            divLines.addWidgets();
-            divLines.addInspector();
+            jsFlow.loadInfo();
+            jsFlow.addWidgets();
+            jsFlow.addInspector();
             // draw nodes and lines based on current information
-            divLines.drawNodes();
-            divLines.drawLines();
-
+            jsFlow.drawNodes();
+            jsFlow.drawLines();
         })
     </script>
     
@@ -87,6 +41,5 @@
         </div>
     </div>
     <div id="controlLayer"></div>
-
 
 </html>
