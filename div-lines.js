@@ -17,7 +17,8 @@ var inspectorElements = {
         "marker-start":"x",
         "marker-end":"x",
         "id":"x",
-        "labelText":"x"
+        "labelText":"x",
+        "labelPos":"x"
     }
 }
 var showPathLabels = true;
@@ -723,7 +724,7 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     if (lines[index].labelText) {
         // ADD A LABEL ALONG PATH IF NEEDED
         //   get point coords from svg path for a point based on total length of path
-        var svgPoint = newPath.getPointAtLength(svgLength/2);
+        var svgPoint = newPath.getPointAtLength(svgLength * parseFloat(lines[index].labelPos));
         //   add a label along the path
         var newDiv = $(`<div class="pathLabel"><span>${lines[index].labelText}</span></div>`)
         newDiv.attr('id','path-label-' + lineId)
