@@ -724,7 +724,7 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     if (lines[index].labelText) {
         // ADD A LABEL ALONG PATH IF NEEDED
         //   get point coords from svg path for a point based on total length of path
-        var svgPoint = newPath.getPointAtLength(svgLength * parseFloat(lines[index].labelPos));
+        var svgPoint = newPath.getPointAtLength(svgLength * ( parseFloat(lines[index].labelPos) || 0.5 )   );
         //   add a label along the path
         var newDiv = $(`<div class="pathLabel"><span>${lines[index].labelText}</span></div>`)
         newDiv.attr('id','path-label-' + lineId)
