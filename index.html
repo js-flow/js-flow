@@ -1,27 +1,18 @@
 <html >
     <head>
         <!-- <link rel="manifest" href="cache.manifest"> -->
-        <title>Div-Lines</title>
-        <link rel="stylesheet" href="div-lines.css">
+        <title>JS-Flow.dev</title>
+        <link rel="stylesheet" href="js-flow.css">
         <script src="jquery.js"></script>
         <script src="jquery-ui.js"></script>
     </head>
 
     <style>
         /* some css overrides*/
-        /* div.content.title-text {
-            border-radius: 5px;
-            border-bottom:1px solid #888;
-            margin-bottom:2px;
-        }
-        .node {
-            height:70px;
-            color:#222;
-        } */
     </style>
 
     <script type="module">
-        import * as divLines from "./div-lines.js";
+        import * as divLines from "./js-flow.js";
 
         $(document).ready(function(){
 
@@ -59,9 +50,9 @@
             
             //var flowId = 'powergrid';
             //var flowId = 'sandbox1';
-            var flowId = 'crossed-lines';
+            // var flowId = 'crossed-lines';
             // var flowId = 'gumloop';
-            // var flowId = 'brackets';
+            var flowId = 'brackets';
 
             divLines.setStorageId(flowId);
 
