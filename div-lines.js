@@ -7,6 +7,7 @@ var selectedNodeId;
 var selectedId;
 var zoomScale = 1;
 var storageId = "";
+var customClasses =  ['node-circle','node-short'];
 
 var inspectorElements = {
     "path":{
@@ -53,17 +54,29 @@ $(document).ready(function(){
                 $(".node").remove();
             break;
             case "widgetNodeShape":
-                console.log( selectedNodeId );
+
+                var found = -1;
                 var node = $(`#${selectedNodeId}`);
-                console.log(node);
-                if ( node.hasClass('node-circle')) {
-                    console.log('removing...')
-                    node.removeClass('node-circle')
-                } else {
-                    console.log('adding...')
-                    node.addClass('node-circle')
+
+                customClasses.forEach(function(item, i){
+                    if (node.hasClass(customClasses[i])) {
+                        node.removeClass(customClasses[i]);
+                        found = i;
+                    }
+                })
+
+                if (found === -1) {
+                    node.addClass(customClasses[0])
                 }
+
+                if ( found < customClasses.length-1 ) {
+                    node.addClass(customClasses[found+1])
+                }
+
                 drawLines();
+                updateNodeInfo();
+                saveInfo();
+            
             break;
             case "widgetDrawNodes":
                 drawNodes();
@@ -282,7 +295,7 @@ function createHandlesNode() {
         </div>`);
 }
 function updateNodeInfo() {
-    var classesToCheck = ["node-circle"];
+    var classesToCheck = customClasses;
     var classesToAdd;
     var nodeList = $('.node');
     nodes = [];

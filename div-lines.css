@@ -310,3 +310,9 @@ div.node.node-circle > div.content-text {
     margin-top:0px;
 }
 /* end of node-circle */
+
+div.node.node-short {
+    border-radius: 10px;
+    height:40px;
+    width:120px;
+}
