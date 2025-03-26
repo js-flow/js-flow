@@ -1,6 +1,5 @@
 <html >
     <head>
-        <!-- <link rel="manifest" href="cache.manifest"> -->
         <title>JS-Flow.dev</title>
         <link rel="stylesheet" href="js-flow.css">
         <script src="jquery.js"></script>
@@ -14,13 +13,14 @@
     <script type="module">
         import * as jsFlow from "./js-flow.js";
         $(document).ready(function(){
-
             //var flowId = 'powergrid';
             //var flowId = 'sandbox1';
             // var flowId = 'crossed-lines';
             // var flowId = 'gumloop';
             //var flowId = 'brackets';
             var flowId = 'sandbox3';
+            // var flowId = 'hello-world';
+
             jsFlow.setStorageId(flowId);
 
             jsFlow.loadInfo();

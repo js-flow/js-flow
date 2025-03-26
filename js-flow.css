@@ -263,6 +263,7 @@ div.node > div.content {
     width:100%;
     float: left;
     border-bottom:1px solid #ddd;
+    text-align: center;
 }
 div.node > div.content-text {
     color: #222;
@@ -315,4 +316,19 @@ div.node.node-short {
     border-radius: 10px;
     height:40px;
     width:120px;
+}
+
+div.node.connector {
+    border-radius: 20px;
+    border:1px solid transparent;
+    height:40px;
+    width:40px;
+    background-color: transparent;
+}
+div.node.connector:hover {
+    border:1px solid blue;
+}
+
+div.node.highlight-nodes {
+    border:2px solid rgba(255,0,0,0.3);
 }

@@ -7,7 +7,7 @@ var selectedNodeId;
 var selectedId;
 var zoomScale = 1;
 var storageId = "";
-var customClasses =  ['node-circle','node-short'];
+var customClasses =  ['node-circle','node-short','connector'];
 var sampleNodes = [
     {"top":"140px","left":"200px","id":"div1","title":"Node1","content":"content 1"},
     {"top":"300px","left":"500px","id":"div2","title":"Node2","content":"content 2"},
@@ -130,6 +130,10 @@ $(document).ready(function(){
             case "widgetToggleLineShape":
                 toggleLineShape();
             break;
+            case "widgetToggleHighlight":
+                $('.node').toggleClass('highlight-nodes')
+            break;
+
             case "widgetPathSave":
                 var propRows = $(".prop-row");
 
@@ -478,6 +482,7 @@ function addWidgets() {
             <div class="widget" id="widgetToggleLineBegin">Line Begin</div>
             <div class="widget" id="widgetToggleLineEnd">Line End</div>
             <div class="widget" id="widgetTogglePathLabel">Path Label</div>
+            <div class="widget" id="widgetToggleHighlight">Node Highlight</div>
             <div class="widget" id="widgetZoomIn">Zoom In</div>
             <div class="widget" id="widgetZoomOut">Zoom Out</div>
         </div>`))
@@ -651,24 +656,45 @@ function setLines(_lines) {
 */
 function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
 
+
     if (mode === "") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height") / 2
         var left = $(beginDiv).cssAsInt("left") + $(beginDiv).cssAsInt("width")
         var width = $(endDiv).cssAsInt("left") - left;
         var height = $(endDiv).cssAsInt('top') - top + ($(endDiv).cssAsInt('height') / 2);
+
+        if ($(beginDiv).hasClass('connector')) {
+            left -= 20;
+            width += 20;
+        }
+        if ($(endDiv).hasClass('connector')) {
+            width += 20;
+        }
+
+
     }
     if (mode === "vert") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height");
         var left = $(beginDiv).cssAsInt("left") + ( $(beginDiv).cssAsInt("width") / 2 );
-
         //var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left');
-        
         var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left')
         // then adjust the bounding box width based on the begin/end width of the nodes
         width += ( $(endDiv).cssAsInt('width')/2 - $(beginDiv).cssAsInt('width')/2 )
-
         var height = $(endDiv).cssAsInt('top') - top;
+        
+        if ($(beginDiv).hasClass("connector")) {
+            top -= 20;
+            height += 20
+        }
+        if ($(endDiv).hasClass("connector")) {
+            height += 20;
+        }
+    
     }
+
+
+
+
     return {"top":top,"left":left,"width":width,"height":height}
     
 }
