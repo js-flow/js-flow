@@ -45,6 +45,7 @@ var inspectorElements = {
         "stroke":"x",
         "stroke-width":"x",
         "stroke-dasharray":"x",
+        "animation-direction":"x",
         "marker-start":"x",
         "marker-end":"x",
         "id":"x",
@@ -76,6 +77,23 @@ $(document).ready(function(){
             case "widgetAddNode":
                 var nodeId = nodes.length + 1;
                 nodes.push({"top":"100px","left":"100px","id":"div" + nodeId});
+                drawNodes(nodes);
+            break;
+            case "widgetDupeNode":
+                var nodeId = nodes.length + 1;
+                var newNode = {}
+                var index = nodes.findIndex(obj => obj.id === selectedNodeId);
+                for (const prop in nodes[index]) {
+                    newNode[prop] = nodes[index][prop]
+                }
+                // over-ride some attributes on new node
+                newNode['id'] = "div" + nodeId
+                console.log(parseInt(newNode['top']));
+                newNode['top'] = (parseInt(newNode['top']) + 20) + "px"
+                newNode['left'] = (parseInt(newNode['left']) + 20) + "px"
+
+                nodes.push(newNode);
+                saveInfo();
                 drawNodes(nodes);
             break;
             case "widgetClearSVG":
@@ -470,7 +488,8 @@ function addControls() {
 function addWidgets() {
     $('#controlLayer').append($(`
         <div class="widgets scroller">
-            <div title="Hover text" class="widget" id="widgetAddNode">Add Node</div>
+            <div class="widget" id="widgetAddNode">Add Node</div>
+            <div class="widget" id="widgetDupeNode">Duplicate Node</div>
             <div class="widget" id="widgetDeleteNode">Delete Node</div>
             <div class="widget" id="widgetNodeShape">Node Shape</div>
             <div class="widget" id="widgetAddLine">Add Line Horiz</div>
@@ -616,9 +635,11 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
 
     const index = lines.findIndex(obj => obj.id === lineId);
     var dashArray = lines[index]["stroke-dasharray"]
+    var stroke = lines[index]["stroke"] || "#aaa";
+
     var newpath = document.createElementNS('http://www.w3.org/2000/svg',"path");  
     newpath.setAttribute("d", pathData);  
-    newpath.setAttribute("stroke", `#aaa`);
+    newpath.setAttribute("stroke", stroke);
     newpath.setAttribute("fill", "transparent");
     newpath.setAttribute("id", lineId);  
     newpath.setAttribute("stroke-width", lines[index]['stroke-width']);
@@ -627,9 +648,10 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
     newpath.setAttribute("marker-end", `url(#${lines[index]["marker-end"]})`);
 
     if (dashArray > "") {
+        var animationDirection = lines[index]["animation-direction"] || "100;0";
         const animate = document.createElementNS('http://www.w3.org/2000/svg', "animate");
         animate.setAttribute("attributeName", "stroke-dashoffset");
-        animate.setAttribute("values", "100;0");
+        animate.setAttribute("values", animationDirection);
         animate.setAttribute("calcMode", "linear");
         animate.setAttribute("dur", "4s");
         animate.setAttribute("repeatCount", "indefinite");

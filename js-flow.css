@@ -15,10 +15,10 @@ div#main {
 }
 .pathLabel > span {
     float: left;
-    border:1px solid #ccc;
+    /* border:1px solid #ccc; */
     color: #666;
     background-color: white;
-    padding:4px;
+    padding:2px;
     border-radius: 5px;
     max-width: 75px;
     text-align: center;
@@ -318,6 +318,7 @@ div.node.node-short {
     width:120px;
 }
 
+/* connector node type, used to draw shapes composed of line paths */
 div.node.connector {
     border-radius: 20px;
     border:1px solid transparent;
@@ -329,6 +330,10 @@ div.node.connector:hover {
     border:1px solid blue;
 }
 
+/* 
+class to allow highlighting of all nodes on canvas, 
+in case some don't have border set 
+*/
 div.node.highlight-nodes {
     border:2px solid rgba(255,0,0,0.3);
 }
