@@ -313,6 +313,17 @@ function loadInfo() {
     }
     saveInfo();
 }
+
+function createNodeContent(_item) {
+
+    _item = callbacks.getCustomNodeContent(_item);
+
+    return `
+        <div contenteditable="true" class="content title-text">${_item.data.title}</div>
+        <div contenteditable="true" class="content content-text">${_item.data.content}</span>
+    `;
+}
+
 function createNode(_item) {
     return $(`
         <div class="node">
@@ -323,8 +334,7 @@ function createNode(_item) {
                 <div></div>
             </div>
             <div class="content-parent">
-                <div contenteditable="true" class="content title-text">${_item.data.title}</div>
-                <div contenteditable="true" class="content content-text">${_item.data.content}</span>
+                ${createNodeContent(_item)}
             </div>
         </div>
         `);
@@ -808,6 +818,12 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
 }
 
+
+const callbacks = {
+    getCustomNodeContent: function(_item){ return _item}
+}
+
+
 export { 
     addRedrawButton, 
     addControls, 
@@ -825,5 +841,6 @@ export {
     sampleLines,
     sampleNodes,
     setSampleNodes,
-    setSampleLines
+    setSampleLines,
+    callbacks,
 }

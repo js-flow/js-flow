@@ -4,6 +4,11 @@
         <link rel="stylesheet" href="js-flow.css">
         <script src="jquery.js"></script>
         <script src="jquery-ui.js"></script>
+
+        <!--customizations for custom node types-->
+        <link rel="stylesheet" href="custom/orgchart.css">
+        <script src="custom/orgchart.js"></script>
+
     </head>
 
     <style>
@@ -13,13 +18,17 @@
     <script type="module">
         import * as jsFlow from "./js-flow.js";
         $(document).ready(function(){
-            //var flowId = 'powergrid';
-            //var flowId = 'sandbox1';
-            // var flowId = 'crossed-lines';
-            // var flowId = 'gumloop';
-            //var flowId = 'brackets';
-            // var flowId = 'sandbox3';
-            var flowId = 'hello-world';
+            // var flowId = 'hello-world';
+            // var flowId = "flowchart";
+            var flowId = "orgchart";
+
+            // jsFlow.callbacks.getCustomNodeContent =  function(_item) {
+            //     console.log('here in doCustomNodeContent');
+            //     console.log(_item);
+            //     return _item;
+            // }
+
+
             jsFlow.setStorageId(flowId);
 
             jsFlow.setSampleNodes([
