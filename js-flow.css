@@ -254,18 +254,18 @@ div.node {
     background-color: white;
     border-radius: 10px;
 }
-div.node > div.title-text {
+div.node div.title-text {
     border-bottom: none;
     text-align: center;
     display: none;
 }
-div.node > div.content {
+div.node div.content {
     width:100%;
     float: left;
     border-bottom:1px solid #ddd;
     text-align: center;
 }
-div.node > div.content-text {
+div.node div.content-text {
     color: #222;
     width:100%;
     font-size: 9.5pt;
@@ -336,4 +336,12 @@ in case some don't have border set
 */
 div.node.highlight-nodes {
     border:2px solid rgba(255,0,0,0.3);
+}
+
+
+div.node.diamond {
+    border:none;
+    background-color: transparent;
+    /* background-image: url('images/diamond.png'); */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><path d="M60 0 L0 40 L60 80 L120 40 Z" style="fill:white;stroke:orange;stroke-width:1"  ></path></svg>')
 }

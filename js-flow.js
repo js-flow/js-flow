@@ -7,7 +7,7 @@ var selectedNodeId;
 var selectedId;
 var zoomScale = 1;
 var storageId = "";
-var customClasses =  ['node-circle','node-short','connector'];
+var customClasses =  ['node-circle','node-short','connector','diamond'];
 var sampleNodes = [
     {"top":"140px","left":"200px","id":"div1","title":"Node1","content":"content 1"},
     {"top":"300px","left":"500px","id":"div2","title":"Node2","content":"content 2"},
@@ -76,7 +76,7 @@ $(document).ready(function(){
         switch ( $(this).attr('id') ) {
             case "widgetAddNode":
                 var nodeId = nodes.length + 1;
-                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId});
+                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":""});
                 drawNodes(nodes);
             break;
             case "widgetDupeNode":
@@ -322,8 +322,10 @@ function createNode(_item) {
                 <div></div>
                 <div></div>
             </div>
-            <div contenteditable="true" class="content title-text">${_item.title}</div>
-            <div contenteditable="true" class="content content-text">${_item.content}</span>
+            <div class="content-parent">
+                <div contenteditable="true" class="content title-text">${_item.data.title}</div>
+                <div contenteditable="true" class="content content-text">${_item.data.content}</span>
+            </div>
         </div>
         `);
 }
@@ -351,15 +353,20 @@ function updateNodeInfo() {
                     classesToAdd += item + " "
                 }
             })
-            
-            nodes.push({
+
+            var nodeToAdd = {
                 "top":$(nodeList[i]).css('top'),
                 "left":$(nodeList[i]).css('left'),
                 "id":$(nodeList[i]).attr('id'),
-                "title":$(nodeList[i]).find('div.content.title-text').html().replace("<br>",""),
-                "content":$(nodeList[i]).find('div.content.content-text').html().replace("<br>",""),
                 "classesToAdd":classesToAdd
-            })
+            }
+
+            nodeToAdd.data = {
+                "title":$(nodeList[i]).find('div.content.title-text').html().replace("<br>",""),
+                "content":$(nodeList[i]).find('div.content.content-text').html().replace("<br>","")
+            }
+
+            nodes.push(nodeToAdd)
         }
     }
 }
@@ -720,6 +727,16 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
     return {"top":top,"left":left,"width":width,"height":height}
     
 }
+
+
+function setSampleNodes(_nodes) {
+    sampleNodes = _nodes;
+}
+function setSampleLines(_lines) {
+    sampleLines = _lines;
+}
+
+
 /*
 * Draw line/curve between 2 divs of a certain type
 */
@@ -736,12 +753,10 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     if (mode === "vert") {
         top += 8;
         height -= 14;
-        left += 2;
     }
     if (mode === "") {
-        top += 3;
-        left += 10;
-        width -= 16;
+        left += 8;
+        width -= 14;
     }
 
     if (lineShape === "curved") {
@@ -808,5 +823,7 @@ export {
     setLines,
     setStorageId,
     sampleLines,
-    sampleNodes
+    sampleNodes,
+    setSampleNodes,
+    setSampleLines
 }
