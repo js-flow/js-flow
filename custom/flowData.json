@@ -4,80 +4,80 @@
             "top": "60px",
             "left": "560px",
             "id": "div1",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "Tony"
+                "content": "Tony Lastname"
             }
         },
         {
             "top": "200px",
             "left": "560px",
             "id": "div2",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "Paul"
+                "content": "Paul Lastname"
             }
         },
         {
             "top": "380px",
             "left": "200px",
             "id": "div3",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "Mel"
+                "content": "Mel Lastname"
             }
         },
         {
             "top": "380px",
             "left": "340px",
             "id": "div4",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "Euni"
+                "content": "Euni Lastname"
             }
         },
         {
             "top": "380px",
             "left": "480px",
             "id": "div5",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "John"
+                "content": "John Lastname"
             }
         },
         {
             "top": "380px",
             "left": "640px",
             "id": "div6",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "April"
+                "content": "April Lastname"
             }
         },
         {
             "top": "380px",
             "left": "780px",
             "id": "div7",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "Val"
+                "content": "Val Lastname"
             }
         },
         {
             "top": "380px",
             "left": "920px",
             "id": "div8",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
-                "content": "Tom"
+                "content": "Tom Lastname"
             }
         }
     ],

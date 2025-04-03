@@ -13,62 +13,86 @@
 
     <style>
         /* some css overrides if necessary */
+        div.node div.content {
+            border-bottom: 1px solid #ccc;
+        }
+        div.node.orgchart {
+            /* width:140px; */
+        }
+        div.node.orgchart span.text {
+            text-align: left;
+            float:left;
+            margin-top: 8px;
+            max-width: 60px;
+            font-weight: bold;
+        }
+        div.node.orgchart img.photo {
+            float:left;
+            width:40px;
+            height:40px;
+            /* border:1px solid red; */
+            margin: 5px;
+            border-radius: 5px;
+            opacity: 0.8;
+        }
+        div.node.orgchart div.orgDesc {
+            margin-top:5px;
+            border-bottom: none;
+            color: #888;
+        }
+
     </style>
 
     <script type="module">
+
         import * as jsFlow from "./js-flow.js";
-        $(document).ready(function(){
-            // var flowId = 'hello-world';
-            // var flowId = "flowchart";
+        import {callbacks} from "./js-flow.js";
+
+        // load data from remote url, must conform to {"nodes":[],"lines":[]}
+        jsFlow.loadDataFromUrl('custom/flowData.json')
+        .then(function(success){
+            bootUp();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+
+        // load data from a single JSON text string
+        // TBD
+        //
+
+        function bootUp() {
             var flowId = "orgchart";
+            // supply a custom node callback to add context-specific custom HTML for nodes
+            callbacks.getCustomNodeContent =  function(_item) {
+                console.log('get custom...');
+                console.log(_item);
+                
+                /* this will be called once for each node that is rendered */
+                //_item.data.content = "Simple"
+                //return _item;
+                var retInfo = `
+                    <div class="content orgPhoto">
+                        <img src="https://randomuser.me/api/portraits/women/4.jpg" class="photo" />
+                        <span  class="text">${_item.data.content}</span>
+                    </div>
+                    <div class="content orgDesc">IT Development</div>
+                `
 
-            // jsFlow.callbacks.getCustomNodeContent =  function(_item) {
-            //     console.log('here in doCustomNodeContent');
-            //     console.log(_item);
-            //     return _item;
-            // }
+                return retInfo;
+            }
 
-
+            // some of these method calls could be moved into other functions, but all
+            // grouped here for clarity
             jsFlow.setStorageId(flowId);
-
-            jsFlow.setSampleNodes([
-                {"top":"140px","left":"200px","id":"div1",data:{"title":"Node11","content":"content 11"}},
-                {"top":"300px","left":"500px","id":"div2",data:{"title":"Node22","content":"content 12"}},
-                {"top":"400px","left":"500px","id":"div3",data:{"title":"Node33","content":"content 13"}}
-            ]);
-
-            jsFlow.setSampleLines ([
-                {   "fromDiv":"#div1",
-                    "toDiv":"#div2",
-                    "id":"line1",
-                    "mode":"",
-                    "lineShape":"curved",
-                    "stroke-dasharray":"",
-                    "marker-start":"line",
-                    "marker-end":"arrow",
-                    "labelText":"",
-                    "stroke-width":"3"
-                },
-                {   "fromDiv":"#div1",
-                    "toDiv":"#div3",
-                    "id":"line2",
-                    "mode":"",
-                    "lineShape":"curved",
-                    "stroke-dasharray":"",
-                    "marker-start":"line",
-                    "marker-end":"circle",
-                    "labelText":"line222",
-                    "stroke-width":"3"
-                }
-            ]);
-
             jsFlow.loadInfo();
             jsFlow.addWidgets();
             jsFlow.addInspector();
             // draw nodes and lines based on current information
             jsFlow.drawNodes();
             jsFlow.drawLines();
-        })
+        }
+
     </script>
     
     <div class="parentDiv">

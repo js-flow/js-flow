@@ -314,18 +314,43 @@ function loadInfo() {
     saveInfo();
 }
 
+function isJSON(_input) {
+
+    if (_input && typeof _input === "object") {
+        return true;
+    }
+    else {
+        /* might be a string, try to parse it and see if it's JSON */
+        try {
+            var o = JSON.parse(_input);
+            if (o && typeof o === "object") {
+                return true;
+            }
+        }
+        catch (e) { }
+        return false;    
+    }
+}
+
 function createNodeContent(_item) {
 
     _item = callbacks.getCustomNodeContent(_item);
+    if (isJSON(_item)) {
+        /* return default html integrated with json data */
+        return `
+            <div contenteditable="true" class="content title-text">${_item.data.title}</div>
+            <div contenteditable="true" class="content content-text">${_item.data.content}</span>
+        `;
+    } else {
+        /* return whatever html is returned from custom getCustomNodeContent() function call */
+        return _item;
+    }
 
-    return `
-        <div contenteditable="true" class="content title-text">${_item.data.title}</div>
-        <div contenteditable="true" class="content content-text">${_item.data.content}</span>
-    `;
 }
 
 function createNode(_item) {
-    return $(`
+    console.log(_item);
+    var node =  $(`
         <div class="node">
             <div class="nodeHandles">
                 <div></div>
@@ -338,6 +363,8 @@ function createNode(_item) {
             </div>
         </div>
         `);
+    node.addClass(_item.classesToAdd);
+    return node;
 }
 function createHandlesNode() {
     return $(`
@@ -746,6 +773,21 @@ function setSampleLines(_lines) {
     sampleLines = _lines;
 }
 
+function loadDataFromUrl(url) {
+    return fetch(url)
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(function(myJson) {
+        console.log(myJson);
+        setSampleNodes(myJson.nodes);
+        setSampleLines(myJson.lines);
+        return true;
+    })
+}
 
 /*
 * Draw line/curve between 2 divs of a certain type
@@ -838,6 +880,7 @@ export {
     setNodes,
     setLines,
     setStorageId,
+    loadDataFromUrl,
     sampleLines,
     sampleNodes,
     setSampleNodes,
