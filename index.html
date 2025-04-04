@@ -4,41 +4,10 @@
         <link rel="stylesheet" href="js-flow.css">
         <script src="vendor/jquery.js"></script>
         <script src="vendor/jquery-ui.js"></script>
-
         <!--customizations for custom node types-->
         <link rel="stylesheet" href="custom/orgchart.css">
         <script src="custom/orgchart.js"></script>
-
     </head>
-
-    <style>
-        /* some css overrides if necessary */
-        div.node div.content {
-            border-bottom: 1px solid #ccc;
-        }
-        div.node.orgchart span.text {
-            text-align: left;
-            float:left;
-            margin-top: 8px;
-            max-width: 60px;
-            font-weight: bold;
-        }
-        div.node.orgchart img.photo {
-            float:left;
-            width:40px;
-            height:40px;
-            /* border:1px solid red; */
-            margin: 5px;
-            border-radius: 5px;
-            opacity: 0.8;
-        }
-        div.node.orgchart div.orgDesc {
-            margin-top:5px;
-            border-bottom: none;
-            color: #888;
-        }
-
-    </style>
 
     <script type="module">
 
@@ -50,9 +19,9 @@
         .then(function(success){
             bootUp();
         })
-        .catch(function(error){
-            console.log(error);
-        })
+        // .catch(function(error){
+        //     console.log(error);
+        // })
 
         // load data from a single JSON text string
         // TBD
@@ -63,6 +32,10 @@
             // supply a custom node callback to add context-specific custom HTML for nodes
             callbacks.getCustomNodeContent =  function(_item) {
                 /* this will be called once for each node that is rendered */
+                return renderOrgChartContent(_item);
+            }
+
+            function renderOrgChartContent(_item) {
                 return `
                     <div class="content orgPhoto">
                         <img src="https://randomuser.me/api/portraits/women/4.jpg" class="photo" />
@@ -71,6 +44,7 @@
                     <div class="content orgDesc">IT Development</div>
                 `
             }
+            
 
             // some of these method calls could be moved into other functions, but all
             // grouped here for clarity

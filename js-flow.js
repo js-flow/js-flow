@@ -404,36 +404,47 @@ function createHandlesNode() {
         </div>`);
 }
 function updateNodeInfo() {
+    // need to change this to update existing node info instead of blowing them
+    // all away and re-adding.  This is done to preserve the data entered
     var classesToCheck = customClasses;
     var classesToAdd;
     var nodeList = $('.node');
-    nodes = [];
-    for (var i=0; i<nodeList.length; i++) {
-        if ($(nodeList[i]).attr('id') != "handlesContainer") {
+    // nodes = [];
+    // for (var i=0; i<nodeList.length; i++) {
+    //     if ($(nodeList[i]).attr('id') != "handlesContainer") {
             
-            var nodeClasses = $(nodeList[i]).attr('class')
-            classesToAdd = "";
-            classesToCheck.forEach(function(item){
-                if ( nodeClasses.indexOf(item) > -1 ) {
-                    classesToAdd += item + " "
-                }
-            })
+    //         var nodeClasses = $(nodeList[i]).attr('class')
+    //         classesToAdd = "";
+    //         classesToCheck.forEach(function(item){
+    //             if ( nodeClasses.indexOf(item) > -1 ) {
+    //                 classesToAdd += item + " "
+    //             }
+    //         })
 
-            var nodeToAdd = {
-                "top":$(nodeList[i]).css('top'),
-                "left":$(nodeList[i]).css('left'),
-                "id":$(nodeList[i]).attr('id'),
-                "classesToAdd":classesToAdd
-            }
+    //         var nodeToAdd = {
+    //             "top":$(nodeList[i]).css('top'),
+    //             "left":$(nodeList[i]).css('left'),
+    //             "id":$(nodeList[i]).attr('id'),
+    //             "classesToAdd":classesToAdd
+    //         }
 
-            nodeToAdd.data = {
-                "title":$(nodeList[i]).find('div.content.title-text').html().replace("<br>",""),
-                "content":$(nodeList[i]).find('div.content.content-text').html().replace("<br>","")
-            }
+    //         nodeToAdd.data = {
+    //             "title":$(nodeList[i]).find('div.content.title-text').html().replace("<br>",""),
+    //             "content":$(nodeList[i]).find('div.content.content-text').html().replace("<br>","")
+    //         }
 
-            nodes.push(nodeToAdd)
-        }
+    //         nodes.push(nodeToAdd)
+    //     }
+    // }
+
+    for (var i=0; i<nodeList.length; i++) {
+        var nodeId = $(nodeList[i]).attr('id')
+        const index = nodes.findIndex(obj => obj.id === nodeId);
+        console.log(index);
+        nodes[index].top = $(nodeList[i]).css('top')
+        nodes[index].left = $(nodeList[i]).css('left')
     }
+
 }
 function drawNodes() {
 
