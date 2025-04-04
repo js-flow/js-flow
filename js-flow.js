@@ -2,8 +2,11 @@ var cnt = 0;
 var nodes;
 var lines;
 var nodeStack = [];
+var nodeData;
+
 var selectedLineId;
 var selectedNodeId;
+
 var selectedId;
 var zoomScale = 1;
 var storageId = "";
@@ -98,6 +101,8 @@ $(document).ready(function(){
             break;
             case "widgetClearSVG":
                 $("svg").empty();
+                selectedLineId = "";
+                selectedNodeId = "";
             break;
             case "widgetClearNodes":
                 $(".node").remove();
@@ -153,16 +158,28 @@ $(document).ready(function(){
             break;
 
             case "widgetPathSave":
-                var propRows = $(".prop-row");
 
-                index = lines.findIndex(obj => obj.id === selectedLineId);
-                
-                propRows.each(function(_index, item){
-                    var propname = $(item).find('.prop-name').html();
-                    var propvalue = $(item).find('.prop-value').html().replace("<br>","");
-                    lines[index][propname] = propvalue;
-                })
+                if (selectedLineId > "") {
+                    var propRows = $(".prop-row");
+                    index = lines.findIndex(obj => obj.id === selectedLineId);
+                    propRows.each(function(_index, item){
+                        var propname = $(item).find('.prop-name').html();
+                        var propvalue = $(item).find('.prop-value').html().replace("<br>","");
+                        lines[index][propname] = propvalue;
+                    })
+                }
 
+                if (selectedNodeId > "") {
+                    var propRows = $(".prop-row");
+                    index = nodes.findIndex(obj => obj.id === selectedNodeId);
+                    propRows.each(function(_index, item){
+                        var propname = $(item).find('.prop-name').html();
+                        var propvalue = $(item).find('.prop-value').html();
+                        nodes[index].data[propname] = propvalue;
+                    })
+                }
+
+                $('#inspector').empty();
                 saveInfo();
                 drawNodes();
                 drawLines();
@@ -275,9 +292,21 @@ $(document).ready(function(){
 
     $(document).on('click',".node", function(){
         // fires when a widget gets clicked
+        
         if (! $(this).hasClass('handles')) {
             nodeStack.push( $(this).attr('id') );
             selectedNodeId = $(this).attr('id');
+
+            
+            var index = nodes.findIndex(obj => obj.id === selectedNodeId);
+            nodeData = nodes[index].data;
+            $('#inspector').empty();
+            for (const key in nodeData) {
+                addInspectorRow(key, nodeData[key]);
+             }            
+            addInspectorSaveButton();
+
+
             nodeStack = nodeStack.slice(-2);
             $(".node").removeClass('selectedBorder')
             $(this).addClass('selectedBorder');
@@ -503,6 +532,8 @@ function getSVGMarkers() {
 function drawLines() {
 
     $("svg").empty();
+    selectedLineId = "";
+    selectedNodeId = "";
     $(".pathLabel").remove();
     $('.jma').remove();
 
@@ -573,6 +604,7 @@ function addSVGListeners() {
         $('#inspector').empty();
         nodeStack = [];
         selectedLineId = "";
+        selectedNodeId = "";
         $(".node").removeClass('selectedBorder')
         $('path').css("stroke","#aaa")
         event.stopPropagation();
