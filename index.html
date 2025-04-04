@@ -2,8 +2,8 @@
     <head>
         <title>JS-Flow.dev</title>
         <link rel="stylesheet" href="js-flow.css">
-        <script src="jquery.js"></script>
-        <script src="jquery-ui.js"></script>
+        <script src="vendor/jquery.js"></script>
+        <script src="vendor/jquery-ui.js"></script>
 
         <!--customizations for custom node types-->
         <link rel="stylesheet" href="custom/orgchart.css">
@@ -15,9 +15,6 @@
         /* some css overrides if necessary */
         div.node div.content {
             border-bottom: 1px solid #ccc;
-        }
-        div.node.orgchart {
-            /* width:140px; */
         }
         div.node.orgchart span.text {
             text-align: left;
@@ -65,21 +62,14 @@
             var flowId = "orgchart";
             // supply a custom node callback to add context-specific custom HTML for nodes
             callbacks.getCustomNodeContent =  function(_item) {
-                console.log('get custom...');
-                console.log(_item);
-                
                 /* this will be called once for each node that is rendered */
-                //_item.data.content = "Simple"
-                //return _item;
-                var retInfo = `
+                return `
                     <div class="content orgPhoto">
                         <img src="https://randomuser.me/api/portraits/women/4.jpg" class="photo" />
                         <span  class="text">${_item.data.content}</span>
                     </div>
                     <div class="content orgDesc">IT Development</div>
                 `
-
-                return retInfo;
             }
 
             // some of these method calls could be moved into other functions, but all

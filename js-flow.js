@@ -349,7 +349,6 @@ function createNodeContent(_item) {
 }
 
 function createNode(_item) {
-    console.log(_item);
     var node =  $(`
         <div class="node">
             <div class="nodeHandles">
@@ -782,7 +781,6 @@ function loadDataFromUrl(url) {
         return response.json();
     })
     .then(function(myJson) {
-        console.log(myJson);
         setSampleNodes(myJson.nodes);
         setSampleLines(myJson.lines);
         return true;
