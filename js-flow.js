@@ -326,12 +326,8 @@ function saveInfo() {
     localStorage.getItem(storageId + '-jsFlow');
     var dataToSave = {"nodes":nodes,"lines":lines}
     localStorage.setItem(storageId + '-jsFlow',JSON.stringify(dataToSave))
-    // localStorage.setItem(storageId + '-lines',JSON.stringify(lines))
-    // localStorage.setItem(storageId + '-nodes',JSON.stringify(nodes));
 }
 function loadInfo() {
-    // lines = JSON.parse(localStorage.getItem(storageId + '-lines'));
-    // nodes = JSON.parse(localStorage.getItem(storageId + '-nodes'));
     var dataToLoad = JSON.parse(localStorage.getItem(storageId + '-jsFlow'));
     if (dataToLoad) {
         lines = dataToLoad.lines;
@@ -364,6 +360,7 @@ function isJSON(_input) {
 function createNodeContent(_item) {
 
     _item = callbacks.getCustomNodeContent(_item);
+    
     if (isJSON(_item)) {
         /* return default html integrated with json data */
         return `
@@ -906,6 +903,10 @@ const callbacks = {
     getCustomNodeContent: function(_item){ return _item}
 }
 
+const parameters = {
+    customClasses: customClasses
+}
+
 
 export { 
     addRedrawButton, 
@@ -927,4 +928,5 @@ export {
     setSampleNodes,
     setSampleLines,
     callbacks,
+    parameters
 }

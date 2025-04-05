@@ -24,7 +24,7 @@
             "top": "380px",
             "left": "200px",
             "id": "div3",
-            "classesToAdd": "orgchart",
+            "classesToAdd": "",
             "data": {
                 "title": "",
                 "content": "Mel Lastname"
