@@ -2,13 +2,24 @@
     <head>
         <title>JS-Flow.dev</title>
         <link rel="stylesheet" href="/js-flow.css">
+        <!--stored locally, could be loaded from public CDN as well-->
         <script src="/vendor/jquery.js"></script>
         <script src="/vendor/jquery-ui.js"></script>
     </head>
 
+    <!--custom css can override built-ins for customizations-->
+    <style>
+        .parentDiv {
+            margin:10px;
+        }
+    </style>
+
     <script type="module">
         import * as jsFlow from "/js-flow.js";
+        import {parameters} from "/js-flow.js";
         jsFlow.setStorageId("hello-world");
+        
+        // if no flow JSON is set, will use default info in the JS module
         jsFlow.loadInfo();
         jsFlow.drawNodes();
         jsFlow.drawLines();

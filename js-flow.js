@@ -11,6 +11,7 @@ var selectedId;
 var zoomScale = 1;
 var storageId = "";
 var customClasses =  ['node-circle','node-short','connector','diamond'];
+
 var sampleNodes = [
     {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"}},
     {"top":"300px","left":"500px","id":"div2","data":{"content":"content 2"}}
@@ -89,7 +90,7 @@ $(document).ready(function(){
                 drawNodes(nodes);
             break;
             case "widgetClearSVG":
-                $("svg").empty();
+                $(parameters.svgId).empty();
                 selectedLineId = "";
                 selectedNodeId = "";
             break;
@@ -302,7 +303,7 @@ $(document).ready(function(){
         }
     })
 
-    $(document).on('click',"svg,path,circle", function(){
+    $(document).on('click',"#" + parameters.svgId + ",path,circle", function(){
         $(".node").removeClass('selectedBorder')
     })
 
@@ -528,20 +529,21 @@ function getSVGMarkers() {
 }
 function drawLines() {
 
-    $("svg").empty();
+    $("#" + parameters.svgId).empty();
     selectedLineId = "";
     selectedNodeId = "";
     $(".pathLabel").remove();
     $('.jma').remove();
 
-    $("svg").append(getSVGMarkers())
+    $("#" + parameters.svgId).append(getSVGMarkers())
     lines.forEach(function(item){
         drawLine(item.fromDiv,item.toDiv,item.mode,item.id)
     })
     if (!showPathLabels) {
         $(".pathLabel").toggle();
     }
-    $("svg").html($("svg").html());
+    //TODO: Still need this line for setting html ?
+    $("#" + parameters.svgId).html($("#" + parameters.svgId).html());
     addSVGListeners();
 
 }
@@ -597,7 +599,7 @@ function addInspectorSaveButton() {
     `))
 }
 function addSVGListeners() {
-    $('svg').on('click', function(){
+    $("#" + parameters.svgId).on('click', function(){
         $('#inspector').empty();
         nodeStack = [];
         selectedLineId = "";
@@ -607,7 +609,7 @@ function addSVGListeners() {
         event.stopPropagation();
     })
 
-    $('svg > path').on('click', function(event){
+    $('#' + parameters.svgId + ' > path').on('click', function(event){
         selectedLineId = $(this).attr('id');
         selectedId = selectedLineId;
         iterateAttributes(event);
@@ -617,7 +619,7 @@ function addSVGListeners() {
         event.stopPropagation();
     })
     
-    $('svg > circle').on('click', function(){
+    $('#' + parameters.svgId + ' > circle').on('click', function(){
         $('#inspector').empty();
         $(".node").removeClass('selectedBorder')
         event.stopPropagation();
@@ -870,7 +872,7 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
 
     var newPath = createSVGPath(pathData, "#aaa","transparent", lineId)
-    document.getElementById('svgcontainer').appendChild(newPath);
+    document.getElementById(parameters.svgId).appendChild(newPath);
     var svgLength = newPath.getTotalLength();
 
     if (lines[index].labelText) {
@@ -893,7 +895,8 @@ const callbacks = {
 }
 
 const parameters = {
-    customClasses: customClasses
+    customClasses: customClasses,
+    svgId: "svgcontainer"
 }
 
 
