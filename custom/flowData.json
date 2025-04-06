@@ -24,7 +24,7 @@
             "top": "380px",
             "left": "200px",
             "id": "div3",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
                 "content": "Mel Lastname"
@@ -34,7 +34,7 @@
             "top": "380px",
             "left": "340px",
             "id": "div4",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
                 "content": "Euni Lastname"
@@ -44,7 +44,7 @@
             "top": "380px",
             "left": "480px",
             "id": "div5",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
                 "content": "John Lastname"
@@ -54,7 +54,7 @@
             "top": "380px",
             "left": "640px",
             "id": "div6",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
                 "content": "April Lastname"
@@ -64,7 +64,7 @@
             "top": "380px",
             "left": "780px",
             "id": "div7",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
                 "content": "Val Lastname"
@@ -74,7 +74,7 @@
             "top": "380px",
             "left": "920px",
             "id": "div8",
-            "classesToAdd": "",
+            "classesToAdd": "orgchart",
             "data": {
                 "title": "",
                 "content": "Tom Lastname"

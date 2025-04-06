@@ -12,9 +12,8 @@ var zoomScale = 1;
 var storageId = "";
 var customClasses =  ['node-circle','node-short','connector','diamond'];
 var sampleNodes = [
-    {"top":"140px","left":"200px","id":"div1","title":"Node1","content":"content 1"},
-    {"top":"300px","left":"500px","id":"div2","title":"Node2","content":"content 2"},
-    {"top":"400px","left":"500px","id":"div3","title":"Node3","content":"content 3"}
+    {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"}},
+    {"top":"300px","left":"500px","id":"div2","data":{"content":"content 2"}}
 ];
 
 var sampleLines = [
@@ -23,21 +22,11 @@ var sampleLines = [
                     "id":"line1",
                     "mode":"",
                     "lineShape":"curved",
+                    "stroke":"#aaa",
                     "stroke-dasharray":"",
                     "marker-start":"line",
                     "marker-end":"arrow",
                     "labelText":"",
-                    "stroke-width":"3"
-                },
-                {   "fromDiv":"#div1",
-                    "toDiv":"#div3",
-                    "id":"line2",
-                    "mode":"",
-                    "lineShape":"curved",
-                    "stroke-dasharray":"",
-                    "marker-start":"line",
-                    "marker-end":"circle",
-                    "labelText":"line222",
                     "stroke-width":"3"
                 }
 ];

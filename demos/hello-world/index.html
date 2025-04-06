@@ -1,0 +1,26 @@
+<html >
+    <head>
+        <title>JS-Flow.dev</title>
+        <link rel="stylesheet" href="/js-flow.css">
+        <script src="/vendor/jquery.js"></script>
+        <script src="/vendor/jquery-ui.js"></script>
+    </head>
+
+    <script type="module">
+        import * as jsFlow from "/js-flow.js";
+        jsFlow.setStorageId("hello-world");
+        jsFlow.loadInfo();
+        jsFlow.drawNodes();
+        jsFlow.drawLines();
+    </script>
+    
+    <div class="parentDiv">
+        <div id="main">
+            <div id="svgParent">
+                <svg id="svgcontainer" width="100%" height="100%"  xmlns="http://www.w3.org/2000/svg"></svg>
+            </div>
+        </div>
+    </div>
+    <div id="controlLayer"></div>
+
+</html>
