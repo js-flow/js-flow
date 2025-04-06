@@ -30,37 +30,73 @@ body {
     padding: 0px;
 }
 
+
+.jsFlowContainer {
+    width:90%;
+    height:90%;
+    overflow: auto;
+    border:2px solid red;
+}
+
 .parentDiv {
     padding:0px;
     margin:0px;
-    position: absolute;
     float: left;
-    top:0px;
-    left:0px;
-    right: 0px;
-    bottom: 0px;
+    position: relative;
     border:1px solid #aaa;
-    overflow: auto;
+    overflow: hidden;
 }
 #main {
     z-index: 100;
-    position: absolute;
     float:left;
     width:2000px;
     height:2000px;
-    top:0px;
-    left:0px;
     background-image: url('images/back1.png?rnd=1');
 
 }
 #controlLayer {
-    z-index: 110;
-    position: absolute;
+    z-index: 120;
     float:left;
-    top:0px;
-    left:0px;
     border:1px solid orange;
 }
+div.widgets {
+    position: absolute;
+    top:10px;
+    left:10px;
+    float: left;
+    border:1px solid #ccc;
+    width:125px;
+    height:250px;
+    background-color: #eee;
+    border:1px solid #888;
+    overflow: auto;
+}
+
+div.widgets > div {
+    position: relative;
+    float:left;
+    margin-left:5px;
+    margin-top: 5px;
+    width:82%;
+    border:1px solid #aaa;
+    min-height: 30px;
+    padding:5px;
+    background-color: white;
+}
+
+div.inspector {
+    position: absolute;
+    float: left;
+    border:1px solid #ccc;
+    top: 300px;
+    left: 30px;
+    width:150px;
+    height:250px;
+    background-color: #eee;
+    overflow: auto;
+    border:1px solid #888;
+}
+
 
 #svgcontainer > defs > marker#arrow > path, 
 #svgcontainer > defs > marker#circle > circle, 
@@ -178,41 +214,7 @@ div.line {
 .controls > button {
     margin-bottom: 5px;
 }
-div.widgets {
-    position: absolute;
-    float: left;
-    border:1px solid #ccc;
-    top: 30px;
-    left: 30px;
-    width:125px;
-    height:250px;
-    background-color: #eee;
-    overflow: auto;
-    border:1px solid #888;
-}
-div.widgets > div {
-    float:left;
-    margin-left:5px;
-    margin-top: 5px;
-    width:82%;
-    border:1px solid #aaa;
-    min-height: 30px;
-    padding:5px;
-    background-color: white;
-}
 
-div.inspector {
-    position: absolute;
-    float: left;
-    border:1px solid #ccc;
-    top: 300px;
-    left: 30px;
-    width:150px;
-    height:250px;
-    background-color: #eee;
-    overflow: auto;
-    border:1px solid #888;
-}
 div.inspector > div.prop-row {
     font-size: 9pt;
     width:100%;
