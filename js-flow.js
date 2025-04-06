@@ -211,13 +211,13 @@ $(document).ready(function(){
             case "widgetZoomIn":
                 zoomScale += .1;
                 if (zoomScale > 1.0)  zoomScale=1;
-                document.getElementById("main").style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.svgWrapperDivId).style.transform = "scale("+zoomScale+")";
                 __scale = zoomScale;
             break;
             case "widgetZoomOut":
                 zoomScale -= .1;
                 if (zoomScale < 0.5)  zoomScale=0.5;
-                document.getElementById("main").style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.svgWrapperDivId).style.transform = "scale("+zoomScale+")";
                 __scale = zoomScale;
             break;
         }
@@ -437,7 +437,7 @@ function drawNodes() {
 
     $(".node").remove();
     nodes.forEach(function(item){
-        $('#main').append(createNode(item)
+        $('#' + parameters.svgWrapperDivId).append(createNode(item)
         .css({'top':item.top,'left':item.left})
         .attr('id',item.id))
         if (item.classesToAdd > "") {
@@ -882,7 +882,7 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
         //   add a label along the path
         var newDiv = $(`<div class="pathLabel"><span>${lines[index].labelText}</span></div>`)
         newDiv.attr('id','path-label-' + lineId)
-        $('#main').append(newDiv)
+        $('#' + parameters.svgWrapperDivId).append(newDiv)
         newDiv.css({"top":svgPoint.y - (newDiv.height()/2),"left":svgPoint.x - (newDiv.width()/2)})
         // END OF PATH LABEL CHANGES
     }
@@ -896,7 +896,8 @@ const callbacks = {
 
 const parameters = {
     customClasses: customClasses,
-    svgId: "svgcontainer"
+    svgId: "svgcontainer",
+    svgWrapperDivId: "main"
 }
 
 
