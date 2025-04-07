@@ -69,7 +69,7 @@ $(document).ready(function(){
         switch ( $(this).attr('id') ) {
             case "widgetAddNode":
                 var nodeId = nodes.length + 1;
-                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":""});
+                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":{"title":"","content":""}});
                 drawNodes(nodes);
             break;
             case "widgetDupeNode":
@@ -101,6 +101,7 @@ $(document).ready(function(){
 
                 var found = -1;
                 var node = $(`#${selectedNodeId}`);
+                var index = nodes.findIndex(obj => obj.id === selectedNodeId);
 
                 customClasses.forEach(function(item, i){
                     if (node.hasClass(customClasses[i])) {
@@ -115,6 +116,7 @@ $(document).ready(function(){
 
                 if ( found < customClasses.length-1 ) {
                     node.addClass(customClasses[found+1])
+                    nodes[index].classesToAdd = customClasses[found+1];
                 }
 
                 drawLines();
@@ -291,11 +293,16 @@ $(document).ready(function(){
             var index = nodes.findIndex(obj => obj.id === selectedNodeId);
             nodeData = nodes[index].data;
             $('#inspector').empty();
+            if (!nodeData) {
+                nodeData = {
+                    title:"",
+                    content:""
+                }
+            }
             for (const key in nodeData) {
                 addInspectorRow(key, nodeData[key]);
              }            
             addInspectorSaveButton();
-
 
             nodeStack = nodeStack.slice(-2);
             $(".node").removeClass('selectedBorder')
@@ -308,6 +315,7 @@ $(document).ready(function(){
     })
 
 })
+
 
 function setStorageId(_storageId) {
     storageId = _storageId
@@ -425,19 +433,34 @@ function updateNodeInfo() {
     // }
 
     for (var i=0; i<nodeList.length; i++) {
+
+        // if ($(nodeList[i]).attr('id') != "handlesContainer") {
+        //     var nodeClasses = $(nodeList[i]).attr('class')
+        //     classesToAdd = "";
+        //     classesToCheck.forEach(function(item){
+        //         if ( nodeClasses.indexOf(item) > -1 ) {
+        //             classesToAdd += item + " "
+        //         }
+        //     })
+        // }
+
         var nodeId = $(nodeList[i]).attr('id')
         const index = nodes.findIndex(obj => obj.id === nodeId);
         console.log(index);
         nodes[index].top = $(nodeList[i]).css('top')
-        nodes[index].left = $(nodeList[i]).css('left')
+        nodes[index].left = $(nodeList[i]).css('left');
+        //nodes[index].classesToAdd = classesToAdd;
     }
 
 }
 function drawNodes() {
 
     $(".node").remove();
+
+    console.log(nodes);
+
     nodes.forEach(function(item){
-        $('#' + parameters.svgWrapperDivId).append(createNode(item)
+        $('#' + parameters.htmlCanvas).append(createNode(item)
         .css({'top':item.top,'left':item.left})
         .attr('id',item.id))
         if (item.classesToAdd > "") {
@@ -531,7 +554,7 @@ function drawLines() {
 
     $("#" + parameters.svgId).empty();
     selectedLineId = "";
-    selectedNodeId = "";
+    //selectedNodeId = "";
     $(".pathLabel").remove();
     $('.jma').remove();
 
@@ -548,19 +571,19 @@ function drawLines() {
 
 }
 function addRedrawButton() {
-    $('#controlLayer').append( $(`<div class="redraw"><button class="btnRedraw">Re-Draw</button></div>`) );
+    $('#' + parameters.controlLayerId).append( $(`<div class="redraw"><button class="btnRedraw">Re-Draw</button></div>`) );
     $(".btnRedraw").on('click', drawLines)
 }
 function addControls() {
-    $('#controlLayer').append($(`
+    $('#' + parameters.controlLayerId).append($(`
         <div class="controls">
             <button class="button" id="btnSave">Save</button>
             <button class="button" id="btnLoad">Load</button>
         </div>`));
 }
 function addWidgets() {
-    $('#controlLayer').append($(`
-        <div class="widgets scroller">
+    $('#' + parameters.controlLayerId).append($(`
+        <div class="widgets">
             <div class="widget" id="widgetAddNode">Add Node</div>
             <div class="widget" id="widgetDupeNode">Duplicate Node</div>
             <div class="widget" id="widgetDeleteNode">Delete Node</div>
@@ -580,8 +603,8 @@ function addWidgets() {
         </div>`))
 }
 function addInspector() {
-    $('#controlLayer').append($(`
-        <div id="inspector" class="inspector scroller">
+    $('#' + parameters.controlLayerId).append($(`
+        <div id="inspector" class="inspector">
         </div>
     `))
 }
@@ -897,7 +920,9 @@ const callbacks = {
 const parameters = {
     customClasses: customClasses,
     svgId: "svgcontainer",
-    svgWrapperDivId: "main"
+    svgWrapperDivId: "main",
+    controlLayerId: "controlLayer",
+    htmlCanvas: "htmlCanvas"
 }
 
 

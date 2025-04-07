@@ -1,9 +1,65 @@
+body {
+    margin:0px;
+    padding: 0px;
+}
 
-div#main {
+div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+.jsFlow {
+    width:100%;
+    height: 100%;
+    position: relative;
+    overflow: auto;
+}
+
+.svgParent {
+    float:left;
+    position: absolute;
+    top:0px;
+    left:0px;
+    overflow: auto;
+    scrollbar-width: thin;
+    transform: scale(1);
+    transform-origin: 0 0;
+    width:100%;
+    height:100%;
+}
+
+.gridCanvas {
+    z-index: 80;
+    width:1500px;
+    height:1000px;
+    background-image: url(images/back1.png);
+    position: absolute;
+}
+
+.svgCanvas {
+    z-index: 90;
+    float:left;
+    position: absolute;
+    top:0px;
+    left:0px;
+    width:1000px;
+    height:1000px;
+}
+.htmlCanvas {
+    z-index: 100;
+    position: absolute;
+}
+.overlay {
+    z-index: 101;
+    position: absolute;
+}
+
+div.svgParent {
     /* transform: scale(.75); */
     transform-origin: left top;
 }
 
+/* used for bounding box debugging with svg pathss */
 .jma {
     pointer-events: none;
 }
@@ -25,12 +81,6 @@ div#main {
     width: auto;
 }
 
-body {
-    margin:0px;
-    padding: 0px;
-}
-
-
 .jsFlowContainer {
     width:90%;
     height:90%;
@@ -46,77 +96,47 @@ body {
     border:1px solid #aaa;
     overflow: hidden;
 }
-#main {
-    z-index: 100;
-    float:left;
-    width:2000px;
-    height:2000px;
-    background-image: url('images/back1.png?rnd=1');
 
-}
-#controlLayer {
-    z-index: 120;
-    float:left;
-    border:1px solid orange;
-}
-div.widgets {
-    position: absolute;
-    top:10px;
-    left:10px;
-    float: left;
-    border:1px solid #ccc;
-    width:125px;
+.widgets {
+    position: relative;
+    top:20px;
+    left:20px;
     height:250px;
-    background-color: #eee;
-    border:1px solid #888;
+    width: 125px;
+    border:1px solid #aaa;
     overflow: auto;
+    scrollbar-width: none;
+    background-color: white;
 }
 
 div.widgets > div {
-    position: relative;
-    float:left;
     margin-left:5px;
     margin-top: 5px;
-    width:82%;
+    width: calc(100% - 22px);
     border:1px solid #aaa;
     min-height: 30px;
     padding:5px;
     background-color: white;
 }
 
-div.inspector {
-    position: absolute;
-    float: left;
-    border:1px solid #ccc;
-    top: 300px;
-    left: 30px;
-    width:150px;
+.inspector {
+    position: relative;
+    top:40px;
+    left:20px;
     height:250px;
-    background-color: #eee;
-    overflow: auto;
+    width:150px;
     border:1px solid #888;
+    overflow: auto;
+    scrollbar-width: none;
+    background-color: white;
 }
 
 
-#svgcontainer > defs > marker#arrow > path, 
-#svgcontainer > defs > marker#circle > circle, 
-#svgcontainer > defs > marker#line > path {
+.svgCanvas > defs > marker#arrow > path, 
+.svgCanvas > defs > marker#circle > circle, 
+.svgCanvas > defs > marker#line > path {
     fill: #aaa;
 }
-
-
-#svgParent {
-    /* z-index: 101; */
-    position: absolute;
-    width:2000px;
-    height:2000px;
-}
-div {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10pt;
-}
-
-
 
 .handles {
     border:1px solid purple;
@@ -194,6 +214,7 @@ div.line {
     position:absolute;
     /* border:1px solid #bbb; */
 }
+
 .redraw {
     position: absolute;
     top: 10px;
@@ -204,8 +225,6 @@ div.line {
 .controls {
     position: absolute;
     float: left;
-    /* left: 10px; */
-    /* top: 200px; */
     border: 1px solid #ccc;
     width: 100px;
     right: 10px;
@@ -243,10 +262,6 @@ div.prop-value {
 }
 
 
-
-
-
-
 /* base node square object with title-text and content-text */
 div.node {
     position: absolute;
@@ -264,7 +279,6 @@ div.node div.title-text {
 div.node div.content {
     width:100%;
     float: left;
-    border-bottom:1px solid #ddd;
     text-align: center;
 }
 div.node div.content-text {
@@ -280,6 +294,8 @@ div.node div.content-text {
     margin-top:1px;
 }
 /* end of node rect object */
+
+
 
 /* css to allow for multiple shapes as nodes; */
 div.node.node-circle {
@@ -340,10 +356,11 @@ div.node.highlight-nodes {
     border:2px solid rgba(255,0,0,0.3);
 }
 
-
+/* class for diamond node shape , ie, decision node for flowcharts */
 div.node.diamond {
     border:none;
     background-color: transparent;
-    /* background-image: url('images/diamond.png'); */
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80"><path d="M60 0 L0 40 L60 80 L120 40 Z" style="fill:white;stroke:orange;stroke-width:1"  ></path></svg>')
 }
+
+

@@ -1,7 +1,3 @@
-/* some css overrides if necessary */
-div.node div.content {
-    border-bottom: 1px solid #ccc;
-}
 div.node.orgchart span.text {
     text-align: left;
     float:left;

@@ -16,6 +16,14 @@
         import * as jsFlow from "./js-flow.js";
         import {callbacks} from "./js-flow.js";
         import {parameters} from "./js-flow.js";
+        // setup parameters so jsFlow knows what ids to use to handle multiple
+        // jsFlow objects on the same HTML page;
+        parameters.svgId = "svgcontainer";
+        parameters.svgWrapperDivId = "main";
+        parameters.controlLayerId = "controlLayer";
+        parameters.htmlCanvas = "htmlCanvas";
+        // set storage id 
+        jsFlow.setStorageId("org-chart");
 
         jsFlow.loadDataFromUrl('custom/flowData.json')
             .then(function(success){
@@ -38,29 +46,24 @@
                 }
             }
 
-            // some of these method calls could be moved into other functions, but all
-            // grouped here for clarity
             var flowId = "orgchart";
             jsFlow.setStorageId(flowId);
             jsFlow.loadInfo();
-            jsFlow.addWidgets();
-            jsFlow.addInspector();
-            // draw nodes and lines based on current information
+            // jsFlow.addWidgets();
+            // jsFlow.addInspector();
             jsFlow.drawNodes();
             jsFlow.drawLines();
-            console.log(parameters.customClasses);
-        }
 
+        }
     </script>
     
-    <div class="parentDiv">
-        <div id="main">
-            <div id="svgParent">
-                <svg id="svgcontainer" width="100%" height="100%"  xmlns="http://www.w3.org/2000/svg">
-                </svg>
-            </div>
+    <div id="jsFlow" class="jsFlow">
+        <div id="main" class="svgParent">
+            <div id="gridCanvas" class="gridCanvas"></div>
+            <svg id="svgcontainer"  class="svgCanvas"></svg>
+            <div id="htmlCanvas" class="htmlCanvas"></div>
+        </div>
+        <div  id="controlLayer" class="overlay">
         </div>
     </div>
-    <div id="controlLayer"></div>
-
 </html>

@@ -15,13 +15,20 @@
         parameters.svgWrapperDivId = "main";
         parameters.controlLayerId = "controlLayer";
         parameters.htmlCanvas = "htmlCanvas";
+
+        jsFlow.loadDataFromUrl('flowChart.json')
+            .then(function(success){
+                bootUp();
+            })
         
-        jsFlow.setStorageId("hello-world");
-        jsFlow.loadInfo();
-        jsFlow.drawNodes();
-        jsFlow.drawLines();
-        jsFlow.addWidgets();
-        jsFlow.addInspector();
+        function bootUp() {
+            jsFlow.setStorageId("flow-chart");
+            jsFlow.loadInfo();
+            jsFlow.drawNodes();
+            jsFlow.drawLines();
+            jsFlow.addWidgets();
+            jsFlow.addInspector();
+        }
     </script>
 
     <div class="jsFlow" class="jsFlow">
