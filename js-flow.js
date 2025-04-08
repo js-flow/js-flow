@@ -460,7 +460,7 @@ function drawNodes() {
     console.log(nodes);
 
     nodes.forEach(function(item){
-        $('#' + parameters.htmlCanvas).append(createNode(item)
+        $('#' + parameters.htmlCanvasId).append(createNode(item)
         .css({'top':item.top,'left':item.left})
         .attr('id',item.id))
         if (item.classesToAdd > "") {
@@ -905,7 +905,7 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
         //   add a label along the path
         var newDiv = $(`<div class="pathLabel"><span>${lines[index].labelText}</span></div>`)
         newDiv.attr('id','path-label-' + lineId)
-        $('#' + parameters.svgWrapperDivId).append(newDiv)
+        $('#' + parameters.htmlCanvasId).append(newDiv)
         newDiv.css({"top":svgPoint.y - (newDiv.height()/2),"left":svgPoint.x - (newDiv.width()/2)})
         // END OF PATH LABEL CHANGES
     }
@@ -922,7 +922,7 @@ const parameters = {
     svgId: "svgCanvas",
     svgWrapperDivId: "main",
     controlLayerId: "controlLayer",
-    htmlCanvas: "htmlCanvas"
+    htmlCanvasId: "htmlCanvas"
 }
 
 

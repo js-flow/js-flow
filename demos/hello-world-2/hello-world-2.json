@@ -1,1 +1,37 @@
-{"nodes":[{"top":"40px","left":"40px","id":"div1","data":{"content":"content 1"},"classesToAdd":"node-short"},{"top":"120px","left":"280px","id":"div2","data":{"content":"content 2"},"classesToAdd":"node-short"}],"lines":[{"fromDiv":"#div1","toDiv":"#div2","id":"line1","mode":"","lineShape":"curved","stroke":"#aaa","stroke-dasharray":"","marker-start":"circle","marker-end":"arrow","labelText":"","stroke-width":"3"}]}
+{
+    "nodes": [
+        {
+            "top": "40px",
+            "left": "40px",
+            "id": "div1",
+            "data": {
+                "content": "content 1"
+            },
+            "classesToAdd": "node-short"
+        },
+        {
+            "top": "120px",
+            "left": "300px",
+            "id": "div2",
+            "data": {
+                "content": "content 2"
+            },
+            "classesToAdd": "node-short"
+        }
+    ],
+    "lines": [
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div2",
+            "id": "line1",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke": "#aaa",
+            "stroke-dasharray": "",
+            "marker-start": "circle",
+            "marker-end": "arrow",
+            "stroke-width": "3",
+            "animation-direction": "undefined"
+        }
+    ]
+}
