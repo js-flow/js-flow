@@ -1,0 +1,52 @@
+<html >
+    <head>
+        <title>JS-Flow.dev</title>
+        <link rel="stylesheet" href="../../js-flow.css">
+        <!--stored locally, could be loaded from public CDN as well-->
+        <script src="../../vendor/jquery.js"></script>
+        <script src="../../vendor/jquery-ui.js"></script>
+    </head>
+
+    <style>
+        BODY {
+            margin:20px;
+        }
+        #jsFlow {
+            border:1px solid #aaa;
+        }
+        .gridCanvas, .svgCanvas, #jsFlow {
+            width:450px;
+            height:200px;
+        }
+    </style>
+
+    <script type="module">
+        import * as jsFlow from "../../js-flow.js";
+        
+        jsFlow.loadDataFromUrl('hello-world-2.json')
+            .then(function(success){
+                bootUp();
+            })
+        
+        function bootUp() {
+            jsFlow.setStorageId("hello-world-2");
+            jsFlow.loadInfo();
+            jsFlow.drawNodes();
+            jsFlow.drawLines();
+            // jsFlow.addWidgets();
+            // jsFlow.addInspector();
+        }
+    </script>
+
+    <h1>This is fucking awesome!</h1>
+
+    <div id="jsFlow" class="jsFlow">
+        <div id="main" class="svgParent">
+            <div  class="gridCanvas"></div>
+            <svg id="svgCanvas"  class="svgCanvas"></svg>
+            <div id="htmlCanvas" class="htmlCanvas"></div>
+        </div>
+        <div  id="controlLayer" class="overlay">
+        </div>
+    </div>
+</html>
