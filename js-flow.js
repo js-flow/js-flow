@@ -919,7 +919,7 @@ const callbacks = {
 
 const parameters = {
     customClasses: customClasses,
-    svgId: "svgcontainer",
+    svgId: "svgCanvas",
     svgWrapperDivId: "main",
     controlLayerId: "controlLayer",
     htmlCanvas: "htmlCanvas"
