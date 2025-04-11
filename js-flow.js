@@ -10,7 +10,7 @@ var selectedNodeId;
 var selectedId;
 var zoomScale = 1;
 var storageId = "";
-var customClasses =  ['node-circle','node-short','connector','diamond'];
+var customClasses =  ['node-circle','node-short','connector','diamond',"label-headline"];
 
 var sampleNodes = [
     {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"}},
@@ -43,7 +43,11 @@ var inspectorElements = {
         "marker-end":"x",
         "id":"x",
         "labelText":"x",
-        "labelPos":"x"
+        "labelPos":"x",
+        "x1-offset":"x",
+        "y1-offset":"x",
+        "x2-offset":"x",
+        "y2-offset":"x"
     }
 }
 var showPathLabels = true;
@@ -157,6 +161,9 @@ $(document).ready(function(){
                     propRows.each(function(_index, item){
                         var propname = $(item).find('.prop-name').html();
                         var propvalue = $(item).find('.prop-value').html().replace("<br>","");
+                        if (propname === "stroke") {
+                            propvalue = $(item).find('.prop-value').val();
+                        }
                         lines[index][propname] = propvalue;
                     })
                 }
@@ -213,13 +220,20 @@ $(document).ready(function(){
             case "widgetZoomIn":
                 zoomScale += .1;
                 if (zoomScale > 1.0)  zoomScale=1;
-                document.getElementById(parameters.svgWrapperDivId).style.transform = "scale("+zoomScale+")";
+                //document.getElementById(parameters.svgWrapperDivId).style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.gridCanvasId).style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.svgId).style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.htmlCanvasId).style.transform = "scale("+zoomScale+")";
                 __scale = zoomScale;
             break;
             case "widgetZoomOut":
                 zoomScale -= .1;
                 if (zoomScale < 0.5)  zoomScale=0.5;
-                document.getElementById(parameters.svgWrapperDivId).style.transform = "scale("+zoomScale+")";
+                //.gridCanvas, .svgCanvas, .htmlCanvas {
+                //document.getElementById(parameters.svgWrapperDivId).style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.gridCanvasId).style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.svgId).style.transform = "scale("+zoomScale+")";
+                document.getElementById(parameters.htmlCanvasId).style.transform = "scale("+zoomScale+")";
                 __scale = zoomScale;
             break;
         }
@@ -470,6 +484,10 @@ function drawNodes() {
 
     //$('#main').append(createHandlesNode());
 
+
+    $('#' + parameters.svgWrapperDivId).draggable();
+
+
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
         drag: function (event, ui) {
@@ -553,7 +571,7 @@ function getSVGMarkers() {
 function drawLines() {
 
     $("#" + parameters.svgId).empty();
-    selectedLineId = "";
+    //selectedLineId = "";
     //selectedNodeId = "";
     $(".pathLabel").remove();
     $('.jma').remove();
@@ -609,12 +627,23 @@ function addInspector() {
     `))
 }
 function addInspectorRow(_prop, _value) {
-    $('#inspector').append($(`
-        <div class="prop-row">
-            <span class="prop-name">${_prop}</span>
-            <span class="prop-value" contenteditable="true">${_value}</span>
-        </div>
-    `))
+
+    if (_prop === "stroke") {
+        $('#inspector').append($(`
+            <div class="prop-row">
+                <span class="prop-name">${_prop}</span>
+                <input class="prop-value" type="color" value="${_value}" />
+            </div>
+        `))
+    } else {
+        $('#inspector').append($(`
+            <div class="prop-row">
+                <span class="prop-name">${_prop}</span>
+                <span class="prop-value" contenteditable="true">${_value}</span>
+            </div>
+        `))
+    }
+
 }
 function addInspectorSaveButton() {
     $('#inspector').append($(`
@@ -627,18 +656,23 @@ function addSVGListeners() {
         nodeStack = [];
         selectedLineId = "";
         selectedNodeId = "";
-        $(".node").removeClass('selectedBorder')
-        $('path').css("stroke","#aaa")
+        $(".node").removeClass('selectedBorder');
+        $('svg > path').removeClass("selected");
+
+        //$('path').css("stroke","#aaa")
         event.stopPropagation();
     })
 
     $('#' + parameters.svgId + ' > path').on('click', function(event){
+        console.log('here in svg path click...');
         selectedLineId = $(this).attr('id');
         selectedId = selectedLineId;
         iterateAttributes(event);
         $(".node").removeClass('selectedBorder')
-        $('path').css("stroke","#aaa")
-        $(this).css("stroke","black")
+
+        $('path').removeClass("selected");
+
+        $(this).addClass("selected");
         event.stopPropagation();
     })
     
@@ -853,12 +887,56 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     // pull properties out of object for brevity later in code
     var { left, top, width, height } = points;
 
+    var x1,y1,x2,y2
+    x1 = parseFloat(lines[index]['x1-offset']);
+    y1 = parseFloat(lines[index]['y1-offset']);
+    x2 = parseFloat(lines[index]['x2-offset']);
+    y2 = parseFloat(lines[index]['y2-offset']);
+
     // tweak some of the values for connecting to the node points
     if (mode === "vert") {
+        if (x1) {
+            if (width > 0) {
+                left += x1
+                width -= (x1 - x2)
+            } else if (width < 0) {
+                left += x1
+                width -= x1 
+            }
+        }
+
+        if ( x2 ) {
+            if (width >= 0) {
+                width += x2
+            } else if (width < 0) {
+                width += x2;
+            }
+        }
+
         top += 8;
         height -= 14;
     }
+
+    // horizontal line
     if (mode === "") {
+        if ( y1 ) {
+            if (height > 0) {
+                top += y1
+                height -= (y1 - y2)
+            } else if (height < 0) {
+                top += y1
+                height -= y1 
+            }
+        }
+
+        if ( y2 ) {
+            if (height >= 0) {
+                height += y2
+            } else if (height < 0) {
+                height += y2;
+            }
+        }
+
         left += 8;
         width -= 14;
     }
@@ -887,10 +965,14 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
 
     // debugging code to show bounding box to help with paths
+    // if (height < 0) {
+    //     top += height;
+    //     height = Math.abs(height);
+    // }
     // var boundingBox = $("<div class='jma'></div>");
-    // boundingBox.css({"top":top,"left":left,"width":width + "px","height":height + "px"})
+    // boundingBox.css({"top":top + "px","left":left + "px","width":(width) + "px","height":(height) + "px"})
     // boundingBox.css({"position":"absolute","float":"left","border":"1px solid red"})
-    // $('#main').append(boundingBox);
+    // $('#htmlCanvas').append(boundingBox);
     // end debugging code for bounding box
 
 
@@ -922,6 +1004,7 @@ const parameters = {
     svgId: "svgCanvas",
     svgWrapperDivId: "main",
     controlLayerId: "controlLayer",
+    gridCanvasId: "gridCanvas",
     htmlCanvasId: "htmlCanvas"
 }
 

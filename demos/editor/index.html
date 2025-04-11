@@ -1,0 +1,58 @@
+<html >
+    <head>
+        <title>JS-Flow.dev Editor</title>
+        <link rel="stylesheet" href="../../js-flow.css">
+        <!--stored locally, could be loaded from public CDN as well-->
+        <script src="../../vendor/jquery.js"></script>
+        <script src="../../vendor/jquery-ui.js"></script>
+    </head>
+
+    <style>
+        .jsFlow {
+            border:1px solid #aaa;
+            height: 80%;
+        }
+        .editorParent {
+            width:90%;
+        }
+        .centered {
+            text-align: center;
+        }
+    </style>
+
+    <script type="module">
+        import * as jsFlow from "../../js-flow.js";
+        // jsFlow.loadDataFromUrl('soc_cicd.json')
+        //     .then(function(success){
+        //         bootUp();
+        //     })
+        
+        function bootUp() {
+            jsFlow.setStorageId("floating");
+            jsFlow.loadInfo();
+            jsFlow.drawNodes();
+            jsFlow.drawLines();
+            jsFlow.addWidgets();
+            jsFlow.addInspector();
+        }
+        bootUp();
+
+</script>
+
+    <div id="editorParent" class="editorParent">
+        <div>
+            <div id="jsFlow" class="jsFlow">
+                <div id="main" class="svgParent">
+                    <div id="gridCanvas" class="gridCanvas"></div>
+                    <svg id="svgCanvas"  class="svgCanvas"></svg>
+                    <div id="htmlCanvas" class="htmlCanvas"></div>
+                </div>
+                <div  id="controlLayer" class="overlay"></div>
+            </div>
+        </div>
+        <div>
+            <p class="centered">Click and drag grid canvas to move grid around</p>
+        </div>
+    </div>
+
+</html>

@@ -1,0 +1,95 @@
+{
+    "nodes": [
+        {
+            "top": "220px",
+            "left": "660px",
+            "id": "div1",
+            "data": {
+                "content": "content 1"
+            }
+        },
+        {
+            "top": "100px",
+            "left": "360px",
+            "id": "div2",
+            "data": {
+                "content": "content 2"
+            }
+        },
+        {
+            "top": "220px",
+            "left": "360px",
+            "id": "div3",
+            "data": {
+                "content": ""
+            }
+        },
+        {
+            "top": "340px",
+            "left": "360px",
+            "id": "div4",
+            "data": {
+                "content": ""
+            }
+        }
+    ],
+    "lines": [
+        {
+            "fromDiv": "#div2",
+            "toDiv": "#div1",
+            "id": "line1",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "stroke": "#aaa",
+            "stroke-dasharray": "undefined",
+            "animation-direction": "undefined",
+            "marker-start": "undefined",
+            "marker-end": "arrow",
+            "labelText": "",
+            "labelPos": "undefined",
+            "x1-offset": "0",
+            "y1-offset": "0",
+            "x2-offset": "0",
+            "y2-offset": "-10"
+        },
+        {
+            "fromDiv": "#div3",
+            "toDiv": "#div1",
+            "id": "line2",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "stroke": "#aaa",
+            "stroke-dasharray": "undefined",
+            "animation-direction": "undefined",
+            "marker-start": "undefined",
+            "marker-end": "arrow",
+            "labelText": "",
+            "labelPos": "undefined",
+            "x1-offset": "0",
+            "y1-offset": "0",
+            "x2-offset": "0",
+            "y2-offset": "0"
+        },
+        {
+            "fromDiv": "#div4",
+            "toDiv": "#div1",
+            "id": "line3",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "stroke": "#aaa",
+            "stroke-dasharray": "undefined",
+            "animation-direction": "undefined",
+            "marker-start": "undefined",
+            "marker-end": "arrow",
+            "labelText": "",
+            "labelPos": "undefined",
+            "x1-offset": "0",
+            "y1-offset": "0",
+            "x2-offset": "0",
+            "y2-offset": "10"
+        }
+    ]
+}

@@ -1,7 +1,14 @@
 body {
     margin:0px;
     padding: 0px;
+    font-family: sans-serif;
 }
+
+
+svg > path.selected {
+    stroke: black;
+}
+
 
 div {
     font-family: Arial, Helvetica, sans-serif;
@@ -12,7 +19,8 @@ div {
     width:100%;
     height: 100%;
     position: relative;
-    overflow: auto;
+    overflow: hidden;
+    background-color: #eee;
 }
 
 .svgParent {
@@ -20,13 +28,14 @@ div {
     position: absolute;
     top:0px;
     left:0px;
-    overflow: auto;
     scrollbar-width: thin;
     transform: scale(1);
     transform-origin: 0 0;
-    width:100%;
-    height:100%;
+    width:1500px;
+    height:1500px;
 }
+
+
 
 .gridCanvas {
     z-index: 80;
@@ -35,23 +44,33 @@ div {
     background-image: url(images/back1.png);
     position: absolute;
 }
-
 .svgCanvas {
     z-index: 90;
     float:left;
     position: absolute;
     top:0px;
     left:0px;
-    width:1000px;
+    width:1500px;
     height:1000px;
 }
 .htmlCanvas {
     z-index: 100;
     position: absolute;
 }
+
+
+.gridCanvas, .svgCanvas, .htmlCanvas {
+    transform: scale(1);
+    transform-origin: 0 0;
+}
+
+
+
 .overlay {
     z-index: 101;
     position: absolute;
+    top:20px;
+    left:20px;
 }
 
 div.svgParent {
@@ -85,7 +104,6 @@ div.svgParent {
     width:90%;
     height:90%;
     overflow: auto;
-    border:2px solid red;
 }
 
 .parentDiv {
@@ -99,10 +117,10 @@ div.svgParent {
 
 .widgets {
     position: relative;
-    top:20px;
-    left:20px;
-    height:250px;
-    width: 125px;
+    top:0px;
+    left:0px;
+    height:200px;
+    width: 150px;
     border:1px solid #aaa;
     overflow: auto;
     scrollbar-width: none;
@@ -121,9 +139,9 @@ div.widgets > div {
 
 .inspector {
     position: relative;
-    top:40px;
-    left:20px;
-    height:250px;
+    top:20px;
+    left:0px;
+    height:200px;
     width:150px;
     border:1px solid #888;
     overflow: auto;
@@ -241,7 +259,7 @@ div.inspector > div.prop-row {
     float: left;
     padding:2px;
 }
-div.inspector > div.prop-row > span {
+div.inspector > div.prop-row > span, div.inspector > div.prop-row > input {
     float:left;
     width:48%;
     background-color: white;
@@ -254,7 +272,7 @@ div.inspector button {
 div.prop-row > span:nth-child(1) {
     color: #666;
 }
-div.prop-value {
+div.prop-value, input.prop-value {
     display: inline-block;
 }
 .scroller {
@@ -364,3 +382,19 @@ div.node.diamond {
 }
 
 
+div.node.label-headline {
+    width: fit-content ;
+    height:fit-content ;
+    border-radius: 0px;
+    white-space: nowrap;
+    border:0px solid transparent;
+    min-width: 120px;
+
+}
+div.node.label-headline div.content-text {
+    font-size: 20pt;
+    width:100%;
+    height:auto;
+    text-align: center;
+    white-space: nowrap;
+}
