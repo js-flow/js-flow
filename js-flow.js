@@ -871,6 +871,8 @@ function loadDataFromUrl(url) {
     .then(function(myJson) {
         setSampleNodes(myJson.nodes);
         setSampleLines(myJson.lines);
+        nodes = myJson.nodes;
+        lines = myJson.lines;
         return true;
     })
 }

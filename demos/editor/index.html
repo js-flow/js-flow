@@ -18,23 +18,77 @@
         .centered {
             text-align: center;
         }
+        .drawingControls {
+            margin:5px;
+            border:1px solid #aaa;
+        }
+        #flowId {
+            width: 100pt;
+        }
+        .spacer50 {
+            width:50px;
+            display: inline-block;
+        }
     </style>
 
     <script type="module">
+        var currentFlowId = "Flow 1";
+
         import * as jsFlow from "../../js-flow.js";
         // jsFlow.loadDataFromUrl('soc_cicd.json')
         //     .then(function(success){
         //         bootUp();
         //     })
         
-        function bootUp() {
-            jsFlow.setStorageId("floating");
+        function updateFlowCanvas() {
             jsFlow.loadInfo();
             jsFlow.drawNodes();
             jsFlow.drawLines();
+        }
+        $('#flowNames').on('change', function(){
+            var selectedValue = $('#flowNames option:selected').text()
+            currentFlowId = selectedValue;
+            jsFlow.setStorageId(currentFlowId);
+            updateFlowCanvas();
+        })
+
+        $('#flowUrls').on('change', function(){
+            var selectedValue = $(this).val();
+            jsFlow.loadDataFromUrl(selectedValue)
+                .then(function(success){
+                    console.log('redrawing canvas');
+                    jsFlow.saveInfo();
+                    updateFlowCanvas();
+                })
+
+        })
+
+        function populateFlowDropDown(_flowNames, index) {
+            _flowNames.flows.forEach(function(item, index){
+                $('#flowNames').append(`<option value="${index}">${item.name}</option>`);
+            })
+        }
+
+        function loadURLDropDown() {
+            $('#flowUrls').append(`
+                <option value="">Select One...</option>
+                <option value="floating.json">Floating Connector Flow</option>
+            `);
+
+        }
+
+        function bootUp() {
+            loadURLDropDown();
+            jsFlow.setStorageId(currentFlowId);
+            updateFlowCanvas();
             jsFlow.addWidgets();
             jsFlow.addInspector();
+            //get flow names or use default value
+            var flowNames = localStorage.getItem("flows") || `{"flows":[{"name":"Flow 1"},{"name":"Flow 2"},{"name":"Flow 3"},{"name":"Flow 4"},{"name":"Flow 5"}]}`
+            flowNames = JSON.parse(flowNames);
+            populateFlowDropDown(flowNames);
         }
+
         bootUp();
 
 </script>
@@ -52,6 +106,10 @@
         </div>
         <div>
             <p class="centered">Click and drag grid canvas to move grid around</p>
+        </div>
+        <div class="drawingControls">
+            Flow Workspace: <select id="flowNames"></select>
+            <span class="spacer50"></span>Load Flow URL: <select id="flowUrls"></select>
         </div>
     </div>
 
