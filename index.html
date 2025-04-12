@@ -18,10 +18,10 @@
         import {parameters} from "./js-flow.js";
         // setup parameters so jsFlow knows what ids to use to handle multiple
         // jsFlow objects on the same HTML page;
-        parameters.svgId = "svgcontainer";
-        parameters.svgWrapperDivId = "main";
-        parameters.controlLayerId = "controlLayer";
-        parameters.htmlCanvas = "htmlCanvas";
+        // parameters.svgId = "svgcontainer";
+        // parameters.svgWrapperDivId = "main";
+        // parameters.controlLayerId = "controlLayer";
+        // parameters.htmlCanvas = "htmlCanvas";
         // set storage id 
         jsFlow.setStorageId("org-chart");
 
@@ -58,7 +58,7 @@
     </script>
     
     <div id="jsFlow" class="jsFlow">
-        <div id="main" class="svgParent">
+        <div id="svgParent" class="svgParent">
             <div id="gridCanvas" class="gridCanvas"></div>
             <svg id="svgcontainer"  class="svgCanvas"></svg>
             <div id="htmlCanvas" class="htmlCanvas"></div>
