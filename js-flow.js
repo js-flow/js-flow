@@ -1004,7 +1004,7 @@ const callbacks = {
 const parameters = {
     customClasses: customClasses,
     svgId: "svgCanvas",
-    svgWrapperDivId: "main",
+    svgWrapperDivId: "svgParent",
     controlLayerId: "controlLayer",
     gridCanvasId: "gridCanvas",
     htmlCanvasId: "htmlCanvas"
