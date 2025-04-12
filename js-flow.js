@@ -996,6 +996,18 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
 }
 
+function initHTML(_selector) {
+    return $(_selector).append(`
+        <div id="svgParent" class="svgParent">
+            <div id="gridCanvas" class="gridCanvas"></div>
+            <svg id="svgCanvas"  class="svgCanvas"></svg>
+            <div id="htmlCanvas" class="htmlCanvas"></div>
+        </div>
+        <div  id="controlLayer" class="overlay">
+        </div>
+    `)
+}
+
 
 const callbacks = {
     getCustomNodeContent: function(_item){ return _item}
@@ -1024,6 +1036,7 @@ export {
     saveInfo,
     setNodes,
     setLines,
+    initHTML,
     setStorageId,
     loadDataFromUrl,
     sampleLines,
