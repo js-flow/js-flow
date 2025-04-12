@@ -59,6 +59,7 @@
                     console.log('redrawing canvas');
                     jsFlow.saveInfo();
                     updateFlowCanvas();
+                    $("#flowUrls").val($("#flowUrls option:first").val());
                 })
 
         })
@@ -72,7 +73,9 @@
         function loadURLDropDown() {
             $('#flowUrls').append(`
                 <option value="">Select One...</option>
-                <option value="floating.json">Floating Connector Flow</option>
+                <option value="flows/floating.json">Octopus</option>
+                <option value="flows/flowchart.json">Flow Chart</option>
+                <option value="flows/swimlanes.json">Swim Lanes</option>
             `);
 
         }
