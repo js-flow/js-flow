@@ -9,25 +9,16 @@
 
     <script type="module">
         import * as jsFlow from "../../js-flow.js";
-        import {parameters} from "../../js-flow.js";
-
-        parameters.svgId = "svgcontainer";
-        parameters.svgWrapperDivId = "main";
-        parameters.controlLayerId = "controlLayer";
-        parameters.htmlCanvas = "htmlCanvas";
-        
         jsFlow.setStorageId("hello-world");
         jsFlow.loadInfo();
         jsFlow.drawNodes();
         jsFlow.drawLines();
-        jsFlow.addWidgets();
-        jsFlow.addInspector();
     </script>
 
     <div class="jsFlow" class="jsFlow">
         <div id="main" class="svgParent">
             <div id="gridCanvas" class="gridCanvas"></div>
-            <svg id="svgcontainer"  class="svgCanvas"></svg>
+            <svg id="svgCanvas"  class="svgCanvas"></svg>
             <div id="htmlCanvas" class="htmlCanvas"></div>
         </div>
         <div  id="controlLayer" class="overlay">
