@@ -1,0 +1,210 @@
+{
+    "nodes": [
+        {
+            "top": "200px",
+            "left": "200px",
+            "id": "div1",
+            "classesToAdd": "",
+            "data": {
+                "title": "Node11",
+                "content": "content 11"
+            }
+        },
+        {
+            "top": "100px",
+            "left": "500px",
+            "id": "div2",
+            "classesToAdd": "diamond ",
+            "data": {
+                "title": "Node22",
+                "content": "content 12"
+            }
+        },
+        {
+            "top": "400px",
+            "left": "500px",
+            "id": "div3",
+            "classesToAdd": "",
+            "data": {
+                "title": "Node33",
+                "content": "content 13"
+            }
+        },
+        {
+            "top": "20px",
+            "left": "320px",
+            "id": "div4",
+            "classesToAdd": "",
+            "data": {
+                "title": "undefined",
+                "content": "Here is some info"
+            }
+        },
+        {
+            "top": "40px",
+            "left": "760px",
+            "id": "div5",
+            "classesToAdd": "",
+            "data": {
+                "title": "undefined",
+                "content": "Start"
+            }
+        },
+        {
+            "top": "180px",
+            "left": "760px",
+            "id": "div6",
+            "classesToAdd": "diamond ",
+            "data": {
+                "title": "undefined",
+                "content": "Correct<div>Value?</div>"
+            }
+        },
+        {
+            "top": "340px",
+            "left": "760px",
+            "id": "div7",
+            "classesToAdd": "",
+            "data": {
+                "title": "undefined",
+                "content": "ProcessCorrect<br>Value"
+            }
+        },
+        {
+            "top": "500px",
+            "left": "760px",
+            "id": "div8",
+            "classesToAdd": "",
+            "data": {
+                "title": "undefined",
+                "content": "End"
+            }
+        },
+        {
+            "top": "200px",
+            "left": "920px",
+            "id": "div9",
+            "classesToAdd": "connector ",
+            "data": {
+                "title": "undefined",
+                "content": ""
+            }
+        },
+        {
+            "top": "520px",
+            "left": "920px",
+            "id": "div10",
+            "classesToAdd": "connector ",
+            "data": {
+                "title": "undefined",
+                "content": ""
+            }
+        }
+    ],
+    "lines": [
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div2",
+            "id": "line1",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-dasharray": "",
+            "marker-start": "line",
+            "marker-end": "arrow",
+            "labelText": "",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div3",
+            "id": "line2",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-dasharray": "",
+            "marker-start": "line",
+            "marker-end": "circle",
+            "labelText": "line222",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div4",
+            "toDiv": "#div1",
+            "id": "line3",
+            "mode": "vert",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "marker-start": "arrow",
+            "marker-end": "arrow"
+        },
+        {
+            "fromDiv": "#div6",
+            "toDiv": "#div7",
+            "id": "line4",
+            "mode": "vert",
+            "lineShape": "straight",
+            "stroke-width": "3",
+            "marker-start": "line",
+            "marker-end": "arrow",
+            "stroke": "#aaa",
+            "stroke-dasharray": "undefined",
+            "animation-direction": "undefined",
+            "labelText": "Y",
+            "labelPos": "0.1"
+        },
+        {
+            "fromDiv": "#div7",
+            "toDiv": "#div8",
+            "id": "line5",
+            "mode": "vert",
+            "lineShape": "straight",
+            "stroke-width": "3",
+            "marker-start": "line",
+            "marker-end": "arrow"
+        },
+        {
+            "fromDiv": "#div6",
+            "toDiv": "#div9",
+            "id": "line6",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3",
+            "marker-end": "line",
+            "stroke": "#aaa",
+            "stroke-dasharray": "undefined",
+            "animation-direction": "undefined",
+            "marker-start": "line",
+            "labelText": "N",
+            "labelPos": "0.01"
+        },
+        {
+            "fromDiv": "#div9",
+            "toDiv": "#div10",
+            "id": "line7",
+            "mode": "vert",
+            "lineShape": "straight",
+            "stroke-width": "3",
+            "marker-start": "line",
+            "marker-end": "line"
+        },
+        {
+            "fromDiv": "#div8",
+            "toDiv": "#div10",
+            "id": "line8",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3",
+            "marker-end": "line",
+            "marker-start": "arrow"
+        },
+        {
+            "fromDiv": "#div5",
+            "toDiv": "#div6",
+            "id": "line9",
+            "mode": "vert",
+            "lineShape": "straight",
+            "stroke-width": "3",
+            "marker-start": "line",
+            "marker-end": "arrow"
+        }
+    ]
+}
