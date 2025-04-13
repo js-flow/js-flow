@@ -1,6 +1,4 @@
 function renderSchemaContent(_item) {
-    console.log('here in custom')
-    console.log(_item);
     return `
         <div contenteditable="true" class="content title-text"><span>${_item.data.title}</span></div>
         <div contenteditable="true" class="content content-text">
@@ -11,8 +9,9 @@ function renderSchemaContent(_item) {
 
 function renderSchemaLines(_content) {
     var ret = '';
-    for (var i=0; i<_content.length; i++) {
-        ret += `<div class="schema-line"><span>${_content[i]}</span></div>`
+    var names = _content.split(",");
+    for (var i=0; i<names.length; i++) {
+        ret += `<div class="schema-line"><span>${names[i]}</span></div>`
     }
     return ret;
 }

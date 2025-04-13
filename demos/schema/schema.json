@@ -7,14 +7,7 @@
             "classesToAdd": "schema",
             "data": {
                 "title": "Employee",
-                "content": [
-                    "id",
-                    "first-name",
-                    "last-name",
-                    "role-id",
-                    "department",
-                    "birth-date"
-                ]
+                "content": "id,first-name,last-name,role-id,department,birth-date"
             }
         },
         {
@@ -24,10 +17,7 @@
             "classesToAdd": "schema",
             "data": {
                 "title": "Role",
-                "content": [
-                    "id",
-                    "description"
-                ]
+                "content": "id,description"
             }
         }
     ],
