@@ -289,6 +289,7 @@ div.node {
     background-color: white;
     border-radius: 10px;
 }
+/* maybe get rid of this so title shows up or get rid of it in default */
 div.node div.title-text {
     border-bottom: none;
     text-align: center;
