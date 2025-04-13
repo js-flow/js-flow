@@ -1,0 +1,39 @@
+div.node { 
+    border:1px solid #aaa;
+    border-radius: 0px;
+    height:auto;
+}
+
+div.node div.title-text {
+    text-align: center;
+    display:inline-block;
+    border-bottom: 1px solid #aaa;
+    padding:2px;
+    width:calc(100% - 4px);
+    font-weight: bold;
+    background-color: #eee;
+}
+div.node div.content-text {
+    display: inline-block;
+    height:auto;
+}
+
+div.node div.title-text {
+    text-align: left;
+}
+div.node div.title-text span {
+    margin-left:5px;
+}
+
+div.node div.schema-line {
+    text-align: left;
+    border-bottom:1px solid #ccc;
+}
+
+div.node div.schema-line span{
+    margin-left:10px;
+}
+
+div.node div.schema-line:last-child {
+    border-bottom:0px solid transparent;
+}

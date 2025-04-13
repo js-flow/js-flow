@@ -1,0 +1,45 @@
+<html >
+    <head>
+        <title>JS-Flow.dev Schema</title>
+        <link rel="stylesheet" href="../../js-flow.css">
+        <script src="../../vendor/jquery.js"></script>
+        <script src="../../vendor/jquery-ui.js"></script>
+        <!--customizations for custom node types-->
+        <link rel="stylesheet" href="schema.css">
+        <script src="schema.js"></script>
+    </head>
+
+    <script type="module">
+        import * as jsFlow from "../../js-flow.js";
+        // set storage id 
+        jsFlow.setStorageId("schema");
+        jsFlow.loadDataFromUrl('schema.json')
+            .then(function(success){
+                bootUp();
+            });
+
+        function bootUp() {
+            jsFlow.callbacks.getCustomNodeContent =  function(_item) {
+                switch (_item.classesToAdd) {
+                    case "schema":
+                        return renderSchemaContent(_item);
+                    break;
+                    default:
+                        return _item;
+                    break
+                }
+            }
+            var flowId = "schema";
+            jsFlow.setStorageId(flowId);
+            jsFlow.initHTML('#jsFlow');
+            jsFlow.loadInfo();
+            jsFlow.drawNodes();
+            jsFlow.drawLines();
+            jsFlow.addWidgets();
+            jsFlow.addInspector();
+        }
+    </script>
+    
+    <div id="jsFlow" class="jsFlow">
+    </div>
+</html>

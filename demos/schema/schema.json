@@ -1,0 +1,30 @@
+{
+    "nodes": [
+        {
+            "top": "160px",
+            "left": "240px",
+            "id": "div1",
+            "classesToAdd": "schema",
+            "data": {
+                "title": "title1",
+                "content": [
+                    "one","two","three","four","five"
+                ]
+            }
+        },
+        {
+            "top": "160px",
+            "left": "440px",
+            "id": "div3",
+            "classesToAdd": "schema",
+            "data": {
+                "title": "title2",
+                "content": [
+                    "three",
+                    "four"
+                ]
+            }
+        }
+    ],
+    "lines": []
+}
