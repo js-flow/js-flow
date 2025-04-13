@@ -4,28 +4,23 @@
         <link rel="stylesheet" href="../../js-flow.css">
         <script src="../../vendor/jquery.js"></script>
         <script src="../../vendor/jquery-ui.js"></script>
-        
         <!--customizations for custom node types-->
         <link rel="stylesheet" href="orgchart.css">
         <script src="orgchart.js"></script>
-    
     </head>
 
     <script type="module">
-
         import * as jsFlow from "../../js-flow.js";
-
         // set storage id 
         jsFlow.setStorageId("org-chart");
         jsFlow.loadDataFromUrl('orgchart.json')
             .then(function(success){
                 bootUp();
-            })
+            });
 
         function bootUp() {
             jsFlow.callbacks.getCustomNodeContent =  function(_item) {
-                var classes = _item.classesToAdd;
-                switch (classes) {
+                switch (_item.classesToAdd) {
                     case "orgchart":
                         return renderOrgChartContent(_item);
                     break;
@@ -34,25 +29,15 @@
                     break
                 }
             }
-
             var flowId = "orgchart";
             jsFlow.setStorageId(flowId);
+            jsFlow.initHTML('#jsFlow');
             jsFlow.loadInfo();
-            // jsFlow.addWidgets();
-            //jsFlow.addInspector();
             jsFlow.drawNodes();
             jsFlow.drawLines();
-
         }
     </script>
     
     <div id="jsFlow" class="jsFlow">
-        <div id="svgParent" class="svgParent">
-            <div id="gridCanvas" class="gridCanvas"></div>
-            <svg id="svgCanvas"  class="svgCanvas"></svg>
-            <div id="htmlCanvas" class="htmlCanvas"></div>
-        </div>
-        <div  id="controlLayer" class="overlay">
-        </div>
     </div>
 </html>
