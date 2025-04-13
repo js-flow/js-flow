@@ -1,30 +1,45 @@
 {
     "nodes": [
         {
-            "top": "160px",
+            "top": "120px",
             "left": "240px",
             "id": "div1",
             "classesToAdd": "schema",
             "data": {
-                "title": "title1",
+                "title": "Employee",
                 "content": [
-                    "one","two","three","four","five"
+                    "id",
+                    "first-name",
+                    "last-name",
+                    "role-id",
+                    "department",
+                    "birth-date"
                 ]
             }
         },
         {
-            "top": "160px",
-            "left": "440px",
-            "id": "div3",
+            "top": "60px",
+            "left": "540px",
+            "id": "div2",
             "classesToAdd": "schema",
             "data": {
-                "title": "title2",
+                "title": "Role",
                 "content": [
-                    "three",
-                    "four"
+                    "id",
+                    "description"
                 ]
             }
         }
     ],
-    "lines": []
+    "lines": [
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div2",
+            "id": "line1",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "marker-end": "arrow"
+        }
+    ]
 }
