@@ -5,7 +5,7 @@ div.node.schema {
 }
 
 div.node.schema div.title-text {
-    text-align: center;
+    text-align: left;
     display:inline-block;
     border-bottom: 1px solid #aaa;
     padding:2px;
@@ -18,22 +18,17 @@ div.node.schema div.content-text {
     height:auto;
 }
 
-div.node.schema div.title-text {
-    text-align: left;
-}
+
 div.node.schema div.title-text span {
     margin-left:5px;
 }
-
 div.node.schema div.schema-line {
     text-align: left;
     border-bottom:1px solid #ccc;
 }
-
 div.node.schema div.schema-line span{
     margin-left:10px;
 }
-
 div.node.schema div.schema-line:last-child {
     border-bottom:0px solid transparent;
 }
