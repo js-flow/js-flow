@@ -1,3 +1,8 @@
+:root {
+    --jsflow-node-width: 120px;
+    --jwflow-node-height: 80px;
+}
+
 body {
     margin:0px;
     padding: 0px;
@@ -283,8 +288,8 @@ div.prop-value, input.prop-value {
 /* base node square object with title-text and content-text */
 div.node {
     position: absolute;
-    width:120px;
-    height:80px;
+    width:var(--jsflow-node-width);
+    height:var(--jsflow-node-height);
     border:1px solid orange;
     background-color: white;
     border-radius: 10px;
@@ -320,8 +325,8 @@ div.node div.content-text {
 div.node.node-circle {
     border:1px solid orange;
     border-radius: 40px;
-    height:80px;
-    width:80px;
+    height:var(--jsflow-node-width);
+    width:var(--jsflow-node-width);
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
@@ -352,7 +357,7 @@ div.node.node-circle > div.content-text {
 div.node.node-short {
     border-radius: 10px;
     height:40px;
-    width:120px;
+    width:var(--jsflow-node-width);
 }
 
 /* connector node type, used to draw shapes composed of line paths */
@@ -389,7 +394,7 @@ div.node.label-headline {
     border-radius: 0px;
     white-space: nowrap;
     border:0px solid transparent;
-    min-width: 120px;
+    min-width:var(--jsflow-node-width);
 
 }
 div.node.label-headline div.content-text {
