@@ -13,8 +13,8 @@ var storageId = "";
 var customClasses =  ['node-circle','node-short','connector','diamond',"label-headline"];
 
 var sampleNodes = [
-    {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"}},
-    {"top":"300px","left":"500px","id":"div2","data":{"content":"content 2"}}
+    {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"},"classesToAdd":""},
+    {"top":"300px","left":"500px","id":"div2","data":{"content":"content 2"},"classesToAdd":""}
 ];
 
 var sampleLines = [
@@ -35,19 +35,21 @@ var sampleLines = [
 
 var inspectorElements = {
     "path":{
-        "stroke":"x",
-        "stroke-width":"x",
-        "stroke-dasharray":"x",
-        "animation-direction":"x",
-        "marker-start":"x",
-        "marker-end":"x",
-        "id":"x",
-        "labelText":"x",
-        "labelPos":"x",
-        "x1-offset":"x",
-        "y1-offset":"x",
-        "x2-offset":"x",
-        "y2-offset":"x"
+        "stroke":"#aaaaaa",
+        "stroke-width":"",
+        "stroke-dasharray":"",
+        "animation-direction":"",
+        "marker-start":"",
+        "marker-end":"",
+        "id":"",
+        "labelText":"",
+        "labelPos":"0.5",
+        "x1-offset":"0",
+        "y1-offset":"0",
+        "x2-offset":"0",
+        "y2-offset":"0",
+        "startLinePos":"0.5",
+        "endLinePos":"0.5"
     }
 }
 var showPathLabels = true;
@@ -60,6 +62,8 @@ var __recoupLeft, __recoupTop;
 /* minified code to set attributes on SVG element in one shot */
 var setAttrs = (e,a)=>Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));
 
+
+/* need to use .offset() or .position() if a number isn't available */
 $.fn.extend({
     cssAsInt: function(_cssProp){
         return parseInt(this.css(_cssProp))
@@ -73,7 +77,7 @@ $(document).ready(function(){
         switch ( $(this).attr('id') ) {
             case "widgetAddNode":
                 var nodeId = nodes.length + 1;
-                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":{"title":"","content":""}});
+                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":{"title":"","content":""},"classesToAdd":""});
                 drawNodes(nodes);
             break;
             case "widgetDupeNode":
@@ -174,7 +178,14 @@ $(document).ready(function(){
                     propRows.each(function(_index, item){
                         var propname = $(item).find('.prop-name').html();
                         var propvalue = $(item).find('.prop-value').html();
-                        nodes[index].data[propname] = propvalue;
+
+                        if (propname.substr(0,4) === "data") {
+                            propname = propname.replace("data.","");
+                            nodes[index].data[propname] = propvalue;
+                        } else {
+                            nodes[index][propname] = propvalue;
+                        }
+
                     })
                 }
 
@@ -302,7 +313,6 @@ $(document).ready(function(){
         if (! $(this).hasClass('handles')) {
             nodeStack.push( $(this).attr('id') );
             selectedNodeId = $(this).attr('id');
-
             
             var index = nodes.findIndex(obj => obj.id === selectedNodeId);
             nodeData = nodes[index].data;
@@ -313,9 +323,19 @@ $(document).ready(function(){
                     content:""
                 }
             }
+            
+            /* add data nodes first */
             for (const key in nodeData) {
-                addInspectorRow(key, nodeData[key]);
-             }            
+                addInspectorRow("data." + key, nodeData[key]);
+            }
+
+            /* add other attributes to inspector */
+            for (const key in nodes[index]) {
+                if (key != "data") {
+                    addInspectorRow(key, nodes[index][key]);
+                }
+            }
+
             addInspectorSaveButton();
 
             nodeStack = nodeStack.slice(-2);
@@ -371,10 +391,12 @@ function isJSON(_input) {
 
 function createNodeContent(_item) {
 
-    _item = callbacks.getCustomNodeContent(_item);
-    
+    if (typeof getContentCallbacks[_item.classesToAdd] === "function") {
+        _item = getContentCallbacks[_item.classesToAdd](_item);
+    } 
+
     if (isJSON(_item)) {
-        /* return default html integrated with json data */
+        /* return default html integrated with json data with some default classes*/
         return `
             <div contenteditable="true" class="content title-text">${_item.data.title}</div>
             <div contenteditable="true" class="content content-text">${_item.data.content}</span>
@@ -418,61 +440,19 @@ function updateNodeInfo() {
     var classesToCheck = customClasses;
     var classesToAdd;
     var nodeList = $('.node');
-    // nodes = [];
-    // for (var i=0; i<nodeList.length; i++) {
-    //     if ($(nodeList[i]).attr('id') != "handlesContainer") {
-            
-    //         var nodeClasses = $(nodeList[i]).attr('class')
-    //         classesToAdd = "";
-    //         classesToCheck.forEach(function(item){
-    //             if ( nodeClasses.indexOf(item) > -1 ) {
-    //                 classesToAdd += item + " "
-    //             }
-    //         })
-
-    //         var nodeToAdd = {
-    //             "top":$(nodeList[i]).css('top'),
-    //             "left":$(nodeList[i]).css('left'),
-    //             "id":$(nodeList[i]).attr('id'),
-    //             "classesToAdd":classesToAdd
-    //         }
-
-    //         nodeToAdd.data = {
-    //             "title":$(nodeList[i]).find('div.content.title-text').html().replace("<br>",""),
-    //             "content":$(nodeList[i]).find('div.content.content-text').html().replace("<br>","")
-    //         }
-
-    //         nodes.push(nodeToAdd)
-    //     }
-    // }
 
     for (var i=0; i<nodeList.length; i++) {
-
-        // if ($(nodeList[i]).attr('id') != "handlesContainer") {
-        //     var nodeClasses = $(nodeList[i]).attr('class')
-        //     classesToAdd = "";
-        //     classesToCheck.forEach(function(item){
-        //         if ( nodeClasses.indexOf(item) > -1 ) {
-        //             classesToAdd += item + " "
-        //         }
-        //     })
-        // }
-
         var nodeId = $(nodeList[i]).attr('id')
         const index = nodes.findIndex(obj => obj.id === nodeId);
         console.log(index);
         nodes[index].top = $(nodeList[i]).css('top')
         nodes[index].left = $(nodeList[i]).css('left');
-        //nodes[index].classesToAdd = classesToAdd;
     }
 
 }
 function drawNodes() {
 
     $(".node").remove();
-
-    console.log(nodes);
-
     nodes.forEach(function(item){
         $('#' + parameters.htmlCanvasId).append(createNode(item)
         .css({'top':item.top,'left':item.left})
@@ -482,11 +462,7 @@ function drawNodes() {
         }
     })
 
-    //$('#main').append(createHandlesNode());
-
-
     $('#' + parameters.svgWrapperDivId).draggable();
-
 
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
@@ -571,8 +547,6 @@ function getSVGMarkers() {
 function drawLines() {
 
     $("#" + parameters.svgId).empty();
-    //selectedLineId = "";
-    //selectedNodeId = "";
     $(".pathLabel").remove();
     $('.jma').remove();
 
@@ -669,9 +643,7 @@ function addSVGListeners() {
         selectedId = selectedLineId;
         iterateAttributes(event);
         $(".node").removeClass('selectedBorder')
-
         $('path').removeClass("selected");
-
         $(this).addClass("selected");
         event.stopPropagation();
     })
@@ -756,7 +728,12 @@ function iterateAttributes(_event) {
     const lineInfo = lines[index];
 
     for (const key in inspectorElements[nodeName]) {
-       addInspectorRow(key, lineInfo[key]);
+        var val = lineInfo[key];
+        console.log(key + " " + val);
+        if (val === undefined) {
+            val = inspectorElements[nodeName][key]    
+        }
+        addInspectorRow(key, val );
     }
     
     addInspectorSaveButton();
@@ -807,14 +784,25 @@ function setLines(_lines) {
 /*
 * Get dimensions for bounding box between 2 existing divs to draw line/curve within
 */
-function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
+function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "", lineId) {
 
+    const index = lines.findIndex(obj => obj.id === lineId);
+    const linePos = lines[index].linePos;
+
+    // where line is connected to node.  0.5 is centered 0.1 is top/left, 0.9 is bottom/right
+    const startLinePos = parseFloat(lines[index].startLinePos) || 0.5;
+    const endLinePos = parseFloat(lines[index].endLinePos) || 0.5;
+
+    // const startLinePos = 0.5;
+    // const endLinePos = 0.5;
 
     if (mode === "") {
-        var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height") / 2
+        var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height") * startLinePos;
         var left = $(beginDiv).cssAsInt("left") + $(beginDiv).cssAsInt("width")
         var width = $(endDiv).cssAsInt("left") - left;
-        var height = $(endDiv).cssAsInt('top') - top + ($(endDiv).cssAsInt('height') / 2);
+        var height = $(endDiv).cssAsInt('top') - top + ($(endDiv).cssAsInt('height') * endLinePos);
+
+        console.log( $(beginDiv).cssAsInt("top") );
 
         if ($(beginDiv).hasClass('connector')) {
             left -= 20;
@@ -828,11 +816,9 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "") {
     }
     if (mode === "vert") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height");
-        var left = $(beginDiv).cssAsInt("left") + ( $(beginDiv).cssAsInt("width") / 2 );
-        //var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left');
+        var left = $(beginDiv).cssAsInt("left") + ( $(beginDiv).cssAsInt("width") * startLinePos );
         var width = $(endDiv).cssAsInt('left') - $(beginDiv).cssAsInt('left')
-        // then adjust the bounding box width based on the begin/end width of the nodes
-        width += ( $(endDiv).cssAsInt('width')/2 - $(beginDiv).cssAsInt('width')/2 )
+        width += ( $(endDiv).cssAsInt('width')/2 - $(beginDiv).cssAsInt('width') * endLinePos )
         var height = $(endDiv).cssAsInt('top') - top;
         
         if ($(beginDiv).hasClass("connector")) {
@@ -881,7 +867,7 @@ function loadDataFromUrl(url) {
 * Draw line/curve between 2 divs of a certain type
 */
 function drawLine(beginDiv, endDiv, mode, lineId) {
-    var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode);
+    var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode, lineId);
 
     const index = lines.findIndex(obj => obj.id === lineId);
     const lineShape = lines[index].lineShape;
@@ -933,9 +919,10 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
         if ( y2 ) {
             if (height >= 0) {
-                height += y2
+                height += (y1 - y2);
             } else if (height < 0) {
                 height += y2;
+
             }
         }
 
@@ -965,7 +952,6 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
         }
     }
 
-
     // debugging code to show bounding box to help with paths
     // if (height < 0) {
     //     top += height;
@@ -976,7 +962,6 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
     // boundingBox.css({"position":"absolute","float":"left","border":"1px solid red"})
     // $('#htmlCanvas').append(boundingBox);
     // end debugging code for bounding box
-
 
     var newPath = createSVGPath(pathData, "#aaa","transparent", lineId)
     document.getElementById(parameters.svgId).appendChild(newPath);
@@ -1010,7 +995,8 @@ function initHTML(_selector) {
 
 
 const callbacks = {
-    getCustomNodeContent: function(_item){ return _item}
+    getCustomNodeContent: function(_item){ return _item},
+    nodeTypeGetContent: {}
 }
 
 const parameters = {
@@ -1022,6 +1008,9 @@ const parameters = {
     htmlCanvasId: "htmlCanvas"
 }
 
+const getContentCallbacks = {
+
+}
 
 export { 
     addRedrawButton, 
@@ -1044,5 +1033,8 @@ export {
     setSampleNodes,
     setSampleLines,
     callbacks,
-    parameters
+    parameters,
+    getContentCallbacks,
+    nodes,
+    lines
 }

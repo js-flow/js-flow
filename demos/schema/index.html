@@ -9,6 +9,12 @@
         <script src="schema.js"></script>
     </head>
 
+    <style>
+        #div1 div.schema-line:nth-child(2) {
+            /* border:1px solid red; */
+        }
+    </style>
+
     <script type="module">
         import * as jsFlow from "../../js-flow.js";
         // set storage id 
@@ -19,22 +25,13 @@
             });
 
         function bootUp() {
-            jsFlow.callbacks.getCustomNodeContent =  function(_item) {
-                switch (_item.classesToAdd) {
-                    case "schema":
-                        return renderSchemaContent(_item);
-                    break;
-                    default:
-                        return _item;
-                    break
-                }
-            }
-            var flowId = "schema";
-            jsFlow.setStorageId(flowId);
+            // set content callback for nodes with 'schema' class type
+            jsFlow.getContentCallbacks.schema = renderSchemaContent;
             jsFlow.initHTML('#jsFlow');
             jsFlow.loadInfo();
             jsFlow.drawNodes();
             jsFlow.drawLines();
+
             jsFlow.addWidgets();
             jsFlow.addInspector();
         }

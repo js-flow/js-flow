@@ -1,24 +1,34 @@
 {
     "nodes": [
         {
-            "top": "120px",
-            "left": "240px",
+            "top": "220px",
+            "left": "300px",
             "id": "div1",
             "classesToAdd": "schema",
             "data": {
                 "title": "Employee",
-                "content": "id,first-name,last-name,role-id,department,birth-date"
+                "content": "id,first-name,last-name,role-id,hr-id,department,birth-date"
             }
         },
         {
-            "top": "60px",
-            "left": "540px",
+            "top": "140px",
+            "left": "600px",
             "id": "div2",
             "classesToAdd": "schema",
             "data": {
                 "title": "Role",
                 "content": "id,description"
             }
+        },
+        {
+            "top": "340px",
+            "left": "600px",
+            "id": "div3",
+            "data": {
+                "title": "HR-Info",
+                "content": "id,salary,hire-date,birth-date"
+            },
+            "classesToAdd": "schema"
         }
     ],
     "lines": [
@@ -29,7 +39,40 @@
             "mode": "",
             "lineShape": "curved",
             "stroke-width": "3",
-            "marker-end": "arrow"
+            "marker-end": "arrow",
+            "stroke": "#aaaaaa",
+            "stroke-dasharray": "",
+            "animation-direction": "",
+            "marker-start": "",
+            "labelText": "",
+            "labelPos": "0.5",
+            "x1-offset": "0",
+            "y1-offset": "10",
+            "x2-offset": "0",
+            "y2-offset": "10",
+            "startLinePos": "0.01",
+            "endLinePos": "0.01"
+        },
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div3",
+            "id": "line2",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "marker-end": "arrow",
+            "stroke": "#aaaaaa",
+            "stroke-dasharray": "",
+            "animation-direction": "",
+            "marker-start": "",
+            "labelText": "",
+            "labelPos": "0.5",
+            "x1-offset": "0",
+            "y1-offset": "10",
+            "x2-offset": "0",
+            "y2-offset": "10",
+            "startLinePos": "0.01",
+            "endLinePos": "0.01"
         }
     ]
 }
