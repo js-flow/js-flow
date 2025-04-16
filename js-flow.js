@@ -484,6 +484,8 @@ function drawNodes() {
         start: function (event, ui) {
             $(this).css('cursor', 'pointer');
             //resize bug fix ui drag
+            // clear out inspector so there aren't old bad values
+            $('#inspector').empty();
             var left = parseInt($(this).css('left'), 10);
             left = isNaN(left) ? 0 : left;
             var top = parseInt($(this).css('top'), 10);
