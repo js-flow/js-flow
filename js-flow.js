@@ -13,8 +13,8 @@ var storageId = "";
 var customClasses =  ['node-circle','node-short','connector','diamond',"label-headline"];
 
 var sampleNodes = [
-    {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"},"classesToAdd":""},
-    {"top":"300px","left":"500px","id":"div2","data":{"content":"content 2"},"classesToAdd":""}
+    {"top":"140px","left":"200px","id":"div1","data":{"content":"content 1"},"classesToAdd":"","width":"","height":""},
+    {"top":"300px","left":"500px","id":"div2","data":{"content":"content 2"},"classesToAdd":"","width":"","height":""}
 ];
 
 var sampleLines = [
@@ -77,7 +77,7 @@ $(document).ready(function(){
         switch ( $(this).attr('id') ) {
             case "widgetAddNode":
                 var nodeId = nodes.length + 1;
-                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":{"title":"","content":""},"classesToAdd":""});
+                nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":{"title":"","content":""},"classesToAdd":"","width":"","height":""});
                 drawNodes(nodes);
             break;
             case "widgetDupeNode":
@@ -183,6 +183,7 @@ $(document).ready(function(){
                             propname = propname.replace("data.","");
                             nodes[index].data[propname] = propvalue;
                         } else {
+                            console.log(`setting ${propname} to ${propvalue}`)
                             nodes[index][propname] = propvalue;
                         }
 
@@ -455,7 +456,7 @@ function drawNodes() {
     $(".node").remove();
     nodes.forEach(function(item){
         $('#' + parameters.htmlCanvasId).append(createNode(item)
-        .css({'top':item.top,'left':item.left})
+        .css({'top':item.top,'left':item.left,'width':item.width,'height':item.height})
         .attr('id',item.id))
         if (item.classesToAdd > "") {
             $("#" + item.id).addClass(item.classesToAdd)
@@ -463,6 +464,8 @@ function drawNodes() {
     })
 
     $('#' + parameters.svgWrapperDivId).draggable();
+
+    // $('.node').resizable();
 
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
