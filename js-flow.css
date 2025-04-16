@@ -44,8 +44,6 @@ div {
 
 .gridCanvas {
     z-index: 80;
-    width:1500px;
-    height:1000px;
     background-image: url(images/back1.png);
     position: absolute;
 }
@@ -55,6 +53,8 @@ div {
     position: absolute;
     top:0px;
     left:0px;
+}
+.gridCanvas, .svgCanvas {
     width:1500px;
     height:1000px;
 }
@@ -325,8 +325,8 @@ div.node div.content-text {
 div.node.node-circle {
     border:1px solid orange;
     border-radius: 40px;
-    height:var(--jsflow-node-width);
-    width:var(--jsflow-node-width);
+    height:var(--jsflow-node-height);
+    width:var(--jsflow-node-height);
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
@@ -390,7 +390,7 @@ div.node.diamond {
 
 div.node.label-headline {
     width: fit-content ;
-    height:fit-content ;
+    height: fit-content ;
     border-radius: 0px;
     white-space: nowrap;
     border:0px solid transparent;
