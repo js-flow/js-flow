@@ -3,6 +3,8 @@
         {
             "top": "200px",
             "left": "200px",
+            "width":"",
+            "height":"",
             "id": "div1",
             "classesToAdd": "",
             "data": {
@@ -13,6 +15,8 @@
         {
             "top": "100px",
             "left": "500px",
+            "width":"",
+            "height":"",
             "id": "div2",
             "classesToAdd": "diamond ",
             "data": {
@@ -23,6 +27,8 @@
         {
             "top": "400px",
             "left": "500px",
+            "width":"",
+            "height":"",
             "id": "div3",
             "classesToAdd": "",
             "data": {
@@ -33,6 +39,8 @@
         {
             "top": "20px",
             "left": "320px",
+            "width":"",
+            "height":"",
             "id": "div4",
             "classesToAdd": "",
             "data": {
@@ -43,6 +51,8 @@
         {
             "top": "40px",
             "left": "760px",
+            "width":"",
+            "height":"",
             "id": "div5",
             "classesToAdd": "",
             "data": {
@@ -53,6 +63,8 @@
         {
             "top": "180px",
             "left": "760px",
+            "width":"",
+            "height":"",
             "id": "div6",
             "classesToAdd": "diamond ",
             "data": {
@@ -63,6 +75,8 @@
         {
             "top": "340px",
             "left": "760px",
+            "width":"",
+            "height":"",
             "id": "div7",
             "classesToAdd": "",
             "data": {
@@ -73,6 +87,8 @@
         {
             "top": "500px",
             "left": "760px",
+            "width":"",
+            "height":"",
             "id": "div8",
             "classesToAdd": "",
             "data": {
@@ -83,6 +99,8 @@
         {
             "top": "200px",
             "left": "920px",
+            "width":"",
+            "height":"",
             "id": "div9",
             "classesToAdd": "connector ",
             "data": {
@@ -93,6 +111,8 @@
         {
             "top": "520px",
             "left": "920px",
+            "width":"",
+            "height":"",
             "id": "div10",
             "classesToAdd": "connector ",
             "data": {
