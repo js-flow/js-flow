@@ -2,22 +2,15 @@
     <head>
         <title>JS-Flow.dev Hello World</title>
         <link rel="stylesheet" href="../../js-flow.css">
-        <!--stored locally, could be loaded from public CDN as well-->
         <script src="../../vendor/jquery.js"></script>
         <script src="../../vendor/jquery-ui.js"></script>
     </head>
 
     <script type="module">
         import * as jsFlow from "../../js-flow.js";
-        jsFlow.setStorageId("hello-world");
         jsFlow.initHTML('#jsFlow');
-        jsFlow.loadInfo();
-        jsFlow.drawNodes();
-        jsFlow.drawLines();
-        console.log(jsFlow.nodes);
-        console.log(jsFlow.lines);
+        jsFlow.refreshCanvas();
     </script>
 
-    <div id="jsFlow" class="jsFlow">
-    </div>
+    <div id="jsFlow" class="jsFlow"></div>
 </html>
