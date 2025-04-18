@@ -9,7 +9,7 @@ var selectedNodeId;
 
 var selectedId;
 var zoomScale = 1;
-var storageId = "";
+var storageId = "js-flow-storageId";
 var customClasses =  ['node-circle','node-short','connector','diamond',"label-headline"];
 
 var sampleNodes = [
@@ -998,6 +998,11 @@ function initHTML(_selector) {
     `)
 }
 
+function refreshCanvas() {
+    loadInfo();
+    drawNodes();
+    drawLines();
+}
 
 const callbacks = {
     getCustomNodeContent: function(_item){ return _item},
@@ -1041,5 +1046,6 @@ export {
     parameters,
     getContentCallbacks,
     nodes,
-    lines
+    lines,
+    refreshCanvas
 }
