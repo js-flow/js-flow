@@ -1,0 +1,21 @@
+.jsFlow {
+    border:1px solid #aaa;
+    height: 80%;
+}
+.editorParent {
+    width:100%;
+}
+.centered {
+    text-align: center;
+}
+.drawingControls {
+    margin:5px;
+    border:1px solid #aaa;
+}
+#flowId {
+    width: 100pt;
+}
+.spacer50 {
+    width:50px;
+    display: inline-block;
+}
