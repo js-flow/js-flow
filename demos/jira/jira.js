@@ -1,7 +1,7 @@
 // this should be placed in the orgchart.js file and get called from that.
 function renderJiraContent(_item) {
     return `
-        <div class="content">
+        <div class="content content-parent ${_item.data.state}">
             <div  class="content title-text">${_item.data.title}</div>
             <div  class="content content-text jira-desc">${_item.data.content}</div>
             <div  class="content jira-item-type">User Story</div>

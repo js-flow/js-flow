@@ -49,6 +49,16 @@ div.node.jira {
     padding-left: 8px;
 }
 
+div.node.jira:has(.in-progress) {
+    border-left:8px solid rgb(200, 200, 65);
+}
+div.node.jira:has(.approved) {
+    border-left:8px solid orange;
+}
+div.node.jira:has(.pre-prod) {
+    border-left:8px solid green;
+}
+
 div.node.jira img.photo {
     float:left;
     width:40px;
@@ -106,12 +116,17 @@ div.node.swim-lanes {
     border-right:1px solid #aaa;
     border-radius: 0px;
     width: 260px;
-    height: 480px;
+    height: 520px;
 }
 
 div.node.swim-lane-label {
     width:220px;
     height:20px;
     border-radius: 0px;
+    padding-top:4px;
+    padding-bottom:4px;
 }
-
+div.node.swim-lane-label div.content.content-text {
+    font-size:11pt;
+    font-weight: bold;
+}
