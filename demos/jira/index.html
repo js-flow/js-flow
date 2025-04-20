@@ -1,0 +1,36 @@
+<html >
+    <head>
+        <title>JS-Flow.dev JIRA</title>
+        <link rel="stylesheet" href="../../js-flow.css">
+        <script src="../../vendor/jquery.js"></script>
+        <script src="../../vendor/jquery-ui.js"></script>
+        
+        <!--customizations for custom node types-->
+        <link rel="stylesheet" href="jira.css">
+        <script src="jira.js"></script>
+    </head>
+
+    <script type="module">
+        import * as jsFlow from "../../js-flow.js";
+        // set storage id 
+        jsFlow.setStorageId("jira");
+        jsFlow.loadDataFromUrl('jira.json')
+            .then(function(success){
+                bootUp();
+            });
+
+        function bootUp() {
+            jsFlow.getContentCallbacks.jira = renderJiraContent;
+            jsFlow.initHTML('#jsFlow');
+            jsFlow.loadInfo();
+            jsFlow.drawNodes();
+            jsFlow.drawLines();
+            jsFlow.addWidgets();
+            jsFlow.addInspector();
+
+        }
+    </script>
+    
+    <div id="jsFlow" class="jsFlow">
+    </div>
+</html>

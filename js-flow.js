@@ -177,7 +177,7 @@ $(document).ready(function(){
                     index = nodes.findIndex(obj => obj.id === selectedNodeId);
                     propRows.each(function(_index, item){
                         var propname = $(item).find('.prop-name').html();
-                        var propvalue = $(item).find('.prop-value').html();
+                        var propvalue = $(item).find('.prop-value').html().replace("<br>","");
 
                         if (propname.substr(0,4) === "data") {
                             propname = propname.replace("data.","");

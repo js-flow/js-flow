@@ -1,0 +1,105 @@
+div.node div.content {
+    text-align: left;
+}
+
+
+div.node div.title-text {
+    border-bottom: none;
+    text-align: left;
+    display: inline-block;
+    /* border:1px solid #bbb; */
+    color:#cb7735;
+    font-weight: bold;
+    font-size:12pt;
+}
+
+div.node div.content-text {
+    color: #222;
+    width: 100%;
+    font-size: 9.5pt;
+    /* height: 100%; */
+    height: auto;
+    border-bottom: none;
+    display: flex;
+    justify-content: left;
+    align-items: normal;
+    flex-direction: column;
+    margin-top: 1px;
+    border:1px solid #bbb;
+
+}
+
+
+div.node.jira {
+    border-radius: 0px;
+    border:1px solid #aaa;
+    width:200px;
+    height:100px;
+    border-left:8px solid blue;
+    padding:5px;
+    background-color: #eee;
+    padding-left: 8px;
+}
+
+div.node.jira img.photo {
+    float:left;
+    width:40px;
+    /* height:40px; */
+    /* border:1px solid red; */
+    margin: 5px;
+    border-radius: 5px;
+    opacity: 0.8;
+}
+div.node.jira div.orgDesc {
+    margin-top:5px;
+    border-bottom: none;
+    color: #888;
+}
+
+
+div.content.content-text.jira-desc {
+    /* border:1px solid red; */
+    margin-top: 2px;
+    border: none;
+    font-weight: bold;
+    overflow: hidden;
+    height: 26pt;
+    font-size:11pt;
+}
+div.content.jira-item-type {
+    margin-top:2px;
+    color:#666;
+}
+
+
+div.jira-status-parent {
+    /* border:1px solid red; */
+    float:left;
+    width:100%;
+}
+
+div.jira-status-parent img {
+    /* border:1px solid red; */
+    width:24px;
+    height:24px;
+}
+
+div.jira-status-parent table {
+    /* border:1px solid #aaa; */
+}
+div.jira-status-parent div.status-bar-parent {
+    border:1px solid #666;
+}
+
+div.jira-status-parent table td div.status-bar-parent {
+    border:1px solid #aaa;
+    height:10px;
+}
+div.status-bar-parent div {
+    width:50%;
+    background-color: #aaa;
+    height:10px;
+}
+
+
+
