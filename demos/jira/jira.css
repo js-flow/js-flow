@@ -1,9 +1,9 @@
-div.node div.content {
+div.node.jira div.content {
     text-align: left;
 }
 
 
-div.node div.title-text {
+div.node.jira div.title-text {
     border-bottom: none;
     text-align: left;
     display: inline-block;
@@ -13,20 +13,28 @@ div.node div.title-text {
     font-size:12pt;
 }
 
-div.node div.content-text {
+div.node.jira div.content-text {
     color: #222;
     width: 100%;
-    font-size: 9.5pt;
+    /* font-size: 9.5pt; */
     /* height: 100%; */
-    height: auto;
+    /* height: auto; */
     border-bottom: none;
     display: flex;
     justify-content: left;
     align-items: normal;
     flex-direction: column;
     margin-top: 1px;
-    border:1px solid #bbb;
-
+    /* border:1px solid #bbb; */
+}
+div.content.content-text.jira-desc {
+    /* border:1px solid red; */
+    margin-top: 2px;
+    border: none;
+    font-weight: bold;
+    overflow: hidden;
+    height: 26pt;
+    font-size:11pt;
 }
 
 
@@ -56,16 +64,6 @@ div.node.jira div.orgDesc {
     color: #888;
 }
 
-
-div.content.content-text.jira-desc {
-    /* border:1px solid red; */
-    margin-top: 2px;
-    border: none;
-    font-weight: bold;
-    overflow: hidden;
-    height: 26pt;
-    font-size:11pt;
-}
 div.content.jira-item-type {
     margin-top:2px;
     color:#666;
@@ -101,5 +99,19 @@ div.status-bar-parent div {
     height:10px;
 }
 
+div.node.swim-lanes {
+    z-index: -10;
+    border:1px solid transparent;
+    border-left:1px solid #aaa;
+    border-right:1px solid #aaa;
+    border-radius: 0px;
+    width: 260px;
+    height: 480px;
+}
 
+div.node.swim-lane-label {
+    width:220px;
+    height:20px;
+    border-radius: 0px;
+}
 
