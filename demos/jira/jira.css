@@ -1,3 +1,8 @@
+div.node.jira {
+    box-shadow: 2px 2px 8px #888888;
+}
+
+
 div.node.jira div.content {
     text-align: left;
 }
