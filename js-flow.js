@@ -502,6 +502,7 @@ function drawNodes() {
             saveInfo();
             drawLines();
             $(this).css('cursor', 'default');
+            callbacks.nodeMoveStop($(this));
         }
     })
 
@@ -605,8 +606,8 @@ function addInspector() {
         </div>
     `))
 }
-function addInspectorRow(_prop, _value) {
 
+function addInspectorRow(_prop, _value) {
     if (_prop === "stroke") {
         $('#inspector').append($(`
             <div class="prop-row">
@@ -622,8 +623,8 @@ function addInspectorRow(_prop, _value) {
             </div>
         `))
     }
-
 }
+
 function addInspectorSaveButton() {
     $('#inspector').append($(`
         <button class="widget" id="widgetPathSave">Save</button>    
@@ -1006,7 +1007,8 @@ function refreshCanvas() {
 
 const callbacks = {
     getCustomNodeContent: function(_item){ return _item},
-    nodeTypeGetContent: {}
+    nodeTypeGetContent: {},
+    nodeMoveStop: function(){}
 }
 
 const parameters = {
