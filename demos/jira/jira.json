@@ -12,7 +12,7 @@
             }
         },
         {
-            "top": "340px",
+            "top": "380px",
             "left": "220px",
             "id": "div2",
             "classesToAdd": "jira",
@@ -34,7 +34,7 @@
             }
         },
         {
-            "top": "220px",
+            "top": "240px",
             "left": "220px",
             "id": "div4",
             "classesToAdd": "jira",
@@ -45,7 +45,7 @@
             }
         },
         {
-            "top": "220px",
+            "top": "240px",
             "left": "480px",
             "id": "div5",
             "classesToAdd": "jira",
@@ -67,7 +67,7 @@
             }
         },
         {
-            "top": "220px",
+            "top": "240px",
             "left": "740px",
             "id": "div7",
             "classesToAdd": "jira",
@@ -89,22 +89,22 @@
             }
         },
         {
-            "top": "20px",
+            "top": "60px",
             "left": "200px",
-            "id": "div9",
+            "id": "divApproved",
             "data": {
                 "title": "",
                 "content": "",
-                "state": "in-progress"
+                "state": "approved"
             },
             "classesToAdd": "swim-lanes",
             "width": "",
             "height": ""
         },
         {
-            "top": "20px",
+            "top": "60px",
             "left": "460px",
-            "id": "div10",
+            "id": "divInProgress",
             "data": {
                 "title": "",
                 "content": "",
@@ -115,26 +115,26 @@
             "height": ""
         },
         {
-            "top": "20px",
+            "top": "60px",
             "left": "720px",
-            "id": "div11",
+            "id": "divReadyForTest",
             "data": {
                 "title": "",
                 "content": "",
-                "state": "in-progress"
+                "state": "ready-for-test"
             },
             "classesToAdd": "swim-lanes",
             "width": "",
             "height": ""
         },
         {
-            "top": "20px",
+            "top": "60px",
             "left": "980px",
-            "id": "div12",
+            "id": "divPreProd",
             "data": {
                 "title": "",
                 "content": "",
-                "state": "in-progress"
+                "state": "pre-prod"
             },
             "classesToAdd": "swim-lanes",
             "width": "",
@@ -185,7 +185,7 @@
             "id": "div16",
             "data": {
                 "title": "",
-                "content": "Approved",
+                "content": "Pre-Prod",
                 "state": "in-progress"
             },
             "classesToAdd": "swim-lane-label",

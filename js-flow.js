@@ -89,7 +89,6 @@ $(document).ready(function(){
                 }
                 // over-ride some attributes on new node
                 newNode['id'] = "div" + nodeId
-                console.log(parseInt(newNode['top']));
                 newNode['top'] = (parseInt(newNode['top']) + 20) + "px"
                 newNode['left'] = (parseInt(newNode['left']) + 20) + "px"
 
@@ -183,7 +182,6 @@ $(document).ready(function(){
                             propname = propname.replace("data.","");
                             nodes[index].data[propname] = propvalue;
                         } else {
-                            console.log(`setting ${propname} to ${propvalue}`)
                             nodes[index][propname] = propvalue;
                         }
 
@@ -304,7 +302,7 @@ $(document).ready(function(){
         saveInfo();
     })
     $(document).on('focus','.content', function(){
-        console.log('input focus...')
+
     })
 
 
@@ -445,7 +443,6 @@ function updateNodeInfo() {
     for (var i=0; i<nodeList.length; i++) {
         var nodeId = $(nodeList[i]).attr('id')
         const index = nodes.findIndex(obj => obj.id === nodeId);
-        console.log(index);
         nodes[index].top = $(nodeList[i]).css('top')
         nodes[index].left = $(nodeList[i]).css('left');
     }
@@ -502,7 +499,7 @@ function drawNodes() {
             saveInfo();
             drawLines();
             $(this).css('cursor', 'default');
-            callbacks.nodeMoveStop($(this));
+            callbacks.onNodeDragStop($(this));
         }
     })
 
@@ -644,7 +641,6 @@ function addSVGListeners() {
     })
 
     $('#' + parameters.svgId + ' > path').on('click', function(event){
-        console.log('here in svg path click...');
         selectedLineId = $(this).attr('id');
         selectedId = selectedLineId;
         iterateAttributes(event);
@@ -735,7 +731,6 @@ function iterateAttributes(_event) {
 
     for (const key in inspectorElements[nodeName]) {
         var val = lineInfo[key];
-        console.log(key + " " + val);
         if (val === undefined) {
             val = inspectorElements[nodeName][key]    
         }
@@ -807,8 +802,6 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "", lineId) {
         var left = $(beginDiv).cssAsInt("left") + $(beginDiv).cssAsInt("width")
         var width = $(endDiv).cssAsInt("left") - left;
         var height = $(endDiv).cssAsInt('top') - top + ($(endDiv).cssAsInt('height') * endLinePos);
-
-        console.log( $(beginDiv).cssAsInt("top") );
 
         if ($(beginDiv).hasClass('connector')) {
             left -= 20;
@@ -1007,8 +1000,11 @@ function refreshCanvas() {
 
 const callbacks = {
     getCustomNodeContent: function(_item){ return _item},
-    nodeTypeGetContent: {},
-    nodeMoveStop: function(){}
+    nodeTypeGetContent: function(){},
+    onNodeDragStart: function(){},
+    onNodeDragStop: function(){},
+    onNodeAdd: function(){},
+    onNodeRemove: function(){}
 }
 
 const parameters = {
@@ -1022,6 +1018,45 @@ const parameters = {
 
 const getContentCallbacks = {
 
+}
+
+function isOverlapping(_div1, _div2) {
+    const div1 = document.getElementById(_div1);
+    const div2 = document.getElementById(_div2);
+
+    const rect1 = div1.getBoundingClientRect();
+    const rect2 = div2.getBoundingClientRect();
+  
+    return !(
+      rect1.right < rect2.left ||
+      rect1.left > rect2.right ||
+      rect1.bottom < rect2.top ||
+      rect1.top > rect2.bottom
+    );
+}
+
+function isInside(_div1, _div2) {
+    const div1 = document.getElementById(_div1);
+    const div2 = document.getElementById(_div2);
+    const rect1 = div1.getBoundingClientRect();
+    const rect2 = div2.getBoundingClientRect();
+  
+    return (
+        (rect1.left >= rect2.left) &&
+        (rect1.right <= rect2.right) &&
+        (rect1.top >= rect2.top) &&
+        (rect1.bottom <= rect2.bottom)
+    );
+}
+
+function getNodeIndexById(nodeId) {
+    return nodes.findIndex(obj => obj.id === nodeId);
+}
+
+function updateNode(nodeId){
+    var nodeIndex = getNodeIndexById(nodeId);
+    var newContents = createNodeContent(nodes[nodeIndex]);
+    $('#' + nodeId ).find('div.content-parent').html(newContents);
 }
 
 export { 
@@ -1049,5 +1084,9 @@ export {
     getContentCallbacks,
     nodes,
     lines,
-    refreshCanvas
+    refreshCanvas,
+    isOverlapping,
+    isInside,
+    getNodeIndexById,
+    updateNode
 }
