@@ -2,7 +2,7 @@ div.node.jira {
     border-radius: 0px;
     border:1px solid #aaa;
     width:200px;
-    height:100px;
+    height:110px;
     border-left:8px solid blue;
     padding:5px;
     background-color: #eee;
@@ -36,6 +36,7 @@ div.node.jira div.title-text {
     color:#cb7735;
     font-weight: bold;
     font-size:12pt;
+    margin-bottom: 4px;
 }
 
 div.node.jira div.content {
@@ -59,6 +60,7 @@ div.content.content-text.jira-desc {
     overflow: hidden;
     height: 26pt;
     font-size:11pt;
+    margin-bottom:8px;
 }
 
 div.content.jira-item-type {
