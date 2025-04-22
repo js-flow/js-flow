@@ -32,7 +32,6 @@ var sampleLines = [
                 }
 ];
 
-
 var inspectorElements = {
     "path":{
         "stroke":"#aaaaaa",
@@ -52,8 +51,8 @@ var inspectorElements = {
         "endLinePos":"0.5"
     }
 }
-var showPathLabels = true;
 
+var showPathLabels = true;
 var __dx;
 var __dy;
 var __scale=1.0;
@@ -348,7 +347,7 @@ $(document).ready(function(){
     })
 
 })
-
+// end of document ready code
 
 function setStorageId(_storageId) {
     storageId = _storageId
