@@ -4,14 +4,15 @@
         <link rel="stylesheet" href="../../js-flow.css">
         <script src="../../vendor/jquery.js"></script>
         <script src="../../vendor/jquery-ui.js"></script>
-        
         <!--customizations for custom node types-->
         <link rel="stylesheet" href="jira.css">
-        <script src="jira.js"></script>
     </head>
 
     <script type="module">
         import * as jsFlow from "../../js-flow.js";
+        import * as jira from "./jira.js";
+        jira.setJsFlow(jsFlow);
+
         // set storage id 
         jsFlow.setStorageId("jira");
         jsFlow.loadDataFromUrl('jira.json')
@@ -20,38 +21,14 @@
             });
 
         function bootUp() {
-            jsFlow.getContentCallbacks.jira = renderJiraContent;
-            jsFlow.callbacks.onNodeDragStop = function(_this){
-
-                var nodeId = _this.attr('id');
-                var nodeIndex = jsFlow.getNodeIndexById(nodeId);
-                var state = "";
-
-                if ( jsFlow.isInside(nodeId, 'divApproved') ) {
-                    state = 'approved'
-                } else if ( jsFlow.isInside(nodeId, 'divInProgress') )  {
-                    state = 'in-progress'
-                } else if ( jsFlow.isInside(nodeId, 'divReadyForTest')) {
-                    state = 'ready-for-test'
-                } else if ( jsFlow.isInside(nodeId, 'divPreProd')) {
-                    state = 'pre-prod'
-                }
-
-                jsFlow.nodes[nodeIndex].data.state = state;
-                jsFlow.updateNode(nodeId)
-                jsFlow.saveInfo();
-
-            }
+            // setup som e
+            jsFlow.getContentCallbacks.jira = jira.renderJiraContent;
+            jsFlow.callbacks.onNodeDragStop = jira.onNodeDragStop;
             jsFlow.initHTML('#jsFlow');
-            jsFlow.loadInfo();
-            jsFlow.drawNodes();
-            jsFlow.drawLines();
+            jsFlow.refreshCanvas();
             jsFlow.addWidgets();
             jsFlow.addInspector();
-
         }
     </script>
-    
-    <div id="jsFlow" class="jsFlow">
-    </div>
+    <div id="jsFlow" class="jsFlow"></div>
 </html>

@@ -1,4 +1,6 @@
 // this should be placed in the orgchart.js file and get called from that.
+var jsFlow;
+
 function renderJiraContent(_item) {
     return `
         <div class="content content-parent ${_item.data.state}">
@@ -19,4 +21,32 @@ function renderJiraContent(_item) {
     `
 }
 
+function onNodeDragStop(_this) {
+    var nodeId = _this.attr('id');
+    var nodeIndex = jsFlow.getNodeIndexById(nodeId);
+    var state = "";
 
+    if ( jsFlow.isInside(nodeId, 'divApproved') ) {
+        state = 'approved'
+    } else if ( jsFlow.isInside(nodeId, 'divInProgress') )  {
+        state = 'in-progress'
+    } else if ( jsFlow.isInside(nodeId, 'divReadyForTest')) {
+        state = 'ready-for-test'
+    } else if ( jsFlow.isInside(nodeId, 'divPreProd')) {
+        state = 'pre-prod'
+    }
+
+    jsFlow.nodes[nodeIndex].data.state = state;
+    jsFlow.updateNode(nodeId)
+    jsFlow.saveInfo();
+}
+
+function setJsFlow(_jsflow) {
+    jsFlow = _jsflow;
+}
+
+export {
+    setJsFlow,
+    renderJiraContent,
+    onNodeDragStop
+}
