@@ -22,10 +22,7 @@
             // set content callback for nodes with 'schema' class type
             jsFlow.getContentCallbacks.schema = renderSchemaContent;
             jsFlow.initHTML('#jsFlow');
-            jsFlow.loadInfo();
-            jsFlow.drawNodes();
-            jsFlow.drawLines();
-
+            jsFlow.refreshCanvas();
             jsFlow.addWidgets();
             jsFlow.addInspector();
         }
