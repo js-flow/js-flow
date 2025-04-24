@@ -34,6 +34,8 @@ var sampleLines = [
 
 var inspectorElements = {
     "path":{
+        "fromDiv":"",
+        "toDiv":"",
         "stroke":"#aaaaaa",
         "stroke-width":"",
         "stroke-dasharray":"",
@@ -65,7 +67,26 @@ var setAttrs = (e,a)=>Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));
 /* need to use .offset() or .position() if a number isn't available */
 $.fn.extend({
     cssAsInt: function(_cssProp){
-        return parseInt(this.css(_cssProp))
+
+        var retVal = parseInt(this.css(_cssProp))
+        // fallback in case css properties aren't set explicitly on object
+        if (isNaN(retVal)) {
+            switch (_cssProp) {
+                case "top":
+                    retVal = this.offset().top;
+                    break;
+                case "left":
+                    retVal = this.offset().left;
+                    break;
+                case "width":
+                    retVal = this.width();
+                    break;
+                case "height":
+                    retVal = this.height()
+                    break;
+            }
+        }
+        return retVal;
     }
 })    
 
@@ -104,7 +125,6 @@ $(document).ready(function(){
                 $(".node").remove();
             break;
             case "widgetNodeShape":
-
                 var found = -1;
                 var node = $(`#${selectedNodeId}`);
                 var index = nodes.findIndex(obj => obj.id === selectedNodeId);
@@ -300,11 +320,10 @@ $(document).ready(function(){
         updateNodeInfo();
         saveInfo();
     })
+    //todo: get rid of this if not needed
     $(document).on('focus','.content', function(){
 
     })
-
-
     $(document).on('click',".node", function(){
         // fires when a widget gets clicked
         
@@ -370,7 +389,6 @@ function loadInfo() {
 }
 
 function isJSON(_input) {
-
     if (_input && typeof _input === "object") {
         return true;
     }
@@ -388,7 +406,6 @@ function isJSON(_input) {
 }
 
 function createNodeContent(_item) {
-
     if (typeof getContentCallbacks[_item.classesToAdd] === "function") {
         _item = getContentCallbacks[_item.classesToAdd](_item);
     } 
@@ -423,15 +440,18 @@ function createNode(_item) {
     node.addClass(_item.classesToAdd);
     return node;
 }
-function createHandlesNode() {
-    return $(`
-        <div class="node handles" id="handlesContainer">
-            <div class="handle topHandle"></div>
-            <div class="handle bottomHandle"></div>
-            <div class="handle leftHandle"></div>
-            <div class="handle rightHandle"></div>
-        </div>`);
-}
+
+//todo: get rid of this if not needed, flagged 4/23/25
+// function createHandlesNode() {
+//     return $(`
+//         <div class="node handles" id="handlesContainer">
+//             <div class="handle topHandle"></div>
+//             <div class="handle bottomHandle"></div>
+//             <div class="handle leftHandle"></div>
+//             <div class="handle rightHandle"></div>
+//         </div>`);
+// }
+
 function updateNodeInfo() {
     // need to change this to update existing node info instead of blowing them
     // all away and re-adding.  This is done to preserve the data entered
@@ -445,10 +465,9 @@ function updateNodeInfo() {
         nodes[index].top = $(nodeList[i]).css('top')
         nodes[index].left = $(nodeList[i]).css('left');
     }
-
 }
-function drawNodes() {
 
+function drawNodes() {
     $(".node").remove();
     nodes.forEach(function(item){
         $('#' + parameters.htmlCanvasId).append(createNode(item)
@@ -458,11 +477,7 @@ function drawNodes() {
             $("#" + item.id).addClass(item.classesToAdd)
         }
     })
-
     $('#' + parameters.svgWrapperDivId).draggable();
-
-    // $('.node').resizable();
-
     $('.node').draggable({ 
         grid: [ 20, 20 ], 
         drag: function (event, ui) {
@@ -501,7 +516,6 @@ function drawNodes() {
             callbacks.onNodeDragStop($(this));
         }
     })
-
 }
 /*
 *   SVG definition for end of line markers
@@ -546,8 +560,8 @@ function getSVGMarkers() {
         </defs>
     `;
 }
-function drawLines() {
 
+function drawLines() {
     $("#" + parameters.svgId).empty();
     $(".pathLabel").remove();
     $('.jma').remove();
@@ -562,12 +576,13 @@ function drawLines() {
     //TODO: Still need this line for setting html ?
     $("#" + parameters.svgId).html($("#" + parameters.svgId).html());
     addSVGListeners();
-
 }
+
 function addRedrawButton() {
     $('#' + parameters.controlLayerId).append( $(`<div class="redraw"><button class="btnRedraw">Re-Draw</button></div>`) );
     $(".btnRedraw").on('click', drawLines)
 }
+
 function addControls() {
     $('#' + parameters.controlLayerId).append($(`
         <div class="controls">
@@ -575,6 +590,7 @@ function addControls() {
             <button class="button" id="btnLoad">Load</button>
         </div>`));
 }
+
 function addWidgets() {
     $('#' + parameters.controlLayerId).append($(`
         <div class="widgets">
@@ -596,6 +612,7 @@ function addWidgets() {
             <div class="widget" id="widgetZoomOut">Zoom Out</div>
         </div>`))
 }
+
 function addInspector() {
     $('#' + parameters.controlLayerId).append($(`
         <div id="inspector" class="inspector">
@@ -626,6 +643,7 @@ function addInspectorSaveButton() {
         <button class="widget" id="widgetPathSave">Save</button>    
     `))
 }
+
 function addSVGListeners() {
     $("#" + parameters.svgId).on('click', function(){
         $('#inspector').empty();
@@ -655,6 +673,7 @@ function addSVGListeners() {
         event.stopPropagation();
     })
 }
+
 function createSVGCircle(x, y, radius, fillColor) {
     var circle = document.createElementNS('http://www.w3.org/2000/svg',"circle");  
     circle.setAttribute("cx", x)
@@ -663,7 +682,6 @@ function createSVGCircle(x, y, radius, fillColor) {
     circle.setAttribute("fill", fillColor)
     return circle;
 }
-
 
 function setLineBegin() {
     const index = lines.findIndex(obj => obj.id === selectedLineId);
@@ -711,7 +729,6 @@ function setLineEnd() {
          saveInfo();
          drawLines();
     }
-
 }
 
 function iterateAttributes(_event) {
@@ -740,7 +757,6 @@ function iterateAttributes(_event) {
 }
 
 function createSVGPath(pathData, strokeColor, fillColor, lineId) {
-
     const index = lines.findIndex(obj => obj.id === lineId);
     var dashArray = lines[index]["stroke-dasharray"]
     var stroke = lines[index]["stroke"] || "#aaa";
@@ -766,7 +782,6 @@ function createSVGPath(pathData, strokeColor, fillColor, lineId) {
         newpath.appendChild(animate);
     }
     return newpath;
-
 }
 
 /*
@@ -809,8 +824,6 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "", lineId) {
         if ($(endDiv).hasClass('connector')) {
             width += 20;
         }
-
-
     }
     if (mode === "vert") {
         var top = $(beginDiv).cssAsInt("top") + $(beginDiv).cssAsInt("height");
@@ -826,20 +839,16 @@ function getCurveBoundingBoxPoints(beginDiv, endDiv, mode = "", lineId) {
         if ($(endDiv).hasClass("connector")) {
             height += 20;
         }
-    
     }
 
-
-
-
     return {"top":top,"left":left,"width":width,"height":height}
-    
 }
 
 
 function setSampleNodes(_nodes) {
     sampleNodes = _nodes;
 }
+
 function setSampleLines(_lines) {
     sampleLines = _lines;
 }
@@ -866,13 +875,11 @@ function loadDataFromUrl(url) {
 */
 function drawLine(beginDiv, endDiv, mode, lineId) {
     var points = getCurveBoundingBoxPoints(beginDiv, endDiv, mode, lineId);
-
     const index = lines.findIndex(obj => obj.id === lineId);
     const lineShape = lines[index].lineShape;
 
     // pull properties out of object for brevity later in code
     var { left, top, width, height } = points;
-
     var x1,y1,x2,y2
     x1 = parseFloat(lines[index]['x1-offset']);
     y1 = parseFloat(lines[index]['y1-offset']);
@@ -1015,14 +1022,13 @@ const parameters = {
     htmlCanvasId: "htmlCanvas"
 }
 
+//TODO: get rid of this if not needed - marked 4/23/2025
 const getContentCallbacks = {
-
 }
 
 function isOverlapping(_div1, _div2) {
     const div1 = document.getElementById(_div1);
     const div2 = document.getElementById(_div2);
-
     const rect1 = div1.getBoundingClientRect();
     const rect2 = div2.getBoundingClientRect();
   
