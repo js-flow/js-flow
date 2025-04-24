@@ -1,8 +1,16 @@
+
+
 # js-flow
 
-The library js-flow was created to see if it's possible to create a node based library in as close to pure JavaScript as possible.
+![js-flow](/images/readme_img_1.png)
+
+## About
+The library js-flow was created to see if it's possible to create a node based library in as close to pure JavaScript as possible.  There are no server side requirements, just a very basic web server will work fine.  
+
+In fact, all our development is done with php's command line server to make sure it will work with any lightweight web server.
 
 
+## Using js-flow
 The core js-flow code is contained in two files:
 * js-flow.css
 * js-flow.css
