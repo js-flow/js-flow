@@ -4,6 +4,11 @@ div.node.schema {
     height:auto;
 }
 
+
+/* div.node.schema div.content div.schema-line:nth-child(3) { 
+    border:1px solid red;
+} */
+
 div.node.schema div.title-text {
     text-align: left;
     display:inline-block;

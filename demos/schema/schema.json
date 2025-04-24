@@ -1,8 +1,8 @@
 {
     "nodes": [
         {
-            "top": "140px",
-            "left": "200px",
+            "top": "80px",
+            "left": "240px",
             "id": "div1",
             "classesToAdd": "schema",
             "data": {
@@ -11,8 +11,8 @@
             }
         },
         {
-            "top": "80px",
-            "left": "420px",
+            "top": "60px",
+            "left": "480px",
             "id": "div2",
             "classesToAdd": "schema",
             "data": {
@@ -22,7 +22,7 @@
         },
         {
             "top": "220px",
-            "left": "420px",
+            "left": "480px",
             "id": "div3",
             "data": {
                 "title": "HR-Info",
@@ -32,7 +32,7 @@
         },
         {
             "top": "140px",
-            "left": "680px",
+            "left": "740px",
             "id": "div4",
             "data": {
                 "title": "db name",
@@ -45,8 +45,8 @@
     ],
     "lines": [
         {
-            "fromDiv": "#div1",
-            "toDiv": "#div2",
+            "fromDiv": "#div1.node.schema div.content div.schema-line:nth-child(4)",
+            "toDiv": "#div2.node.schema div.content div.schema-line:nth-child(1)",
             "id": "line1",
             "mode": "",
             "lineShape": "curved",
@@ -55,19 +55,19 @@
             "stroke": "#aaaaaa",
             "stroke-dasharray": "",
             "animation-direction": "",
-            "marker-start": "",
+            "marker-start": "line",
             "labelText": "",
             "labelPos": "0.5",
             "x1-offset": "0",
-            "y1-offset": "10",
+            "y1-offset": "0",
             "x2-offset": "0",
-            "y2-offset": "10",
-            "startLinePos": "0.01",
-            "endLinePos": "0.01"
+            "y2-offset": "0",
+            "startLinePos": "0",
+            "endLinePos": "0"
         },
         {
-            "fromDiv": "#div1",
-            "toDiv": "#div3",
+            "fromDiv": "#div1.node.schema div.content div.schema-line:nth-child(5)",
+            "toDiv": "#div3.node.schema div.content div.schema-line:nth-child(1)",
             "id": "line2",
             "mode": "",
             "lineShape": "curved",
@@ -76,15 +76,15 @@
             "stroke": "#aaaaaa",
             "stroke-dasharray": "",
             "animation-direction": "",
-            "marker-start": "",
+            "marker-start": "line",
             "labelText": "",
             "labelPos": "0.5",
             "x1-offset": "0",
-            "y1-offset": "10",
+            "y1-offset": "0",
             "x2-offset": "0",
-            "y2-offset": "10",
-            "startLinePos": "0.01",
-            "endLinePos": "0.01"
+            "y2-offset": "0",
+            "startLinePos": "0",
+            "endLinePos": "0"
         },
         {
             "fromDiv": "#div2",
