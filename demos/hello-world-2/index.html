@@ -1,10 +1,8 @@
 <html >
     <head>
         <title>JS-Flow.dev</title>
-        <link rel="stylesheet" href="../../js-flow.css">
-        <!--stored locally, could be loaded from public CDN as well-->
-        <script src="../../vendor/jquery.js"></script>
-        <script src="../../vendor/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://files.js-flow.dev/js-flow.css">
+        <script src="https://files.js-flow.dev/jq.js"></script>
     </head>
 
     <style>
@@ -25,7 +23,7 @@
     </style>
 
     <script type="module">
-        import * as jsFlow from "../../js-flow.js";
+        import * as jsFlow from "https://files.js-flow.dev/js-flow.js";
         
         jsFlow.loadDataFromUrl('hello-world-2.json')
             .then(function(success){

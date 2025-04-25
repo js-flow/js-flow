@@ -1,19 +1,15 @@
 <html >
     <head>
-        <title>JS-Flow.dev Hello World</title>
-        <link rel="stylesheet" href="../../js-flow.css">
-        <script src="../../vendor/jquery.js"></script>
-        <script src="../../vendor/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://files.js-flow.dev/js-flow.css">
+        <script src="https://files.js-flow.dev/jq.js"></script>
     </head>
-
     <script type="module">
-        import * as jsFlow from "../../js-flow.js";
+        import * as jsFlow from "https://files.js-flow.dev/js-flow.js";
         jsFlow.initHTML('#jsFlow');
         jsFlow.refreshCanvas();
-        jsFlow.callbacks.nodeMoveStop = function(_this){
+        jsFlow.callbacks.onNodeDragStop = function(_this){
             console.log(_this.attr('id'));
         }
     </script>
-
     <div id="jsFlow" class="jsFlow"></div>
 </html>

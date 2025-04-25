@@ -1,0 +1,19 @@
+{
+  "name": "js-flow.dev",
+  "version": "1.0.1",
+  "description": "js-flow.dev runtime files",
+  "main": "js-flow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/js-flow/js-flow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/js-flow/js-flow/issues"
+  },
+  "homepage": "https://github.com/js-flow/js-flow#readme"
+}
