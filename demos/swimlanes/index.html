@@ -3,15 +3,14 @@
         <title>JS-Flow.dev</title>
         <link rel="stylesheet" href="../../vendor/js-flow.css">
         <!--stored locally, could be loaded from public CDN as well-->
-        <script src="../../vendor/jquery.js"></script>
-        <script src="../../vendor/jquery-ui.js"></script>
+        <script src="https://files.js-flow.dev/jq.js"></script>
     </head>
 
     <style>
     </style>
 
     <script type="module">
-        import * as jsFlow from "../../vendor/js-flow.js";
+        import * as jsFlow from "https://files.js-flow.dev/js-flow.js";
         
         jsFlow.loadDataFromUrl('swim-lanes.json')
             .then(function(success){

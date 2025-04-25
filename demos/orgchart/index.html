@@ -2,8 +2,7 @@
     <head>
         <title>JS-Flow.dev Orgchart</title>
         <link rel="stylesheet" href="../../vendor/js-flow.css">
-        <script src="../../vendor/jquery.js"></script>
-        <script src="../../vendor/jquery-ui.js"></script>
+        <script src="https://files.js-flow.dev/jq.js"></script>
         
         <!--customizations for custom node types-->
         <link rel="stylesheet" href="orgchart.css">
@@ -11,7 +10,7 @@
     </head>
 
     <script type="module">
-        import * as jsFlow from "../../vendor/js-flow.js";
+        import * as jsFlow from "https://files.js-flow.dev/js-flow.js";
         // set storage id 
         jsFlow.setStorageId("org-chart");
         jsFlow.loadDataFromUrl('orgchart.json')
