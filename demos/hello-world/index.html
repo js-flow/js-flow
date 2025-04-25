@@ -1,13 +1,13 @@
 <html >
     <head>
         <title>JS-Flow.dev Hello World</title>
-        <link rel="stylesheet" href="../../js-flow.css">
+        <link rel="stylesheet" href="../../vendor/js-flow.css">
         <script src="../../vendor/jquery.js"></script>
         <script src="../../vendor/jquery-ui.js"></script>
     </head>
 
     <script type="module">
-        import * as jsFlow from "../../js-flow.js";
+        import * as jsFlow from "../../vendor/js-flow.js";
         jsFlow.initHTML('#jsFlow');
         jsFlow.refreshCanvas();
         jsFlow.callbacks.nodeMoveStop = function(_this){

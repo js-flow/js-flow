@@ -24,7 +24,7 @@
 ## About
 The library js-flow was created to see if it's possible to create a robust node based library that's as close to pure JavaScript as possible.  There are no server side requirements, just a very basic web server will work fine.  
 
-In fact, all our development is done with php's command line server to make sure it will work with any lightweight web server.
+In fact, all our development is done with php's command line server to make sure it will work with any lightweight web server.  
 
 
 ## Using js-flow
@@ -32,15 +32,14 @@ The core js-flow code is contained in two files:
 * js-flow.css
 * js-flow.css
 
-Right now, to get this up and running quickly, we used jQuery and jQueryUI as helper functions.  Since these jQuery helpers are still 100% JavaScript, we can still call js-flow 100% JavaScript as a whole.  Depending on circumstances, js-flow.js may be changed to do all the work itself, without relying on any outside dependencies.
+Right now, to get this up and running quickly, we used jQuery and jQueryUI as helper functions.  Since these jQuery helpers are still 100% JavaScript, we can still call js-flow 100% JavaScript as a whole.  The one thing we wanted to stay away from was any npm packages that needed to be installed.  Depending on circumstances, js-flow.js may be changed to do all the work itself, without relying on any outside dependencies.
 
 Another nice feature of js-flow is the ability to update a single node without affecting the rest of the page.  This allows updating just a single part of the overall webpage without forcing a full re-render.  This allows the advantages of partial updates of the DOM without resolting to a more complicated or memory intensive frameowrk.
 
 
 <details>
   <summary>Getting Started</summary>
-Getting started with js-flow is very easy.  All you need is a simple web server running on your development system and drop in files 
-
+You can simply clone the github repo into the root of your local webserver and you're ready to go.  You'll be able to modify any of the demo applications to get more familiar with it.   If you want to customize your setup a bit, You just need to drop in the `vendor` directory and an `index.html` file, adjusting the paths of the includes in index.html if they aren't already correct.
 
 
 </details>

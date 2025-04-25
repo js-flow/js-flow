@@ -1,7 +1,7 @@
 <html >
     <head>
         <title>JS-Flow.dev Schema</title>
-        <link rel="stylesheet" href="../../js-flow.css">
+        <link rel="stylesheet" href="../../vendor/js-flow.css">
         <script src="../../vendor/jquery.js"></script>
         <script src="../../vendor/jquery-ui.js"></script>
         <!--customizations for custom node types-->
@@ -10,7 +10,7 @@
     </head>
 
     <script type="module">
-        import * as jsFlow from "../../js-flow.js";
+        import * as jsFlow from "../../vendor/js-flow.js";
         // set storage id 
         jsFlow.setStorageId("schema");
         jsFlow.loadDataFromUrl('schema.json')

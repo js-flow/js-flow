@@ -1,7 +1,7 @@
 <html >
     <head>
         <title>JS-Flow.dev</title>
-        <link rel="stylesheet" href="../../js-flow.css">
+        <link rel="stylesheet" href="../../vendor/js-flow.css">
         <!--stored locally, could be loaded from public CDN as well-->
         <script src="../../vendor/jquery.js"></script>
         <script src="../../vendor/jquery-ui.js"></script>
@@ -11,7 +11,7 @@
     </style>
 
     <script type="module">
-        import * as jsFlow from "../../js-flow.js";
+        import * as jsFlow from "../../vendor/js-flow.js";
         
         jsFlow.loadDataFromUrl('swim-lanes.json')
             .then(function(success){
