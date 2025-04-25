@@ -1,6 +1,6 @@
 {
   "name": "js-flow.dev",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "js-flow.dev runtime files",
   "main": "js-flow.js",
   "scripts": {
