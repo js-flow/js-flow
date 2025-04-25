@@ -1,20 +1,3 @@
-<style>
-    img {
-        width:65%;
-        display: block; 
-        margin: 0 auto
-    }
-    summary {
-        font-size:18px;
-    }
-    details {
-        margin-bottom:10px;
-    }
-    ul {
-        margin-top:10px;
-    }
-  </style>
-
 # js-flow
 
 ![js-flow](/images/readme_img_1.png)
