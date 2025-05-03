@@ -230,16 +230,17 @@ $(document).ready(function(){
                 drawLines();
             break;
             case "widgetToggleLineDash":
-                index = lines.findIndex(obj => obj.id === selectedLineId);
-                var dashArray = lines[index]["stroke-dasharray"]
-                if (dashArray === "") {
-                    lines[index]["stroke-dasharray"] = "4,4";
-                }  else {
-                    lines[index]["stroke-dasharray"] = "";
-                }
-                saveInfo();
-                drawLines();
-            break;
+                // index = lines.findIndex(obj => obj.id === selectedLineId);
+                // var dashArray = lines[index]["stroke-dasharray"]
+                // if (dashArray === "") {
+                //     lines[index]["stroke-dasharray"] = "4,4";
+                // }  else {
+                //     lines[index]["stroke-dasharray"] = "";
+                // }
+                // saveInfo();
+                // drawLines();
+                toggleLineDash(selectedLineId);
+                break;
             case "widgetToggleLineBegin":
                 setLineBegin();
             break;
@@ -1064,6 +1065,18 @@ function updateNode(nodeId){
     $('#' + nodeId ).find('div.content-parent').html(newContents);
 }
 
+function toggleLineDash(_selectedLineId) {
+    var index = lines.findIndex(obj => obj.id === _selectedLineId);
+    var dashArray = lines[index]["stroke-dasharray"]
+    if (dashArray === "") {
+        lines[index]["stroke-dasharray"] = "4,4";
+    }  else {
+        lines[index]["stroke-dasharray"] = "";
+    }
+    saveInfo();
+    drawLines();
+}
+
 export { 
     addRedrawButton, 
     addControls, 
@@ -1084,6 +1097,7 @@ export {
     sampleNodes,
     setSampleNodes,
     setSampleLines,
+    toggleLineDash,
     callbacks,
     parameters,
     getContentCallbacks,
