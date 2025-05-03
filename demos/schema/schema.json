@@ -1,42 +1,180 @@
 {
     "nodes": [
         {
-            "top": "80px",
-            "left": "240px",
+            "top": "280px",
+            "left": "640px",
             "id": "div1",
-            "classesToAdd": "schema",
             "data": {
-                "title": "Employee",
-                "content": "id,first-name,last-name,role-id,hr-id,department,birth-date"
-            }
+                "title": "IPLAN",
+                "content": "DNUM,IP2ID"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
         },
         {
-            "top": "60px",
-            "left": "480px",
+            "top": "200px",
+            "left": "440px",
             "id": "div2",
-            "classesToAdd": "schema",
             "data": {
-                "title": "Role",
-                "content": "id,description"
-            }
+                "title": "DEBTOR",
+                "content": "DNUM,CNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
         },
         {
-            "top": "220px",
-            "left": "480px",
+            "top": "300px",
+            "left": "220px",
             "id": "div3",
             "data": {
-                "title": "HR-Info",
-                "content": "id,salary,hire-date,birth-date"
+                "title": "DIRECT-CREDIT",
+                "content": "DNUM"
             },
-            "classesToAdd": "schema"
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
         },
         {
-            "top": "140px",
-            "left": "740px",
+            "top": "380px",
+            "left": "640px",
             "id": "div4",
             "data": {
-                "title": "db name",
-                "content": "one,two,three"
+                "title": "RPLAN",
+                "content": "DNUM,IP2ID"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "240px",
+            "left": "220px",
+            "id": "div5",
+            "data": {
+                "title": "DIRECT-CREDIT",
+                "content": "DNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "180px",
+            "left": "220px",
+            "id": "div6",
+            "data": {
+                "title": "FISCAL",
+                "content": "DNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "40px",
+            "left": "220px",
+            "id": "div7",
+            "data": {
+                "title": "PAYMENT-HISTORY",
+                "content": "TRANSACTION,DNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "140px",
+            "height": ""
+        },
+        {
+            "top": "120px",
+            "left": "220px",
+            "id": "div8",
+            "data": {
+                "title": "MEMO",
+                "content": "DNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "340px",
+            "left": "840px",
+            "id": "div9",
+            "data": {
+                "title": "IPLAN2",
+                "content": "IP2ID,CNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "420px",
+            "left": "1060px",
+            "id": "div10",
+            "data": {
+                "title": "INVENTORY",
+                "content": "IP2ID"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "500px",
+            "left": "1060px",
+            "id": "div11",
+            "data": {
+                "title": "CLIENT2",
+                "content": "CNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "180px",
+            "left": "1060px",
+            "id": "div12",
+            "data": {
+                "title": "CLIENT",
+                "content": "CNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "100px",
+            "left": "640px",
+            "id": "div13",
+            "data": {
+                "title": "TRANS",
+                "content": "TRANSACTION"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "160px",
+            "left": "640px",
+            "id": "div14",
+            "data": {
+                "title": "KEYFILE",
+                "content": "KFID,DNUM"
+            },
+            "classesToAdd": "schema",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "380px",
+            "left": "220px",
+            "id": "div15",
+            "data": {
+                "title": "AGENCY",
+                "content": "ID"
             },
             "classesToAdd": "schema",
             "width": "",
@@ -45,67 +183,142 @@
     ],
     "lines": [
         {
-            "fromDiv": "#div1.node.schema div.content div.schema-line:nth-child(4)",
-            "toDiv": "#div2.node.schema div.content div.schema-line:nth-child(1)",
-            "id": "line1",
+            "fromDiv": "#div7",
+            "toDiv": "#div13",
+            "id": "line8",
             "mode": "",
             "lineShape": "curved",
             "stroke-width": "3",
-            "marker-end": "arrow",
-            "stroke": "#aaaaaa",
-            "stroke-dasharray": "",
-            "animation-direction": "",
-            "marker-start": "line",
-            "labelText": "",
-            "labelPos": "0.5",
-            "x1-offset": "0",
-            "y1-offset": "0",
-            "x2-offset": "0",
-            "y2-offset": "0",
-            "startLinePos": "0",
-            "endLinePos": "0"
-        },
-        {
-            "fromDiv": "#div1.node.schema div.content div.schema-line:nth-child(5)",
-            "toDiv": "#div3.node.schema div.content div.schema-line:nth-child(1)",
-            "id": "line2",
-            "mode": "",
-            "lineShape": "curved",
-            "stroke-width": "3",
-            "marker-end": "arrow",
-            "stroke": "#aaaaaa",
-            "stroke-dasharray": "",
-            "animation-direction": "",
-            "marker-start": "line",
-            "labelText": "",
-            "labelPos": "0.5",
-            "x1-offset": "0",
-            "y1-offset": "0",
-            "x2-offset": "0",
-            "y2-offset": "0",
-            "startLinePos": "0",
-            "endLinePos": "0"
-        },
-        {
-            "fromDiv": "#div2",
-            "toDiv": "#div4",
-            "id": "line3",
-            "mode": "",
-            "lineShape": "curved",
-            "stroke-width": "3",
-            "marker-end": "arrow",
             "stroke": "#aaaaaa",
             "stroke-dasharray": "",
             "animation-direction": "",
             "marker-start": "",
+            "marker-end": "",
             "labelText": "",
             "labelPos": "0.5",
             "x1-offset": "0",
-            "y1-offset": "10",
+            "y1-offset": "5",
             "x2-offset": "0",
-            "y2-offset": "10",
-            "startLinePos": "0.01",
-            "endLinePos": "0.01"
+            "y2-offset": "0",
+            "startLinePos": "0.5",
+            "endLinePos": "0.5"
+        },
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div9",
+            "id": "line9",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3",
+            "stroke": "#aaaaaa",
+            "stroke-dasharray": "",
+            "animation-direction": "",
+            "marker-start": "",
+            "marker-end": "",
+            "labelText": "",
+            "labelPos": "0.5",
+            "x1-offset": "0",
+            "y1-offset": "20",
+            "x2-offset": "0",
+            "y2-offset": "0",
+            "startLinePos": "0.5",
+            "endLinePos": "0.5"
+        },
+        {
+            "fromDiv": "#div4",
+            "toDiv": "#div9",
+            "id": "line10",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div9",
+            "toDiv": "#div10",
+            "id": "line10",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div9",
+            "toDiv": "#div11",
+            "id": "line11",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div9",
+            "toDiv": "#div12",
+            "id": "line12",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div2",
+            "toDiv": "#div1",
+            "id": "line7",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div2",
+            "toDiv": "#div4",
+            "id": "line8",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div7",
+            "toDiv": "#div2",
+            "id": "line9",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div8",
+            "toDiv": "#div2",
+            "id": "line10",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div6",
+            "toDiv": "#div2",
+            "id": "line11",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div5",
+            "toDiv": "#div2",
+            "id": "line12",
+            "mode": "",
+            "lineShape": "straight",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div3",
+            "toDiv": "#div2",
+            "id": "line13",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3"
+        },
+        {
+            "fromDiv": "#div2",
+            "toDiv": "#div14",
+            "id": "line14",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke-width": "3"
         }
     ]
 }

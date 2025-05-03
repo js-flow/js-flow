@@ -1,6 +1,7 @@
 div.node.schema { 
     border:1px solid #aaa;
     border-radius: 0px;
+    width:140px;
     height:auto;
 }
 
@@ -23,13 +24,13 @@ div.node.schema div.content-text {
     height:auto;
 }
 
-
 div.node.schema div.title-text span {
     margin-left:5px;
 }
 div.node.schema div.schema-line {
     text-align: left;
     border-bottom:1px solid #ccc;
+    font-size:9pt;
 }
 div.node.schema div.schema-line span{
     margin-left:10px;
