@@ -1,0 +1,37 @@
+<html >
+    <head>
+        <title>JSF Hello World Dark</title>
+        <link rel="stylesheet" href="https://files.js-flow.dev/js-flow.css">
+        <link rel="stylesheet" href="hello-world-dark.css">
+        <script src="https://files.js-flow.dev/jq.js"></script>
+    </head>
+    <script type="module">
+        // import * as jsFlow from "https://files.js-flow.dev/js-flow.js";
+        import * as jsFlow from "../../vendor/js-flow.js"
+        jsFlow.setStorageId("cicd");
+        jsFlow.loadDataFromUrl('cicd.json')
+            .then(function(success){
+                bootUp();
+            });
+
+        function bootUp() {
+            jsFlow.initHTML('#jsFlow');
+            jsFlow.refreshCanvas();
+            jsFlow.addWidgets();
+            jsFlow.addInspector();
+            jsFlow.callbacks.onNodeDragStop = function(_this){
+                console.log(_this.attr('id'));
+            }
+
+            $('#div3').on('click', function(){
+                jsFlow.toggleLineDash('line1');
+            })
+
+        }
+
+
+
+
+    </script>
+    <div id="jsFlow" class="jsFlow"></div>
+</html>

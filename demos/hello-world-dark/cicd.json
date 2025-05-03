@@ -1,0 +1,55 @@
+{
+    "nodes": [
+        {
+            "top": "80px",
+            "left": "220px",
+            "id": "div1",
+            "data": {
+                "title":"title",
+                "content": "content 1"
+            },
+            "classesToAdd": "",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "80px",
+            "left": "520px",
+            "id": "div2",
+            "data": {
+                "title":"title",
+                "content": "content 2"
+            },
+            "classesToAdd": "",
+            "width": "",
+            "height": ""
+        },
+        {
+            "top": "300px",
+            "left": "220px",
+            "id": "div3",
+            "data": {
+                "title": "",
+                "content": "Run Migration"
+            },
+            "classesToAdd": "node-short",
+            "width": "",
+            "height": ""
+        }
+    ],
+    "lines": [
+        {
+            "fromDiv": "#div1",
+            "toDiv": "#div2",
+            "id": "line1",
+            "mode": "",
+            "lineShape": "curved",
+            "stroke": "#aaa",
+            "stroke-dasharray": "",
+            "marker-start": "",
+            "marker-end": "arrow",
+            "labelText": "",
+            "stroke-width": "3"
+        }
+    ]
+}
