@@ -96,7 +96,9 @@ $(document).ready(function(){
         var index;
         switch ( $(this).attr('id') ) {
             case "widgetAddNode":
-                var nodeId = nodes.length + 1;
+                //var nodeId = nodes.length + 1;
+                // generate unique id for node id
+                nodeId = Date.now();
                 nodes.push({"top":"100px","left":"100px","id":"div" + nodeId, "data":{"title":"","content":""},"classesToAdd":"","width":"","height":""});
                 drawNodes(nodes);
             break;
@@ -177,6 +179,12 @@ $(document).ready(function(){
 
             case "widgetPathSave":
 
+                if (selectedLineId > "" && selectedNodeId > "") {
+                    alert('something is wrong...')
+                    selectedLineId = "";
+                    selectedNodeId = "";
+                } 
+
                 if (selectedLineId > "") {
                     var propRows = $(".prop-row");
                     index = lines.findIndex(obj => obj.id === selectedLineId);
@@ -201,6 +209,7 @@ $(document).ready(function(){
                             propname = propname.replace("data.","");
                             nodes[index].data[propname] = propvalue;
                         } else {
+                            console.log('saving ' + propname + ' value to ' + propvalue);
                             nodes[index][propname] = propvalue;
                         }
 
@@ -218,13 +227,18 @@ $(document).ready(function(){
                 showPathLabels = !showPathLabels;
             break;
             case "widgetAddLine":
-                var lineId = lines.length + 1;
+                //var lineId = lines.length + 1;
+                // generate random id for line;
+                var lineId = Date.now();
+                console.log(lineId)
                 lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"", "lineShape":"straight","stroke-width":"3"})            
                 saveInfo();
                 drawLines();
             break;
             case "widgetAddLineVert":
-                var lineId = lines.length + 1;
+                //var lineId = lines.length + 1;
+                var lineId = Date.now();
+                console.log(lineId)
                 lines.push({"fromDiv":"#"+nodeStack[0],"toDiv":"#"+nodeStack[1],"id":"line"+lineId,"mode":"vert", "lineShape":"straight","stroke-width":"3"})            
                 saveInfo();
                 drawLines();
