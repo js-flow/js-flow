@@ -927,6 +927,25 @@ function drawLine(beginDiv, endDiv, mode, lineId) {
 
     // horizontal line
     if (mode === "") {
+
+        if (x1) {
+            if (width > 0) {
+                left += x1
+                width -= (x1 - x2)
+            } else if (width < 0) {
+                left += x1
+                width -= x1 
+            }
+        }
+
+        if ( x2 ) {
+            if (width >= 0) {
+                width += x2
+            } else if (width < 0) {
+                width += x2;
+            }
+        }
+
         if ( y1 ) {
             if (height > 0) {
                 top += y1

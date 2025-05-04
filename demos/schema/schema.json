@@ -183,12 +183,25 @@
     ],
     "lines": [
         {
-            "fromDiv": "#div7-payhist",
+            "fromDiv": "#div7-payhist.node.schema div.schema-line:nth-child(2)",
             "toDiv": "#div2-debtor",
             "id": "line1746337269663",
             "mode": "",
             "lineShape": "curved",
-            "stroke-width": "3"
+            "stroke-width": "3",
+            "stroke": "#aaaaaa",
+            "stroke-dasharray": "",
+            "animation-direction": "",
+            "marker-start": "",
+            "marker-end": "",
+            "labelText": "",
+            "labelPos": "0.5",
+            "x1-offset": "0",
+            "y1-offset": "0",
+            "x2-offset": "0",
+            "y2-offset": "0",
+            "startLinePos": "0.5",
+            "endLinePos": "0.5"
         },
         {
             "fromDiv": "#div8-memo",
@@ -287,7 +300,7 @@
             "stroke-width": "3"
         },
         {
-            "fromDiv": "#div7-payhist div.content.title-text",
+            "fromDiv": "#div7-payhist.node.schema div.schema-line:nth-child(1)",
             "toDiv": "#div13-trans div.content.title-text",
             "id": "line1746337744999",
             "mode": "",
